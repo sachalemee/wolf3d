@@ -1,0 +1,8 @@
+WOLFENSTEIN 3D: CLAW OF EISENFAUST 
+Music Rip for SNES-to-ECWolf port
+12/27/18 	AstroCreep
+
+This is a direct rip of the SNES soundtrack, converted to OGG from original
+WAV files.  Special thanks to Adam Biser for his SNES resource ripping tool,
+without which this mod would not have been possible.
+
