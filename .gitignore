@@ -1,0 +1,7 @@
+*.out
+keep
+EPITECH_ressources
+.vscode
+*~
+*.a
+*.o
