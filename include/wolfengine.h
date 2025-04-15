@@ -12,7 +12,7 @@
     #include <SFML/Graphics.h>
     #include <SFML/Audio.h>
 
-    /* value specifif of the window */
+    /* value specific of the window */
     #define WIN_FRAME 60
     #define WIN_BITS 64
     #define WIN_WIDTH 800

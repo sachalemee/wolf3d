@@ -58,7 +58,7 @@ NAME =		wolf3d
 
 all:		$(NAME)
 
-CFLAGS +=	-Wall -Wextra -g3
+CFLAGS +=	-Wall -Wextra
 
 CPPFLAGS =	-iquoteinclude -iquotelib
 
