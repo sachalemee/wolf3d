@@ -10,13 +10,18 @@ INIT_PATH = init/
 TEST_PATH = tests/
 EVENT_PATH = event/
 GAME_PATH = game/
+IN_GAME_PATH = in_game/
 DESTROY_PATH = destroy/
 MAP_PATH = map/
+ERROR_PATH = error_handling/
 MATH_PATH = math/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(DESTROY_PATH), \
 					destroy_all.c \
+				)\
+				$(addprefix $(ERROR_PATH), \
+					error_handling.c \
 				)\
 				$(addprefix $(EVENT_PATH), \
 					event_loop.c \
@@ -25,6 +30,10 @@ SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(GAME_PATH), \
 					game_loop.c \
 					start.c \
+				)\
+				$(addprefix $(IN_GAME_PATH), \
+					draw_background.c \
+					draw.c \
 				)\
 				$(addprefix $(INIT_PATH), \
 					init_game.c \
