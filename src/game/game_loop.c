@@ -20,26 +20,15 @@ static void debug_player(player_t *player, game_t *game)
     sfCircleShape_destroy(dot);
 }
 
-static int checkout_struct(game_t *game, player_t *player)
-{
-    if (game == NULL)
-        return EXIT_F;
-    if (player == NULL)
-        return EXIT_F;
-    return EXIT_S;
-}
-
 int game_loop(game_t *game, player_t *player)
 {
-    if (checkout_struct(game, player) == EXIT_F)
-        return EXIT_F;
     while (sfRenderWindow_isOpen(game->window) == sfTrue) {
-        events(game, player);
         sfRenderWindow_clear(game->window, game->bg);
+        events(game, player);
+        if (error_handling(game, player) == EXIT_F)
+            return EXIT_F;
+        draw_in_game(game);
         debug_player(player, game);
-        if (sfMusic_getStatus(game->music) == sfStopped)
-            sfMusic_play(game->music);
-        browse_map(game);
         sfRenderWindow_display(game->window);
     }
     return EXIT_S;
