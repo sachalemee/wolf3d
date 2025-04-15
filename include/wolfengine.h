@@ -64,11 +64,6 @@ typedef struct mov_s {
     double angle;
 } mov_t;
 
-typedef struct view_s {
-    int numrays;
-    double fov;
-} view_t;
-
 typedef struct player_s {
     sfCircleShape *player;
     double speed;
@@ -77,7 +72,6 @@ typedef struct player_s {
     sfVector2f pos;
     mov_t *mov;
     rays_t *rays;
-    view_t *view;
 } player_t;
 
 typedef struct game_s {
