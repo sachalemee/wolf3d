@@ -6,6 +6,15 @@
 */
 
 #include "wolfengine.h"
+#include <stdlib.h>
+
+info_t *init_struct_info(void)
+{
+    info_t *info = malloc(sizeof(info_t));
+
+    info->d_time = 0.0;
+    return info;
+}
 
 int init_game(game_t *game)
 {
@@ -13,5 +22,6 @@ int init_game(game_t *game)
     game->clock = sfClock_create();
     game->music = sfMusic_createFromFile(MUSIC_PATH);
     game->bg = sfColor_fromRGB(0, 0, 0);
+    game->info = init_struct_info();
     return EXIT_S;
 }

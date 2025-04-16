@@ -5,14 +5,14 @@
 ** hmap.h
 */
 
-#ifndef MAP_H
-    #define MAP_H
-    #define MAP_X 8
-    #define MAP_Y 8
-    #define MAP_S (MAP_X * MAP_Y)
+#ifndef HMAP_H
+    #define HMAP_H
+    #define MAP_W 24
+    #define MAP_H 24
+    #define MAP_S (MAP_W * MAP_H)
 
 typedef struct game_s game_t;
 
-extern int map[MAP_X][MAP_Y];
+extern int map[MAP_W][MAP_H];
 
-#endif /* MAP_H */
+#endif /* HMAP_H */

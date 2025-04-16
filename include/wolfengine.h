@@ -15,8 +15,8 @@
     /* value specific of the window */
     #define WIN_FRAME 60
     #define WIN_BITS 64
-    #define WIN_WIDTH 800
-    #define WIN_HEIGHT 500
+    #define WIN_WIDTH 1920
+    #define WIN_HEIGHT 1080
 
     /* window title */
     #define WIN_TITLE "wolfengine"
@@ -39,6 +39,9 @@
     #define PLAYER_FOV 70
     #define PLAYER_NUMRAYS WIN_WIDTH
 
+    #define PLAYER_MOV_SPEED 6.0
+    #define PLAYER_ROTA_SPEED 3.0
+
     /* math define */
     #define PI 3.14159265358979323
     #define PLAN_VIEW 180
@@ -53,15 +56,31 @@
     #define IS_WALL 1
     #define IS_VOID 0
 
+typedef struct map_s {
+    sfVector2i map_pos;
+} map_t;
+
+typedef struct info_s {
+    float d_time;
+} info_t;
+
 typedef struct rays_s {
-    sfVector2f posxy;
-    sfVector2f dirxy;
-    sfVector2f planexy;
+    sfVertexArray *vertex;
+    sfVector2f raydir;
+    double camera_x;
+    sfVector2f delta_dist;
+    sfVector2f sidedist;
+    sfVector2i step;
+    double perpwalldist;
+    int wall_size;
+    int side;
 } rays_t;
 
 typedef struct mov_s {
     sfVector2f delta;
     double angle;
+    double mov_speed;
+    double rotate_speed;
 } mov_t;
 
 typedef struct player_s {
@@ -70,6 +89,10 @@ typedef struct player_s {
     double radius;
     sfColor color;
     sfVector2f pos;
+    sfVector2f dir;
+    sfVector2f plane;
+    double mov_speed;
+    double rotate_speed;
     mov_t *mov;
     rays_t *rays;
 } player_t;
@@ -79,6 +102,7 @@ typedef struct game_s {
     sfClock *clock;
     sfMusic *music;
     sfColor bg;
+    info_t *info;
 } game_t;
 
 /* init */
@@ -98,6 +122,9 @@ int start(void);
 /* in game */
 void draw_in_game(game_t *game);
 void draw_background(game_t *game);
+
+/* raycast */
+int raycasting(game_t *game, player_t *player);
 
 /* destroy */
 void destroy_all(game_t *game);

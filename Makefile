@@ -15,6 +15,7 @@ DESTROY_PATH = destroy/
 MAP_PATH = map/
 ERROR_PATH = error_handling/
 MATH_PATH = math/
+RAYCAST_PATH = raycast/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(DESTROY_PATH), \
@@ -39,6 +40,9 @@ SRC =		$(addprefix $(SRC_PATH), \
 					init_game.c \
 					init_player.c \
 					set_window.c \
+				)\
+				$(addprefix  $(RAYCAST_PATH), \
+					raycasting.c \
 				)\
 				$(addprefix $(MATH_PATH), \
 					degree_to_radian.c \
