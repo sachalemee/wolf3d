@@ -6,6 +6,7 @@
 */
 
 #include "wolfengine.h"
+#include "buttons.h"
 #include <stdio.h>
 
 static void close_window(game_t *game, sfEvent event)
@@ -22,6 +23,12 @@ sfBool is_keyboard_input(sfEvent event, sfKeyCode key)
     return sfFalse;
 }
 
+void buttons_event(game_t *game, sfEvent event)
+{
+    buttons_status(game->window, game->buttons[0], event, game);
+    game->buttons[0]->function = play_game;
+}
+
 int events(game_t *game, player_t *player)
 {
     sfEvent event;
@@ -29,6 +36,17 @@ int events(game_t *game, player_t *player)
     while (sfRenderWindow_pollEvent(game->window, &event)) {
         close_window(game, event);
         mov_player(event, player, game);
+    }
+    return EXIT_S;
+}
+
+int events_menu(game_t *game)
+{
+    sfEvent event;
+
+    while (sfRenderWindow_pollEvent(game->window, &event)) {
+        buttons_event(game, event);
+        close_window(game, event);
     }
     return EXIT_S;
 }

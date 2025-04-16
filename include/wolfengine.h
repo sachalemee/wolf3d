@@ -15,8 +15,8 @@
     /* value specific of the window */
     #define WIN_FRAME 60
     #define WIN_BITS 64
-    #define WIN_WIDTH 800
-    #define WIN_HEIGHT 500
+    #define WIN_WIDTH 1920
+    #define WIN_HEIGHT 1080
 
     /* window title */
     #define WIN_TITLE "wolfengine"
@@ -28,6 +28,7 @@
 
     /* ressources */
     #define MUSIC_PATH "ressources/Wolf3D_OGG/game_music/URAHERO.ogg"
+    #define BACKGROUND_MENU "ressources/Wolf3D_OGG/game_background/background_menu.png"
 
     /* color of the player */
     #define PLAYER_COLOR sfBlack
@@ -53,6 +54,10 @@
     #define IS_WALL 1
     #define IS_VOID 0
 
+    /* buttons */
+    #define NB_BUTTON 3
+    #define NB_COLOR 5
+
 typedef struct rays_s {
     sfVector2f posxy;
     sfVector2f dirxy;
@@ -74,25 +79,50 @@ typedef struct player_s {
     rays_t *rays;
 } player_t;
 
+typedef struct buttons_s buttons_t;
+
 typedef struct game_s {
     sfRenderWindow *window;
     sfClock *clock;
     sfMusic *music;
     sfColor bg;
+    buttons_t **buttons;
+    player_t *player;
 } game_t;
 
+
+typedef struct set_texture_and_sprite_s {
+    sfTexture *texture;
+    sfSprite *sprite;
+} sprite_t;
+
+typedef struct animated_sprite_s {
+    sfIntRect rect;
+    sfClock *clock_anim;
+    int current_frame;
+    int max_frame;
+} anim_t;
+
+typedef struct entity_s {
+    sprite_t *sprite;
+    anim_t *anim;
+} entity_t;
+
 /* init */
+int init_menu(entity_t *entity);
 int init_game(game_t *game);
 sfRenderWindow *set_window(void);
 player_t *init_player(player_t *player);
+void init_sprite(sprite_t *sprite);
 
 /* events */
+int events_menu(game_t *game);
 int events(game_t *game, player_t *player);
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
 void mov_player(sfEvent event, player_t *player, game_t *game);
 
 /* game */
-int game_loop(game_t *game, player_t *player);
+int game_loop(game_t *game, entity_t *entity);
 int start(void);
 
 /* in game */
@@ -110,5 +140,11 @@ double degree_to_radian(double angle);
 
 /* map */
 int browse_map(game_t *game);
+
+/*menu*/
+int menu(game_t *game, entity_t *entity);
+void animated_bg(entity_t *entity);
+void draw_bg_menu(game_t *game, entity_t *entity);
+void play_game(game_t *game);
 
 #endif /* STUMPER_H */

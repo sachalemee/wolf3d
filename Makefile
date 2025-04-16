@@ -15,8 +15,26 @@ DESTROY_PATH = destroy/
 MAP_PATH = map/
 ERROR_PATH = error_handling/
 MATH_PATH = math/
+BUTTON_PATH = buttons/
+MENU_PATH = menu/
 
 SRC =		$(addprefix $(SRC_PATH), \
+				$(addprefix $(BUTTON_PATH), \
+					button_status.c \
+					create_button.c \
+					draw_button.c	\
+					init_buttons.c \
+					set_button_color.c	\
+					set_button_rect.c	\
+					set_button_text.c	\
+					set_sprite.c	\
+					draw_all_buttons.c	\
+					free_everything_button.c	\
+				)\
+				$(addprefix $(MENU_PATH), \
+					bg_menu_anim.c	\
+					menu.c	\
+				)\
 				$(addprefix $(DESTROY_PATH), \
 					destroy_all.c \
 				)\
@@ -36,6 +54,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					draw.c \
 				)\
 				$(addprefix $(INIT_PATH), \
+					init_menu.c	\
 					init_game.c \
 					init_player.c \
 					set_window.c \
@@ -58,7 +77,7 @@ NAME =		wolf3d
 
 all:		$(NAME)
 
-CFLAGS +=	-Wall -Wextra
+CFLAGS +=	-Wall -Wextra -g3
 
 CPPFLAGS =	-iquoteinclude -iquotelib
 

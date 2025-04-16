@@ -1,0 +1,68 @@
+/*
+** EPITECH PROJECT, 2025
+** G-ING-210-PAR-2-1-wolf3d-marin.jeunot
+** File description:
+** buttons
+*/
+
+#ifndef BUTTONS_H_
+    #define BUTTONS_H_
+    #include <SFML/Graphics.h>
+    #include <SFML/System.h>
+    #define SUCCESS 0
+    #define NB_BUTTON 3
+    #define NB_COLOR 5
+    #define B_TEXTURE "ressources/Wolf3D_OGG/texture/texture_bouton.png"
+    #define FONT "ressources/Wolf3D_OGG/font/font.ttf"
+
+/* enum button color */
+typedef enum stat_button_s {
+    B_DEFAULT,
+    B_HOVER,
+    B_PRESSED,
+    B_DISABLE,
+    B_BLACK
+} stat_button_t;
+
+typedef struct game_s game_t;
+
+typedef struct buttons_s {
+    sfRectangleShape *rect;
+    sfVector2f size;
+    sfVector2f pos;
+    sfText *title;
+    sfTexture *texture;
+    sfSprite *sprite;
+    sfFont *font;
+    sfColor color[NB_COLOR];
+    void (*function)(game_t *);
+} buttons_t;
+
+
+/* buttons functions */
+void set_button_text(buttons_t *button,
+char *title, sfFloatRect bounds, sfVector2f origin);
+
+void set_button_color(buttons_t *button);
+
+void set_sprite(buttons_t *button,
+sfFloatRect bounds, sfVector2f origin, char *path);
+
+void set_button_rect(buttons_t *button,
+sfVector2f size, sfVector2f pos);
+
+buttons_t *create_button(sfVector2f pos,
+sfVector2f size, char *title, char *path);
+
+void init_buttons(game_t *game);
+
+int draw_button(sfRenderWindow *window,
+buttons_t *button);
+
+int buttons_status(sfRenderWindow *window,
+buttons_t *button, sfEvent event, game_t *game);
+
+void draw_all_buttons(sfRenderWindow *window, game_t *game);
+void free_everything_button(game_t *game);
+
+#endif /* !BUTTONS_H_ */
