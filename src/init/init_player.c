@@ -5,14 +5,14 @@
 ** init_player.c
 */
 
-#include "wolfengine.h"
 #include <stdlib.h>
+#include "wolfengine.h"
 
-static void init_rays(player_t *player)
+rays_t *init_rays(player_t *player)
 {
     player->rays = malloc(sizeof(rays_t));
     if (player->rays == NULL)
-        return;
+        return NULL;
     player->rays->vertex = NULL;
     player->rays->raydir = (sfVector2f){0, 0};
     player->rays->camera_x = 0;
@@ -21,27 +21,21 @@ static void init_rays(player_t *player)
     player->rays->step = (sfVector2i){0, 0};
     player->rays->perpwalldist = 0;
     player->rays->side = 0;
+    return player->rays;
 }
 
-static void init_mov(player_t *player)
+player_t *init_player(void)
 {
-    player->mov = malloc(sizeof(mov_t));
-    if (player->mov == NULL)
-        return;
-    player->mov->delta.x = 0;
-    player->mov->delta.y = 0;
-    player->mov->angle = 0;
-    player->mov->mov_speed = 0;
-    player->mov->rotate_speed = 0;
-}
+    player_t *player = malloc(sizeof(player_t));
 
-player_t *init_player(player_t *player)
-{
-    player->speed = PLAYER_SPEED;
-    player->radius = PLAYER_RADIUS;
-    player->color = PLAYER_COLOR;
-    player->pos = (sfVector2f){PLAYER_POSX, PLAYER_POSY};
-    init_mov(player);
-    init_rays(player);
+    if (player == NULL)
+        return NULL;
+    player->pos = (sfVector2f){PLAYER_START_POS_X, PLAYER_START_POS_Y};
+    player->dir = (sfVector2f){-1, 0.0};
+    player->plane = (sfVector2f){0.0, 0.66};
+    player->mov_speed = 0;
+    player->rotate_speed = 0;
+    player->rays = init_rays(player);
+    player->map = init_map(player);
     return player;
 }
