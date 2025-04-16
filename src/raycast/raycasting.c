@@ -63,11 +63,41 @@ static void dist_ray_travel(game_t *game, player_t *player)
     }
 }
 
+static void dda_algo(game_t *game, player_t *player)
+{
+    int hit_wall = 0;
+
+    while (hit_wall == 0) {
+        if (player->rays->sidedist.x < player->rays->sidedist.y) {
+            player->rays->sidedist.x += player->rays->delta_dist.x;
+            game->map->map_pos.x += player->rays->step.x;
+            player->rays->side = 0;
+        } else {
+            player->rays->sidedist.y += player->rays->delta_dist.y;
+            game->map->map_pos.y += player->rays->step.y;
+            player->rays->side = 1;
+        }
+        if (map[game->map->map_pos.x][game->map->map_pos.y] > 0)
+            hit_wall = 1;
+    }
+}
+
+static void len_ray(player_t *player)
+{
+    if (player->rays->side == 0)
+        player->rays->perpwalldist =
+        player->rays->sidedist.x - player->rays->delta_dist.x;
+    else
+        player->rays->perpwalldist =
+        player->rays->sidedist.y - player->rays->delta_dist.y;
+}
+
 int raycasting(game_t *game, player_t *player)
 {
     for (int x = 0; x < WIN_WIDTH; x++) {
         dist_ray_travel_sidexy(player, x);
         dist_ray_travel(game, player);
+        dda_algo(game, player);
     }
     return EXIT_S;
 }
