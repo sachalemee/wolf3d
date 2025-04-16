@@ -13,50 +13,118 @@
 #include "wolfengine.h"
 #include "hmap.h"
 
-static void update_delta(player_t *player)
+static void is_up(player_t *player)
 {
-    player->mov->delta.x = cos(player->mov->angle) * player->speed;
-    player->mov->delta.y = sin(player->mov->angle) * player->speed;
-}
-
-static void left_right(sfEvent event, player_t *player)
-{
-    if (is_keyboard_input(event, sfKeyQ)) {
-        printf("player->mov->angle: %.2f°\n", player->mov->angle * 180 / PI);
-        player->mov->angle -= PLAYER_QUICKSPIN;
-        if (player->mov->angle < 0) {
-            player->mov->angle += 2 * PI;
-        }
-        update_delta(player);
-    }
-    if (is_keyboard_input(event, sfKeyD)) {
-        printf("player->mov->angle: %.2f°\n", player->mov->angle * 180 / PI);
-        player->mov->angle += PLAYER_QUICKSPIN;
-        if (player->mov->angle > 2 * PI) {
-            player->mov->angle -= 2 * PI;
-        }
-        update_delta(player);
+    if (sfKeyboard_isKeyPressed(sfKeyZ)) {
+        if (map[(int)(player->pos.x + player->dir.x * player->mov_speed)]
+            [(int)player->pos.y] == 0)
+            player->pos.x += player->dir.x * player->mov_speed;
+        if (map[(int)player->pos.x]
+            [(int)(player->pos.y + player->dir.y * player->mov_speed)] == 0)
+            player->pos.y += player->dir.y * player->mov_speed;
     }
 }
 
-static void up_down(sfEvent event, player_t *player)
+static void is_down(player_t *player)
 {
-    if (is_keyboard_input(event, sfKeyZ)) {
-        printf("player->mov->angle: %.2f°\n", player->mov->angle * 180 / PI);
-        player->pos.x += player->mov->delta.x;
-        player->pos.y += player->mov->delta.y;
-    }
-    if (is_keyboard_input(event, sfKeyS)) {
-        printf("player->mov->angle: %.2f°\n", player->mov->angle * 180 / PI);
-        player->pos.x -= player->mov->delta.x;
-        player->pos.y -= player->mov->delta.y;
+    if (sfKeyboard_isKeyPressed(sfKeyS)) {
+        if (map[(int)(player->pos.x - player->dir.x * player->mov_speed)]
+            [(int)player->pos.y] == 0)
+            player->pos.x -= player->dir.x * player->mov_speed;
+        if (map[(int)player->pos.x]
+            [(int)(player->pos.y - player->dir.y * player->mov_speed)] == 0)
+            player->pos.y -= player->dir.y * player->mov_speed;
     }
 }
 
-void mov_player(sfEvent event, player_t *player, game_t *game)
+static void is_left(player_t *player,
+    double prev_dir_x, double prev_plane_x)
 {
-    if (game == NULL)
-        return;
-    up_down(event, player);
-    left_right(event, player);
+    if (sfKeyboard_isKeyPressed(sfKeyQ)) {
+        prev_dir_x = player->dir.x;
+        player->dir.x = player->dir.x * cos(player->rotate_speed)
+            - player->dir.y * sin(player->rotate_speed);
+        player->dir.y = prev_dir_x * sin(player->rotate_speed)
+            + player->dir.y * cos(player->rotate_speed);
+        prev_plane_x = player->plane.x;
+        player->plane.x = player->plane.x * cos(player->rotate_speed)
+            - player->plane.y * sin(player->rotate_speed);
+        player->plane.y = prev_plane_x * sin(player->rotate_speed)
+            + player->plane.y * cos(player->rotate_speed);
+    }
+}
+
+static void is_right(player_t *player,
+    double prev_dir_x, double prev_plane_x)
+{
+    if (sfKeyboard_isKeyPressed(sfKeyD)) {
+        prev_dir_x = player->dir.x;
+        player->dir.x = player->dir.x * cos(-player->rotate_speed)
+            - player->dir.y * sin(-player->rotate_speed);
+        player->dir.y = prev_dir_x * sin(-player->rotate_speed)
+            + player->dir.y * cos(-player->rotate_speed);
+        prev_plane_x = player->plane.x;
+        player->plane.x = player->plane.x * cos(-player->rotate_speed)
+            - player->plane.y * sin(-player->rotate_speed);
+        player->plane.y = prev_plane_x * sin(-player->rotate_speed)
+            + player->plane.y * cos(-player->rotate_speed);
+    }
+}
+
+static void crab_left(player_t *player, sfVector2f crab_mov)
+{
+    if (sfKeyboard_isKeyPressed(sfKeyA)) {
+        crab_mov.x = -player->dir.y;
+        crab_mov.y = player->dir.x;
+        if (map[(int)(player->pos.x + crab_mov.x * player->mov_speed)]
+            [(int)player->pos.y] == 0)
+            player->pos.x += crab_mov.x * player->mov_speed;
+        if (map[(int)player->pos.x]
+            [(int)(player->pos.y + crab_mov.y * player->mov_speed)] == 0)
+            player->pos.y += crab_mov.y * player->mov_speed;
+    }
+}
+
+static void crab_right(player_t *player, sfVector2f crab_mov)
+{
+    if (sfKeyboard_isKeyPressed(sfKeyE)) {
+        crab_mov.x = player->dir.y;
+        crab_mov.y = -player->dir.x;
+        if (map[(int)(player->pos.x + crab_mov.x * player->mov_speed)]
+            [(int)player->pos.y] == 0)
+            player->pos.x += crab_mov.x * player->mov_speed;
+        if (map[(int)player->pos.x]
+        [(int)(player->pos.y + crab_mov.y * player->mov_speed)] == 0)
+            player->pos.y += crab_mov.y * player->mov_speed;
+    }
+}
+
+static void up_down(player_t *player)
+{
+    is_up(player);
+    is_down(player);
+}
+
+static void left_right(player_t *player)
+{
+    double prev_dir_x = 0;
+    double prev_plane_x = 0;
+
+    is_left(player, prev_dir_x, prev_plane_x);
+    is_right(player, prev_dir_x, prev_plane_x);
+}
+
+static void mov_as_crabs(player_t *player)
+{
+    sfVector2f crab_mov = (sfVector2f){0, 0};
+
+    crab_left(player, crab_mov);
+    crab_right(player, crab_mov);
+}
+
+void mov_player(player_t *player)
+{
+    up_down(player);
+    left_right(player);
+    mov_as_crabs(player);
 }
