@@ -30,21 +30,10 @@
     #define MUSIC_PATH "ressources/Wolf3D_OGG/game_music/URAHERO.ogg"
 
     /* color of the player */
-    #define PLAYER_COLOR sfBlack
-    #define PLAYER_RADIUS 2.0
-    #define PLAYER_POSX (WIN_WIDTH / 2)
-    #define PLAYER_POSY (WIN_HEIGHT / 2)
-    #define PLAYER_SPEED 7
-    #define PLAYER_QUICKSPIN 0.25
-    #define PLAYER_FOV 70
-    #define PLAYER_NUMRAYS WIN_WIDTH
-
+    #define PLAYER_START_POS_X 22.0
+    #define PLAYER_START_POS_Y 11.5
     #define PLAYER_MOV_SPEED 6.0
     #define PLAYER_ROTA_SPEED 3.0
-
-    /* math define */
-    #define PI 3.14159265358979323
-    #define PLAN_VIEW 180
 
     /* return values */
     #define EXIT_S 0
@@ -84,10 +73,6 @@ typedef struct mov_s {
 } mov_t;
 
 typedef struct player_s {
-    sfCircleShape *player;
-    double speed;
-    double radius;
-    sfColor color;
     sfVector2f pos;
     sfVector2f dir;
     sfVector2f plane;
@@ -95,6 +80,7 @@ typedef struct player_s {
     double rotate_speed;
     mov_t *mov;
     rays_t *rays;
+    map_t *map;
 } player_t;
 
 typedef struct game_s {
@@ -102,22 +88,24 @@ typedef struct game_s {
     sfClock *clock;
     sfMusic *music;
     sfColor bg;
-    info_t *info;
-    map_t *map;
 } game_t;
 
 /* init */
 int init_game(game_t *game);
+player_t *init_player(void);
+map_t *init_map(player_t *player);
+info_t *init_info(void);
+
+/* init function relative to a struct */
 sfRenderWindow *set_window(void);
-player_t *init_player(player_t *player);
 
 /* events */
 int events(game_t *game, player_t *player);
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
-void mov_player(sfEvent event, player_t *player, game_t *game);
+void mov_player(player_t *player);
 
 /* game */
-int game_loop(game_t *game, player_t *player);
+int game_loop(game_t *game);
 int start(void);
 
 /* in game */
@@ -125,7 +113,7 @@ void draw_in_game(game_t *game);
 void draw_background(game_t *game);
 
 /* raycast */
-int raycasting(game_t *game, player_t *player);
+void raycasting(game_t *game, player_t *player);
 
 /* destroy */
 void destroy_all(game_t *game);

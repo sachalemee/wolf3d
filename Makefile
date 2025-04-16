@@ -38,14 +38,13 @@ SRC =		$(addprefix $(SRC_PATH), \
 				)\
 				$(addprefix $(INIT_PATH), \
 					init_game.c \
+					init_info.c \
+					init_map.c \
 					init_player.c \
 					set_window.c \
 				)\
 				$(addprefix  $(RAYCAST_PATH), \
 					raycasting.c \
-				)\
-				$(addprefix $(MATH_PATH), \
-					degree_to_radian.c \
 				)\
 				$(addprefix $(TEST_PATH), \
 					$(addprefix $(MAP_PATH), \
@@ -62,7 +61,7 @@ NAME =		wolf3d
 
 all:		$(NAME)
 
-CFLAGS +=	-Wall -Wextra
+CFLAGS +=	-Wall -Wextra -g3
 
 CPPFLAGS =	-iquoteinclude -iquotelib
 
