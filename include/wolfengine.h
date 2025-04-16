@@ -5,8 +5,8 @@
 ** wolfengine.h
 */
 
-#ifndef STUMPER_H
-    #define STUMPER_H
+#ifndef WOLFENGINE_H
+    #define WOLFENGINE_H
 
     /* sfml include */
     #include <SFML/Graphics.h>
@@ -103,6 +103,7 @@ typedef struct game_s {
     sfMusic *music;
     sfColor bg;
     info_t *info;
+    map_t *map;
 } game_t;
 
 /* init */
@@ -138,4 +139,4 @@ double degree_to_radian(double angle);
 /* map */
 int browse_map(game_t *game);
 
-#endif /* STUMPER_H */
+#endif /* WOLFENGINE_H */

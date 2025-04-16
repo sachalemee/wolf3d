@@ -16,6 +16,14 @@ info_t *init_struct_info(void)
     return info;
 }
 
+map_t *init_struct_map(void)
+{
+    map_t *map = malloc(sizeof(map_t));
+
+    map->map_pos = (sfVector2i){0, 0};
+    return map;
+}
+
 int init_game(game_t *game)
 {
     game->window = set_window();
@@ -23,5 +31,6 @@ int init_game(game_t *game)
     game->music = sfMusic_createFromFile(MUSIC_PATH);
     game->bg = sfColor_fromRGB(0, 0, 0);
     game->info = init_struct_info();
+    game->map = init_struct_map();
     return EXIT_S;
 }
