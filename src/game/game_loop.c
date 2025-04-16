@@ -17,6 +17,7 @@ int game_scene(game_t *game, player_t *player, info_t *info)
     player->rotate_speed = info->d_time * PLAYER_ROTA_SPEED;
     events(game, player);
     sfRenderWindow_clear(game->window, game->bg);
+    draw_in_game(game);
     raycasting(game, player);
     sfRenderWindow_display(game->window);
     return EXIT_S;

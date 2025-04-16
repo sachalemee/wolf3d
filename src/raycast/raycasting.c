@@ -96,20 +96,23 @@ static void len_ray(player_t *player)
 static void draw_vertex_lines(player_t *player, int x, sfRenderWindow* window)
 {
     sfVertex vertex = {0};
+    sfColor color_vertex = sfColor_fromRGB(100, 240, 232);
     int beg_draw = 0;
     int end_draw = 0;
+    int wall_size = 0;
 
-    player->rays->wall_size = (int)(WIN_HEIGHT / player->rays->perpwalldist);
-    beg_draw = -player->rays->wall_size / 2 + WIN_HEIGHT / 2;
-    end_draw = player->rays->wall_size / 2 + WIN_HEIGHT / 2;
+    wall_size = (int)(WIN_HEIGHT / player->rays->perpwalldist);
+    beg_draw = (- wall_size / 2) + (WIN_HEIGHT / 2);
+    end_draw = (wall_size / 2) + (WIN_HEIGHT / 2);
     if (beg_draw < 0)
         beg_draw = 0;
     if (end_draw >= WIN_HEIGHT)
         end_draw = WIN_HEIGHT - 1;
     player->rays->vertex = sfVertexArray_create();
-    vertex = (sfVertex){{(float)x, (float)beg_draw}, sfCyan, {0, 0}};
+    vertex = (sfVertex){{(float)x, (float)beg_draw}, color_vertex, {0, 0}};
     sfVertexArray_append(player->rays->vertex, vertex);
-    vertex = (sfVertex){{(float)x, (float)end_draw}, sfBlack, {0, 0}};
+    color_vertex = sfColor_fromRGB(232, 240, 100);
+    vertex = (sfVertex){{(float)x, (float)end_draw}, color_vertex, {0, 0}};
     sfVertexArray_append(player->rays->vertex, vertex);
     sfVertexArray_setPrimitiveType(player->rays->vertex, sfLines);
     sfRenderWindow_drawVertexArray(window, player->rays->vertex, NULL);

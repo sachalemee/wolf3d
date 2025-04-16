@@ -32,8 +32,8 @@
     /* color of the player */
     #define PLAYER_START_POS_X 22.0
     #define PLAYER_START_POS_Y 11.5
-    #define PLAYER_MOV_SPEED 6.0
-    #define PLAYER_ROTA_SPEED 3.0
+    #define PLAYER_MOV_SPEED 3.0
+    #define PLAYER_ROTA_SPEED 1.0
 
     /* return values */
     #define EXIT_S 0
@@ -61,7 +61,6 @@ typedef struct rays_s {
     sfVector2f sidedist;
     sfVector2i step;
     double perpwalldist;
-    int wall_size;
     int side;
 } rays_t;
 
