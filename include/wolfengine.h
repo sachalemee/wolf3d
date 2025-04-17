@@ -56,9 +56,9 @@
     #define IS_WALL 1
     #define IS_VOID 0
 
-typedef struct map_s {
+typedef struct hmap_s {
     sfVector2i map_pos;
-} map_t;
+} hmap_t;
 
 typedef struct info_s {
     float d_time;
@@ -90,7 +90,7 @@ typedef struct player_s {
     double rotate_speed;
     mov_t *mov;
     rays_t *rays;
-    map_t *map;
+    hmap_t *map;
 } player_t;
 
 typedef struct game_s {
@@ -103,7 +103,7 @@ typedef struct game_s {
 /* init */
 int init_game(game_t *game);
 player_t *init_player(void);
-map_t *init_map(player_t *player);
+hmap_t *init_map(player_t *player);
 info_t *init_info(void);
 
 /* init function relative to a struct */

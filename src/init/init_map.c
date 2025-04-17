@@ -8,9 +8,9 @@
 #include <stdlib.h>
 #include "wolfengine.h"
 
-map_t *init_map(player_t *player)
+hmap_t *init_map(player_t *player)
 {
-    player->map = malloc(sizeof(map_t));
+    player->map = malloc(sizeof(hmap_t));
     if (player->map == NULL)
         return NULL;
     player->map->map_pos = (sfVector2i){0, 0};
