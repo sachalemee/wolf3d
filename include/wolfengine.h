@@ -29,6 +29,7 @@
     /* ressources */
     #define MUSIC_PATH "ressources/Wolf3D_OGG/game_music/URAHERO.ogg"
     #define TEXTURE_OVERLAY_SPRINT "ressources/sprint-overlay.png"
+    #define TEXTURE_WALL "ressources/wall_bamboo.png"
 
     /* color of the player */
     #define PLAYER_START_POS_X 22.0
