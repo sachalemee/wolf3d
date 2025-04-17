@@ -28,17 +28,20 @@
 
     /* ressources */
     #define MUSIC_PATH "ressources/Wolf3D_OGG/game_music/URAHERO.ogg"
+    #define TEXTURE_OVERLAY_SPRINT "ressources/sprint-overlay.png"
 
     /* color of the player */
     #define PLAYER_START_POS_X 22.0
     #define PLAYER_START_POS_Y 11.5
     #define PLAYER_MOV_SPEED 3.0
-    #define PLAYER_ROTA_SPEED 1.0
+    #define PLAYER_ROTA_SPEED 3.0
     #define PLAYER_FOV 1
+    #define PLAYER_BORDER_MAP 5
+    #define PLAYER_SPRINT_SPEED 5
 
-    /**/
+    /* wall info */
     #define WALL_HEIGHT_MULTI 0
-    #define NUM_RAYS WIN_WIDTH
+    #define NUM_RAYS 1000
 
     /* return values */
     #define EXIT_S 0
@@ -60,7 +63,7 @@ typedef struct info_s {
 
 typedef struct rays_s {
     sfVertexArray *vertex;
-    sfRenderStates *wall_states;
+    sfRenderStates wall_states;
     sfVector2f raydir;
     double camera_x;
     sfVector2f delta_dist;
@@ -68,6 +71,7 @@ typedef struct rays_s {
     sfVector2i step;
     double perpwalldist;
     int side;
+    double pixel_texture;
 } rays_t;
 
 typedef struct mov_s {
@@ -103,7 +107,7 @@ info_t *init_info(void);
 sfRenderWindow *set_window(void);
 
 /* events */
-int events(game_t *game, player_t *player);
+int events(game_t *game, player_t *player, info_t *info);
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
 void mov_player(player_t *player);
 
@@ -112,7 +116,7 @@ int game_loop(game_t *game);
 int start(void);
 
 /* in game */
-void draw_in_game(game_t *game);
+void draw_in_game(game_t *game, player_t *player);
 void draw_background(game_t *game);
 
 /* raycast */
