@@ -48,6 +48,8 @@
     #define EXIT_F 84
     #define EXIT_E -1
     #define EXIT_P 1
+    #define FAILURE -1
+    #define SUCCESS 0
 
     /* map define */
     #define IS_WALL 1

@@ -13,6 +13,8 @@ GAME_PATH = game/
 DESTROY_PATH = destroy/
 MAP_PATH = map/
 MATH_PATH = math/
+PARSING_PATH = parsing/
+DEBUG_PATH = debug/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(DESTROY_PATH), \
@@ -34,6 +36,14 @@ SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(MATH_PATH), \
 					degree_to_radian.c \
 				)\
+				$(addprefix $(PARSING_PATH), \
+					destroy_map.c	\
+					map_generator.c	\
+					parser.c	\
+				)\
+				$(addprefix $(DEBUG_PATH), \
+					show_map_debug.c	\
+				)\
 				$(addprefix $(TEST_PATH), \
 					$(addprefix $(MAP_PATH), \
 						browse_map.c \
@@ -47,27 +57,29 @@ OBJ =		$(SRC:.c=.o)
 
 NAME =		wolf3d
 
-all:		$(NAME)
+all: mklib $(NAME)
 
-CFLAGS +=	-Wall -Wextra
-
-CPPFLAGS =	-iquoteinclude -iquotelib
-
-LIBFLAGS = 	-Llib
-
-LIB = 	-Lmy
-
-CSFMLFLAG = -lcsfml-system -lcsfml-window -lcsfml-graphics -lcsfml-audio -lm
+CSFMLFLAGS		=	-lcsfml-system -lcsfml-window	\
+					-lcsfml-graphics -lcsfml-audio
+CPPFLAGS		+=	-iquote include
+CFLAGS			+=	-Wall -Wextra
+LDFLAGS			+=	-L ./lib/
+LDLIBS			+=	-lmy -lm $(CSFMLFLAGS)
 
 $(NAME):	$(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(LIB) $(LIBFLAGS) $(CSFMLFLAG)
+	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LDLIBS)
 
 clean:
+	make clean -C ./lib/my/
 	$(RM) $(OBJ)
 
 fclean:	clean
+	make fclean -C ./lib/my/
 	$(RM) $(NAME)
 
 re:	fclean all
 
-.PHONY:	all clean fclean re
+mklib:
+	make -C ./lib/my/
+
+.PHONY: all clean fclean re mklib
