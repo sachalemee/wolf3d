@@ -24,6 +24,16 @@ rays_t *init_rays(player_t *player)
     return player->rays;
 }
 
+mov_t *init_mov(player_t *player)
+{
+    player->mov = malloc(sizeof(mov_t));
+    if (player->mov == NULL)
+        return NULL;
+    player->mov->mov_speed = 0;
+    player->mov->rotate_speed = 0;
+    return player->mov;
+}
+
 player_t *init_player(void)
 {
     player_t *player = malloc(sizeof(player_t));
@@ -33,9 +43,8 @@ player_t *init_player(void)
     player->pos = (sfVector2f){PLAYER_START_POS_X, PLAYER_START_POS_Y};
     player->dir = (sfVector2f){-1, 0.0};
     player->plane = (sfVector2f){0.0, PLAYER_FOV};
-    player->mov_speed = 0;
-    player->rotate_speed = 0;
     player->rays = init_rays(player);
     player->map = init_map(player);
+    player->mov = init_mov(player);
     return player;
 }

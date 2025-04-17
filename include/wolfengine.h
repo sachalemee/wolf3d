@@ -60,6 +60,7 @@ typedef struct info_s {
 
 typedef struct rays_s {
     sfVertexArray *vertex;
+    sfRenderStates *wall_states;
     sfVector2f raydir;
     double camera_x;
     sfVector2f delta_dist;
@@ -70,8 +71,6 @@ typedef struct rays_s {
 } rays_t;
 
 typedef struct mov_s {
-    sfVector2f delta;
-    double angle;
     double mov_speed;
     double rotate_speed;
 } mov_t;

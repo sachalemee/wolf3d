@@ -114,7 +114,8 @@ static void draw_vertex_lines(player_t *player, int x, sfRenderWindow* window)
     int end_draw = 0;
     int wall_size = 0;
 
-    wall_size = (int)(WIN_HEIGHT / player->rays->perpwalldist) + WALL_HEIGHT_MULTI;
+    wall_size = (int)(WIN_HEIGHT / player->rays->perpwalldist)
+        + WALL_HEIGHT_MULTI;
     beg_draw = (-wall_size / 2) + (WIN_HEIGHT / 2);
     end_draw = (wall_size / 2) + (WIN_HEIGHT / 2);
     if (beg_draw < 0)
