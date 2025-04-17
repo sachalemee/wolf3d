@@ -8,6 +8,15 @@
 #include <stdlib.h>
 #include "wolfengine.h"
 
+static void set_states(player_t *player)
+{
+    player->rays->wall_states = (sfRenderStates){0};
+    player->rays->wall_states.texture =
+    sfTexture_createFromFile(TEXTURE_WALL, NULL);
+    player->rays->wall_states.blendMode = sfBlendAlpha;
+    player->rays->wall_states.transform = sfTransform_Identity;
+}
+
 rays_t *init_rays(player_t *player)
 {
     player->rays = malloc(sizeof(rays_t));
@@ -21,6 +30,8 @@ rays_t *init_rays(player_t *player)
     player->rays->step = (sfVector2i){0, 0};
     player->rays->perpwalldist = 0;
     player->rays->side = 0;
+    set_states(player);
+    player->rays->pixel_texture = 900;
     return player->rays;
 }
 
