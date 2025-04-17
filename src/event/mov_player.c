@@ -6,9 +6,6 @@
 */
 
 #include <math.h>
-/* have to remove, just need for debug */
-#include <stdio.h>
-
 #include <math.h>
 #include "wolfengine.h"
 #include "hmap.h"
@@ -16,12 +13,12 @@
 static void is_up(player_t *player)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)) {
-        if (map[(int)(player->pos.x + player->dir.x
+        if (map[(int)(player->pos.x + (player->dir.x * PLAYER_BORDER_MAP)
             * player->mov->mov_speed)]
             [(int)player->pos.y] == 0)
             player->pos.x += player->dir.x * player->mov->mov_speed;
         if (map[(int)player->pos.x]
-            [(int)(player->pos.y + player->dir.y
+            [(int)(player->pos.y + (player->dir.y * PLAYER_BORDER_MAP)
                 * player->mov->mov_speed)] == 0)
             player->pos.y += player->dir.y * player->mov->mov_speed;
     }
@@ -30,12 +27,12 @@ static void is_up(player_t *player)
 static void is_down(player_t *player)
 {
     if (sfKeyboard_isKeyPressed(sfKeyS)) {
-        if (map[(int)(player->pos.x - player->dir.x
+        if (map[(int)(player->pos.x - (player->dir.x * PLAYER_BORDER_MAP)
             * player->mov->mov_speed)]
             [(int)player->pos.y] == 0)
             player->pos.x -= player->dir.x * player->mov->mov_speed;
         if (map[(int)player->pos.x]
-            [(int)(player->pos.y - player->dir.y
+            [(int)(player->pos.y - (player->dir.y * PLAYER_BORDER_MAP)
             * player->mov->mov_speed)] == 0)
             player->pos.y -= player->dir.y * player->mov->mov_speed;
     }
