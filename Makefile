@@ -15,6 +15,7 @@ DESTROY_PATH = destroy/
 MAP_PATH = map/
 ERROR_PATH = error_handling/
 MATH_PATH = math/
+RAYCAST_PATH = raycast/
 PARSING_PATH = parsing/
 DEBUG_PATH = debug/
 
@@ -39,11 +40,13 @@ SRC =		$(addprefix $(SRC_PATH), \
 				)\
 				$(addprefix $(INIT_PATH), \
 					init_game.c \
+					init_info.c \
+					init_map.c \
 					init_player.c \
 					set_window.c \
 				)\
-				$(addprefix $(MATH_PATH), \
-					degree_to_radian.c \
+				$(addprefix  $(RAYCAST_PATH), \
+					raycasting.c \
 				)\
 				$(addprefix $(PARSING_PATH), \
 					destroy_map.c	\

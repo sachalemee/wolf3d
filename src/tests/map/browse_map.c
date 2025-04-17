@@ -23,8 +23,8 @@ int browse_map(game_t *game)
 {
     if (game == NULL)
         return EXIT_S;
-    for (int y = 0; y < MAP_Y; y++) {
-        for (int x = 0; x < MAP_X; x++) {
+    for (int y = 0; y < MAP_H; y++) {
+        for (int x = 0; x < MAP_W; x++) {
             is_wall(x, y);
         }
     }

@@ -5,11 +5,11 @@
 ** hmap.h
 */
 
-#ifndef MAP_H
-    #define MAP_H
-    #define MAP_X 8
-    #define MAP_Y 8
-    #define MAP_S (MAP_X * MAP_Y)
+#ifndef HMAP_H
+    #define HMAP_H
+    #define MAP_W 24
+    #define MAP_H 24
+    #define MAP_S (MAP_W * MAP_H)
     #define MAPS_DIR "./ressources/Wolf3D_LVLS/"
     #include "my.h"
     #include "wolfengine.h"
@@ -49,7 +49,7 @@ static const game_tile_t game_tiles[] = {
 
 typedef struct game_s game_t;
 
-extern int map[MAP_X][MAP_Y];
+extern int map[MAP_W][MAP_H];
 
 static const char *const levels[] = {
     "stage1",

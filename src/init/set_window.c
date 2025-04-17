@@ -16,7 +16,7 @@ sfRenderWindow *set_window(void)
     videomode.width = WIN_WIDTH;
     videomode.bitsPerPixel = WIN_BITS;
     window = sfRenderWindow_create(
-        videomode, WIN_TITLE, sfNone, NULL);
+        videomode, WIN_TITLE, sfFullscreen, NULL);
     if (window == NULL)
         return NULL;
     sfRenderWindow_setFramerateLimit(window, WIN_FRAME);
