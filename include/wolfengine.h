@@ -34,6 +34,11 @@
     #define PLAYER_START_POS_Y 11.5
     #define PLAYER_MOV_SPEED 3.0
     #define PLAYER_ROTA_SPEED 1.0
+    #define PLAYER_FOV 1
+
+    /**/
+    #define WALL_HEIGHT_MULTI 0
+    #define NUM_RAYS WIN_WIDTH
 
     /* return values */
     #define EXIT_S 0

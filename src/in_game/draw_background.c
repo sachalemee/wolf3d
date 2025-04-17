@@ -24,5 +24,4 @@ void draw_background(game_t *game)
         background, (sfVector2f){0, WIN_HEIGHT / 2});
     sfRenderWindow_drawRectangleShape(game->window,
         background, sfFalse);
-    return;
 }

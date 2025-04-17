@@ -26,8 +26,6 @@ int events(game_t *game, player_t *player)
 {
     sfEvent event;
 
-    if (player == NULL)
-        return EXIT_F;
     mov_player(player);
     while (sfRenderWindow_pollEvent(game->window, &event)) {
         close_window(game, event);

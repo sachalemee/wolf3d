@@ -32,7 +32,7 @@ player_t *init_player(void)
         return NULL;
     player->pos = (sfVector2f){PLAYER_START_POS_X, PLAYER_START_POS_Y};
     player->dir = (sfVector2f){-1, 0.0};
-    player->plane = (sfVector2f){0.0, 0.66};
+    player->plane = (sfVector2f){0.0, PLAYER_FOV};
     player->mov_speed = 0;
     player->rotate_speed = 0;
     player->rays = init_rays(player);

@@ -114,20 +114,23 @@ static void draw_vertex_lines(player_t *player, int x, sfRenderWindow* window)
     int end_draw = 0;
     int wall_size = 0;
 
-    wall_size = (int)(WIN_HEIGHT / player->rays->perpwalldist);
-    beg_draw = (- wall_size / 2) + (WIN_HEIGHT / 2);
+    wall_size = (int)(WIN_HEIGHT / player->rays->perpwalldist) + WALL_HEIGHT_MULTI;
+    beg_draw = (-wall_size / 2) + (WIN_HEIGHT / 2);
     end_draw = (wall_size / 2) + (WIN_HEIGHT / 2);
     if (beg_draw < 0)
         beg_draw = 0;
     if (end_draw >= WIN_HEIGHT)
-        end_draw = WIN_HEIGHT - 1;
+        end_draw = WIN_HEIGHT;
     set_vertex(player, beg_draw, end_draw, x);
     sfRenderWindow_drawVertexArray(window, player->rays->vertex, NULL);
 }
 
 void raycasting(game_t *game, player_t *player)
 {
-    for (int x = 0; x < WIN_WIDTH; x++) {
+    int x = 0;
+
+    for (int i = 0; i < WIN_WIDTH; i++) {
+        x = i * (WIN_WIDTH / NUM_RAYS);
         dist_ray_travel_sidexy(player, x);
         dist_ray_travel(player);
         dda_algo(player);
