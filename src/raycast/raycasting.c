@@ -26,7 +26,7 @@ static void dist_ray_travel_sidexy(player_t *player, int x)
         player->rays->delta_dist.x = INFINITY;
     } else {
         if (1 / player->rays->raydir.x < 0)
-            player->rays->delta_dist.x = -(1 / player->rays->raydir.x);
+            player->rays->delta_dist.x = -1 / player->rays->raydir.x;
         else
             player->rays->delta_dist.x = 1 / player->rays->raydir.x;
     }
@@ -34,7 +34,7 @@ static void dist_ray_travel_sidexy(player_t *player, int x)
         player->rays->delta_dist.y = INFINITY;
     } else {
         if (1 / player->rays->raydir.y < 0)
-            player->rays->delta_dist.y = -(1 / player->rays->raydir.y);
+            player->rays->delta_dist.y = -1 / player->rays->raydir.y;
         else
             player->rays->delta_dist.y = 1 / player->rays->raydir.y;
     }
@@ -96,14 +96,14 @@ static void len_ray(player_t *player)
 static void set_vertex(player_t *player,
     int beg_draw, int end_draw, int x)
 {
-    sfColor color_vertex = sfColor_fromRGB(100, 240, 232);
+    sfColor color_vertex = sfColor_fromRGB(100, 240, 220);
     sfVertex vertex = {0};
-
+    
     player->rays->vertex = sfVertexArray_create();
-    vertex = (sfVertex){{(float)x, (float)beg_draw}, color_vertex, {0, 0}};
+    vertex = (sfVertex){{(float)x, (float)beg_draw}, sfWhite, {491, 0}};
     sfVertexArray_append(player->rays->vertex, vertex);
     color_vertex = sfColor_fromRGB(232, 240, 100);
-    vertex = (sfVertex){{(float)x, (float)end_draw}, color_vertex, {0, 0}};
+    vertex = (sfVertex){{(float)x, (float)end_draw}, color_vertex, {491, player->rays->pixel_texture}};
     sfVertexArray_append(player->rays->vertex, vertex);
     sfVertexArray_setPrimitiveType(player->rays->vertex, sfLines);
 }
@@ -118,12 +118,9 @@ static void draw_vertex_lines(player_t *player, int x, sfRenderWindow* window)
         + WALL_HEIGHT_MULTI;
     beg_draw = (-wall_size / 2) + (WIN_HEIGHT / 2);
     end_draw = (wall_size / 2) + (WIN_HEIGHT / 2);
-    if (beg_draw < 0)
-        beg_draw = 0;
-    if (end_draw >= WIN_HEIGHT)
-        end_draw = WIN_HEIGHT;
     set_vertex(player, beg_draw, end_draw, x);
-    sfRenderWindow_drawVertexArray(window, player->rays->vertex, NULL);
+    sfRenderWindow_drawVertexArray(window,
+        player->rays->vertex, &player->rays->wall_states);
 }
 
 void raycasting(game_t *game, player_t *player)
