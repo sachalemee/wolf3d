@@ -25,14 +25,6 @@ sfBool is_keyboard_input(sfEvent event, sfKeyCode key)
 
 void buttons_event(game_t *game, sfEvent event)
 {
-    if (game == NULL) {
-        printf("Game pointer is NULL\n");
-        return;
-    }
-    if (game->buttons == NULL) {
-        printf("Buttons array is NULL\n");
-        return;
-    }
     for (int i = 0; i < NB_BUTTONS; i++) {
         if (game->buttons[i] == NULL) {
             printf("Button %d is NULL\n", i);
@@ -69,6 +61,7 @@ int events_menu(game_t *game)
 {
     sfEvent event;
 
+    init_buttons(game);
     while (sfRenderWindow_pollEvent(game->window, &event)) {
         buttons_event(game, event);
         close_window(game, event);

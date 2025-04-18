@@ -10,7 +10,7 @@
     #include <SFML/Graphics.h>
     #include <SFML/System.h>
     #define SUCCESS 0
-    #define NB_BUTTONS 3
+    #define NB_BUTTONS 1
     #define NB_COLOR 5
     #define B_TEXTURE "ressources/Wolf3D_OGG/texture/texture_bouton.png"
     #define FONT "ressources/Wolf3D_OGG/font/font.ttf"
