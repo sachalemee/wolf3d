@@ -12,5 +12,7 @@ void draw_all_buttons(sfRenderWindow *window,
     game_t *game)
 {
     draw_button(window, game->buttons[0]);
+    draw_button(window, game->buttons[1]);
+    draw_button(window, game->buttons[2]);
     return;
 }

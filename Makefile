@@ -20,6 +20,8 @@ PARSING_PATH = parsing/
 DEBUG_PATH = debug/
 BUTTON_PATH = buttons/
 MENU_PATH = menu/
+CALL_MENU_PATH = call_menu/
+CALL_GAME_PATH = call_game/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(BUTTON_PATH), \
@@ -45,8 +47,15 @@ SRC =		$(addprefix $(SRC_PATH), \
 					error_handling.c \
 				)\
 				$(addprefix $(EVENT_PATH), \
-					event_loop.c \
-					mov_player.c \
+					$(addprefix $(CALL_GAME_PATH), \
+						calls_game.c \
+						game_scene.c \
+						mov_player.c \
+					)\
+					$(addprefix $(CALL_MENU_PATH), \
+						calls_menu.c \
+					)\
+					is_keyboard_input.c \
 				)\
 				$(addprefix $(GAME_PATH), \
 					game_loop.c \

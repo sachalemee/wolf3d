@@ -128,6 +128,7 @@ typedef struct game_s {
     entity_t *entity;
     info_t *info;
     state_t state;
+    sfEvent event;
 } game_t;
 
 /* init */
@@ -139,12 +140,6 @@ info_t *init_info(void);
 
 /* init function relative to a struct */
 sfRenderWindow *set_window(void);
-
-/* events */
-int events_menu(game_t *game);
-int events(game_t *game, player_t *player, info_t *info);
-sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
-void mov_player(player_t *player);
 
 /* game */
 int game_loop(game_t *game);
@@ -163,19 +158,22 @@ void destroy_all(game_t *game);
 /* error handling */
 int error_handling(game_t *game, player_t *player);
 
-/* math */
-double degree_to_radian(double angle);
-
 /* map */
 int browse_map(game_t *game);
 
-/*menu*/
+/* EVENTS */
+sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
+
+    /* call menu */
 int menu(game_t *game, entity_t *entity);
+int events_menu(game_t *game);
 void animated_bg(entity_t *entity);
 void draw_bg_menu(game_t *game, entity_t *entity);
 void play_game(game_t *game);
 
-/*scene*/
+    /* call game */
 int game_scene(game_t *game, player_t *player, info_t *info);
-
+int events_game(game_t *game, player_t *player, info_t *info);
+void mov_player(player_t *player);
+    
 #endif /* WOLFENGINE_H */

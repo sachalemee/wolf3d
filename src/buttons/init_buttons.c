@@ -12,6 +12,10 @@
 void init_buttons(game_t *game)
 {
     game->buttons = malloc(sizeof(game->buttons) * NB_BUTTONS);
-    game->buttons[0] = create_button((sfVector2f){960, 100},
-        (sfVector2f){500, 50}, "test", B_TEXTURE);
+    game->buttons[0] = create_button((sfVector2f){1400, 200},
+        (sfVector2f){250, 50}, "PLAY", NULL);
+    game->buttons[1] = create_button((sfVector2f){1400, 400},
+        (sfVector2f){250, 50}, "SETTINGS", NULL);
+    game->buttons[2] = create_button((sfVector2f){1400, 600},
+        (sfVector2f){250, 50}, "QUIT", NULL);
 }
