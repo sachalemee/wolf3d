@@ -30,10 +30,10 @@ void buttons_event(game_t *game, sfEvent event)
             printf("Button %d is NULL\n", i);
             continue;
         }   
-        buttons_status(game->window, game->buttons[i], event, game);
         if (i == 0) {
             game->buttons[i]->function = play_game;
         }
+        buttons_status(game->window, game->buttons[i], event, game);
     }
 }
 
@@ -61,7 +61,6 @@ int events_menu(game_t *game)
 {
     sfEvent event;
 
-    init_buttons(game);
     while (sfRenderWindow_pollEvent(game->window, &event)) {
         buttons_event(game, event);
         close_window(game, event);

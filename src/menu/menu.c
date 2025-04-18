@@ -11,12 +11,17 @@
 
 void play_game(game_t *game)
 {
-    game_scene(game, game->player, game->info);
+    game->state = STATE_GAME;
 }
 
 int menu(game_t *game, entity_t *entity)
 {
     events_menu(game);
+
+    if (game->state != STATE_MENU) {
+        free_everything_button(game);
+        return EXIT_S;
+    }
     animated_bg(entity);
     draw_bg_menu(game, entity);
     return EXIT_S;

@@ -7,11 +7,13 @@
 
 #include <stddef.h>
 #include "wolfengine.h"
+#include "buttons.h"
 
 int start(void)
 {
     game_t game = {NULL};
 
+    init_buttons(&game);
     init_game(&game);
     if (game_loop(&game) == EXIT_F)
         return EXIT_F;

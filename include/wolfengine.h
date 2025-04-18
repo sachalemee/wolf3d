@@ -111,6 +111,11 @@ typedef struct entity_s {
     anim_t *anim;
 } entity_t;
 
+typedef enum state_s {
+    STATE_MENU,
+    STATE_GAME
+} state_t;
+
 typedef struct buttons_s buttons_t;
 
 typedef struct game_s {
@@ -122,6 +127,7 @@ typedef struct game_s {
     player_t *player;
     entity_t *entity;
     info_t *info;
+    state_t state;
 } game_t;
 
 /* init */

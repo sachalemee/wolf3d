@@ -11,12 +11,6 @@
 #include "buttons.h"
 #include "hmap.h"
 
-
-#include <stdlib.h>
-#include <math.h>
-#include "wolfengine.h"
-#include "hmap.h"
-
 int game_scene(game_t *game, player_t *player, info_t *info)
 {
     info->d_time = sfTime_asSeconds(sfClock_restart(game->clock));
@@ -35,8 +29,13 @@ int game_loop(game_t *game)
     info_t *info = init_info();
     entity_t *menu_struct = init_menu();
 
+    game->state = STATE_MENU;
+
     while (sfRenderWindow_isOpen(game->window) == sfTrue) {
-        menu(game, menu_struct);
+        if (game->state == STATE_MENU)
+            menu(game, menu_struct);
+        else if (game->state == STATE_GAME)
+            game_scene(game, player, info);
     }
     return EXIT_S;
 }
