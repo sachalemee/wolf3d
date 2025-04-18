@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "wolfengine.h"
+#include "buttons.h"
 #include "hmap.h"
 
 int game_scene(game_t *game, player_t *player, info_t *info)

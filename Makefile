@@ -20,6 +20,22 @@ PARSING_PATH = parsing/
 DEBUG_PATH = debug/
 
 SRC =		$(addprefix $(SRC_PATH), \
+				$(addprefix $(BUTTON_PATH), \
+					button_status.c \
+					create_button.c \
+					draw_button.c	\
+					init_buttons.c \
+					set_button_color.c	\
+					set_button_rect.c	\
+					set_button_text.c	\
+					set_sprite.c	\
+					draw_all_buttons.c	\
+					free_everything_button.c	\
+				)\
+				$(addprefix $(MENU_PATH), \
+					bg_menu_anim.c	\
+					menu.c	\
+				)\
 				$(addprefix $(DESTROY_PATH), \
 					destroy_all.c \
 				)\
@@ -39,6 +55,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					draw.c \
 				)\
 				$(addprefix $(INIT_PATH), \
+					init_menu.c	\
 					init_game.c \
 					init_info.c \
 					init_map.c \

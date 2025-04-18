@@ -28,8 +28,6 @@
 
     /* ressources */
     #define MUSIC_PATH "ressources/Wolf3D_OGG/game_music/URAHERO.ogg"
-    #define TEXTURE_OVERLAY_SPRINT "ressources/sprint-overlay.png"
-    #define TEXTURE_WALL "ressources/wall_bamboo.png"
 
     /* color of the player */
     #define PLAYER_START_POS_X 22.0
@@ -55,14 +53,6 @@
     /* map define */
     #define IS_WALL 1
     #define IS_VOID 0
-
-typedef struct hmap_s {
-    sfVector2i map_pos;
-} hmap_t;
-
-typedef struct info_s {
-    float d_time;
-} info_t;
 
 typedef struct rays_s {
     sfVertexArray *vertex;
@@ -93,14 +83,37 @@ typedef struct player_s {
     hmap_t *map;
 } player_t;
 
+typedef struct buttons_s buttons_t;
+
 typedef struct game_s {
     sfRenderWindow *window;
     sfClock *clock;
     sfMusic *music;
     sfColor bg;
+    buttons_t **buttons;
+    player_t *player;
 } game_t;
 
+
+typedef struct set_texture_and_sprite_s {
+    sfTexture *texture;
+    sfSprite *sprite;
+} sprite_t;
+
+typedef struct animated_sprite_s {
+    sfIntRect rect;
+    sfClock *clock_anim;
+    int current_frame;
+    int max_frame;
+} anim_t;
+
+typedef struct entity_s {
+    sprite_t *sprite;
+    anim_t *anim;
+} entity_t;
+
 /* init */
+int init_menu(entity_t *entity);
 int init_game(game_t *game);
 player_t *init_player(void);
 hmap_t *init_map(player_t *player);
@@ -108,14 +121,15 @@ info_t *init_info(void);
 
 /* init function relative to a struct */
 sfRenderWindow *set_window(void);
+player_t *init_player(player_t *player);
 
 /* events */
-int events(game_t *game, player_t *player, info_t *info);
+int events(game_t *game, player_t *player);
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
 void mov_player(player_t *player);
 
 /* game */
-int game_loop(game_t *game);
+int game_loop(game_t *game, player_t *player);
 int start(void);
 
 /* in game */
@@ -136,5 +150,11 @@ double degree_to_radian(double angle);
 
 /* map */
 int browse_map(game_t *game);
+
+/*menu*/
+int menu(game_t *game, entity_t *entity);
+void animated_bg(entity_t *entity);
+void draw_bg_menu(game_t *game, entity_t *entity);
+void play_game(game_t *game);
 
 #endif /* WOLFENGINE_H */
