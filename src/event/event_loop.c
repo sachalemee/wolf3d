@@ -33,9 +33,10 @@ int events(game_t *game, player_t *player)
 {
     sfEvent event;
 
+    mov_sprint(player, info);
+    mov_player(player);
     while (sfRenderWindow_pollEvent(game->window, &event)) {
         close_window(game, event);
-        mov_player(event, player, game);
     }
     return EXIT_S;
 }

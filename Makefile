@@ -15,8 +15,6 @@ DESTROY_PATH = destroy/
 MAP_PATH = map/
 ERROR_PATH = error_handling/
 MATH_PATH = math/
-BUTTON_PATH = buttons/
-MENU_PATH = menu/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(BUTTON_PATH), \
@@ -56,11 +54,21 @@ SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(INIT_PATH), \
 					init_menu.c	\
 					init_game.c \
+					init_info.c \
+					init_map.c \
 					init_player.c \
 					set_window.c \
 				)\
-				$(addprefix $(MATH_PATH), \
-					degree_to_radian.c \
+				$(addprefix  $(RAYCAST_PATH), \
+					raycasting.c \
+				)\
+				$(addprefix $(PARSING_PATH), \
+					destroy_map.c	\
+					map_generator.c	\
+					parser.c	\
+				)\
+				$(addprefix $(DEBUG_PATH), \
+					show_map_debug.c	\
 				)\
 				$(addprefix $(TEST_PATH), \
 					$(addprefix $(MAP_PATH), \
@@ -77,7 +85,7 @@ NAME =		wolf3d
 
 all:		$(NAME)
 
-CFLAGS +=	-Wall -Wextra -g3
+CFLAGS +=	-Wall -Wextra
 
 CPPFLAGS =	-iquoteinclude -iquotelib
 
@@ -85,17 +93,27 @@ LIBFLAGS = 	-Llib
 
 LIB = 	-Lmy
 
-CSFMLFLAG = -lcsfml-system -lcsfml-window -lcsfml-graphics -lcsfml-audio -lm
+CSFMLFLAGS		=	-lcsfml-system -lcsfml-window	\
+					-lcsfml-graphics -lcsfml-audio
+CPPFLAGS		+=	-iquote include
+CFLAGS			+=	-Wall -Wextra
+LDFLAGS			+=	-L ./lib/
+LDLIBS			+=	-lmy -lm $(CSFMLFLAGS)
 
 $(NAME):	$(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(LIB) $(LIBFLAGS) $(CSFMLFLAG)
+	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LDLIBS)
 
 clean:
+	make clean -C ./lib/my/
 	$(RM) $(OBJ)
 
 fclean:	clean
+	make fclean -C ./lib/my/
 	$(RM) $(NAME)
 
 re:	fclean all
 
-.PHONY:	all clean fclean re
+mklib:
+	make -C ./lib/my/
+
+.PHONY: all clean fclean re mklib

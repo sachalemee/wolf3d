@@ -6,6 +6,7 @@
 */
 
 #include "wolfengine.h"
+#include <stdlib.h>
 
 int init_game(game_t *game)
 {

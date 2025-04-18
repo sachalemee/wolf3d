@@ -5,8 +5,8 @@
 ** wolfengine.h
 */
 
-#ifndef STUMPER_H
-    #define STUMPER_H
+#ifndef WOLFENGINE_H
+    #define WOLFENGINE_H
 
     /* sfml include */
     #include <SFML/Graphics.h>
@@ -28,55 +28,59 @@
 
     /* ressources */
     #define MUSIC_PATH "ressources/Wolf3D_OGG/game_music/URAHERO.ogg"
-    #define BACKGROUND_MENU "ressources/Wolf3D_OGG/game_background/background_menu.png"
 
     /* color of the player */
-    #define PLAYER_COLOR sfBlack
-    #define PLAYER_RADIUS 2.0
-    #define PLAYER_POSX (WIN_WIDTH / 2)
-    #define PLAYER_POSY (WIN_HEIGHT / 2)
-    #define PLAYER_SPEED 7
-    #define PLAYER_QUICKSPIN 0.25
-    #define PLAYER_FOV 70
-    #define PLAYER_NUMRAYS WIN_WIDTH
+    #define PLAYER_START_POS_X 22.0
+    #define PLAYER_START_POS_Y 11.5
+    #define PLAYER_MOV_SPEED 3.0
+    #define PLAYER_ROTA_SPEED 3.0
+    #define PLAYER_FOV 1
+    #define PLAYER_BORDER_MAP 5
+    #define PLAYER_SPRINT_SPEED 5
 
-    /* math define */
-    #define PI 3.14159265358979323
-    #define PLAN_VIEW 180
+    /* wall info */
+    #define WALL_HEIGHT_MULTI 0
+    #define NUM_RAYS 1000
 
     /* return values */
     #define EXIT_S 0
     #define EXIT_F 84
     #define EXIT_E -1
     #define EXIT_P 1
+    #define FAILURE -1
+    #define SUCCESS 0
 
     /* map define */
     #define IS_WALL 1
     #define IS_VOID 0
 
-    /* buttons */
-    #define NB_BUTTON 3
-    #define NB_COLOR 5
-
 typedef struct rays_s {
-    sfVector2f posxy;
-    sfVector2f dirxy;
-    sfVector2f planexy;
+    sfVertexArray *vertex;
+    sfRenderStates wall_states;
+    sfVector2f raydir;
+    double camera_x;
+    sfVector2f delta_dist;
+    sfVector2f sidedist;
+    sfVector2i step;
+    double perpwalldist;
+    int side;
+    double pixel_texture;
 } rays_t;
 
 typedef struct mov_s {
-    sfVector2f delta;
-    double angle;
+    double mov_speed;
+    double rotate_speed;
 } mov_t;
 
 typedef struct player_s {
-    sfCircleShape *player;
-    double speed;
-    double radius;
-    sfColor color;
     sfVector2f pos;
+    sfVector2f dir;
+    sfVector2f plane;
+    double mov_speed;
+    double rotate_speed;
     mov_t *mov;
     rays_t *rays;
+    hmap_t *map;
 } player_t;
 
 typedef struct buttons_s buttons_t;
@@ -111,23 +115,29 @@ typedef struct entity_s {
 /* init */
 int init_menu(entity_t *entity);
 int init_game(game_t *game);
+player_t *init_player(void);
+hmap_t *init_map(player_t *player);
+info_t *init_info(void);
+
+/* init function relative to a struct */
 sfRenderWindow *set_window(void);
 player_t *init_player(player_t *player);
-void init_sprite(sprite_t *sprite);
 
 /* events */
-int events_menu(game_t *game);
 int events(game_t *game, player_t *player);
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
-void mov_player(sfEvent event, player_t *player, game_t *game);
+void mov_player(player_t *player);
 
 /* game */
-int game_loop(game_t *game, entity_t *entity);
+int game_loop(game_t *game, player_t *player);
 int start(void);
 
 /* in game */
-void draw_in_game(game_t *game);
+void draw_in_game(game_t *game, player_t *player);
 void draw_background(game_t *game);
+
+/* raycast */
+void raycasting(game_t *game, player_t *player);
 
 /* destroy */
 void destroy_all(game_t *game);
@@ -147,4 +157,4 @@ void animated_bg(entity_t *entity);
 void draw_bg_menu(game_t *game, entity_t *entity);
 void play_game(game_t *game);
 
-#endif /* STUMPER_H */
+#endif /* WOLFENGINE_H */

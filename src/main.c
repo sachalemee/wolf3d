@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include "wolfengine.h"
 
+#include "hmap.h"
+
 int main(int ac, char **av, char **env)
 {
     if (ac == 0 || av == NULL || env == NULL)
