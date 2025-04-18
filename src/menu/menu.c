@@ -7,6 +7,7 @@
 
 #include "wolfengine.h"
 #include "buttons.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 void play_game(game_t *game)
@@ -16,12 +17,13 @@ void play_game(game_t *game)
 
 int menu(game_t *game, entity_t *entity)
 {
-    events_menu(game);
-
+    
     if (game->state != STATE_MENU) {
         free_everything_button(game);
+        free(entity);
         return EXIT_S;
     }
+    events_menu(game);
     animated_bg(entity);
     draw_bg_menu(game, entity);
     return EXIT_S;
