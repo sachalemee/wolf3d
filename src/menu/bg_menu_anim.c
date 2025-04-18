@@ -11,7 +11,7 @@
 void draw_bg_menu(game_t *game, entity_t *entity)
 {
     sfRenderWindow_clear(game->window, sfBlack);
-    sfRenderWindow_drawSprite(game->window, entity->sprite->sprite, NULL);
+    sfRenderWindow_drawSprite(game->window, entity->sprite->sprite_bg, NULL);
     draw_all_buttons(game->window, game);
     sfRenderWindow_display(game->window);
 }
@@ -25,7 +25,7 @@ void animated_bg(entity_t *entity)
         entity->anim->current_frame = (entity->anim->current_frame + 1)
             % entity->anim->max_frame;
         entity->anim->rect.left = entity->anim->current_frame * 32;
-        sfSprite_setTextureRect(entity->sprite->sprite,
+        sfSprite_setTextureRect(entity->sprite->sprite_bg,
             entity->anim->rect);
         sfClock_restart(entity->anim->clock_anim);
     }

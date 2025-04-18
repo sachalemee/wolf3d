@@ -15,6 +15,11 @@ DESTROY_PATH = destroy/
 MAP_PATH = map/
 ERROR_PATH = error_handling/
 MATH_PATH = math/
+RAYCAST_PATH = raycast/
+PARSING_PATH = parsing/
+DEBUG_PATH = debug/
+BUTTON_PATH = buttons/
+MENU_PATH = menu/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(BUTTON_PATH), \
@@ -83,15 +88,7 @@ OBJ =		$(SRC:.c=.o)
 
 NAME =		wolf3d
 
-all:		$(NAME)
-
-CFLAGS +=	-Wall -Wextra
-
-CPPFLAGS =	-iquoteinclude -iquotelib
-
-LIBFLAGS = 	-Llib
-
-LIB = 	-Lmy
+all: mklib $(NAME)
 
 CSFMLFLAGS		=	-lcsfml-system -lcsfml-window	\
 					-lcsfml-graphics -lcsfml-audio

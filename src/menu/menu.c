@@ -11,7 +11,7 @@
 
 void play_game(game_t *game)
 {
-    printf("WOW\n");
+    game_scene(game, game->player, game->info);
 }
 
 int menu(game_t *game, entity_t *entity)

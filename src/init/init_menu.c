@@ -21,24 +21,23 @@ entity_t *init_entity(void)
     entity->anim = malloc(sizeof(anim_t));
     if (entity->anim == NULL)
         return NULL;
-    entity->sprite->sprite = NULL;
-    entity->sprite->texture = NULL;
+    entity->sprite->sprite_bg = NULL;
+    entity->sprite->texture_bg = NULL;
     entity->anim->current_frame = 0;
     entity->anim->max_frame = 0;
     entity->anim->rect = (sfIntRect){0, 0, 0, 0};
     return entity;
 }
 
-int init_menu(entity_t *entity)
+entity_t *init_menu(void)
 {
-    entity = init_entity();
-    entity->sprite->texture = sfTexture_createFromFile(BACKGROUND_MENU, sfFalse);
-    entity->sprite->sprite = sfSprite_create();
-    sfSprite_setTexture(entity->sprite->sprite, entity->sprite->texture, sfTrue);
+    entity_t *entity = init_entity();
+    entity->sprite->texture_bg = sfTexture_createFromFile(BACKGROUND_MENU, sfFalse);
+    entity->sprite->sprite_bg = sfSprite_create();
+    sfSprite_setTexture(entity->sprite->sprite_bg, entity->sprite->texture_bg, sfTrue);
     entity->anim->rect = (sfIntRect){0, 0, 1791, 1000};
     entity->anim->clock_anim = sfClock_create();
     entity->anim->current_frame = 0;
     entity->anim->max_frame = 8;
-    return 0;
+    return entity;
 }
-

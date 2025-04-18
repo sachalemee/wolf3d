@@ -25,11 +25,35 @@ sfBool is_keyboard_input(sfEvent event, sfKeyCode key)
 
 void buttons_event(game_t *game, sfEvent event)
 {
-    buttons_status(game->window, game->buttons[0], event, game);
-    game->buttons[0]->function = play_game;
+    if (game == NULL) {
+        printf("Game pointer is NULL\n");
+        return;
+    }
+    if (game->buttons == NULL) {
+        printf("Buttons array is NULL\n");
+        return;
+    }
+    for (int i = 0; i < NB_BUTTONS; i++) {
+        if (game->buttons[i] == NULL) {
+            printf("Button %d is NULL\n", i);
+            continue;
+        }   
+        buttons_status(game->window, game->buttons[i], event, game);
+        if (i == 0) {
+            game->buttons[i]->function = play_game;
+        }
+    }
 }
 
-int events(game_t *game, player_t *player)
+static void mov_sprint(player_t *player, info_t *info)
+{
+    if (sfKeyboard_isKeyPressed(sfKeyZ)
+        && sfKeyboard_isKeyPressed(sfKeyLShift))
+        player->mov->mov_speed =
+        (info->d_time * PLAYER_MOV_SPEED) * PLAYER_SPRINT_SPEED;
+}
+
+int events(game_t *game, player_t *player, info_t *info)
 {
     sfEvent event;
 
