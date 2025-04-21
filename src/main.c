@@ -11,10 +11,8 @@
 
 #include "hmap.h"
 
-int main(int ac, char **av, char **env)
+int main(int, char **, char **)
 {
-    if (ac == 0 || av == NULL || env == NULL)
-        printf("[...]\n");
     if (start() == EXIT_F)
         return EXIT_F;
     return EXIT_S;

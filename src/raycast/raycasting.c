@@ -98,12 +98,13 @@ static void set_vertex(player_t *player,
 {
     sfColor color_vertex = sfColor_fromRGB(100, 240, 220);
     sfVertex vertex = {0};
-    
+
     player->rays->vertex = sfVertexArray_create();
     vertex = (sfVertex){{(float)x, (float)beg_draw}, sfWhite, {491, 0}};
     sfVertexArray_append(player->rays->vertex, vertex);
     color_vertex = sfColor_fromRGB(232, 240, 100);
-    vertex = (sfVertex){{(float)x, (float)end_draw}, color_vertex, {491, player->rays->pixel_texture}};
+    vertex = (sfVertex){{(float)x, (float)end_draw}, color_vertex,
+        {491, player->rays->pixel_texture}};
     sfVertexArray_append(player->rays->vertex, vertex);
     sfVertexArray_setPrimitiveType(player->rays->vertex, sfLines);
 }

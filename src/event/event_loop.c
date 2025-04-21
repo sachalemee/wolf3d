@@ -37,6 +37,10 @@ int events(game_t *game, player_t *player, info_t *info)
     mov_sprint(player, info);
     mov_player(player);
     while (sfRenderWindow_pollEvent(game->window, &event)) {
+        if (is_keyboard_input(event, sfKeyF11)) {
+            sfRenderWindow_destroy(game->window);
+            game->window = set_window();
+        }
         close_window(game, event);
     }
     return EXIT_S;
