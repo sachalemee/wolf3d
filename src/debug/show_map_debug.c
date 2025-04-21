@@ -14,13 +14,12 @@ void show_map_debug(map_t *map)
 {
     sfVector2u cds = {0};
     bool isend = false;
-    bool isstt = false;
+    bool isstt = false + 0 * printf("w:%lu h:%lu\n", map->w, map->h);
 
     if (map == NULL) {
         my_dputstr(2, "{EMPTY-MAP}\n");
         return;
     }
-    printf("w:%lu h:%lu\n", map->w, map->h);
     for (size_t i = 0; i < map->w * map->h; i++) {
         cds = (sfVector2u){i % map->w, i / map->w};
         isend = (cds.x == map->end.x && cds.y == map->end.y);
@@ -30,6 +29,7 @@ void show_map_debug(map_t *map)
         if (isend || isstt) {
             my_dputstr(2, ((isend) ? "E" : "S"));
         } else
-            write(2, &(game_tiles[map->map[cds.x][cds.y]].config_value), 1);
+            write(2, &(game_tiles[
+                (size_t)(map->map[cds.x][cds.y])].config_value), 1);
     }
 }

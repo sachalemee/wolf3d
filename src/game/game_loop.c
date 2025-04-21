@@ -10,25 +10,28 @@
 #include "wolfengine.h"
 #include "hmap.h"
 
-int game_scene(game_t *game, player_t *player, info_t *info)
+static void update_player(player_t *player, time_info_t time)
 {
-    info->d_time = sfTime_asSeconds(sfClock_restart(game->clock));
-    player->mov->mov_speed = info->d_time * PLAYER_MOV_SPEED;
-    player->mov->rotate_speed = info->d_time * PLAYER_ROTA_SPEED;
-    sfRenderWindow_clear(game->window, game->bg);
-    events(game, player, info);
-    draw_in_game(game, player);
+    player->mov->mov_speed = time.delta_time * PLAYER_MOV_SPEED;
+    player->mov->rotate_speed = time.delta_time * PLAYER_ROTA_SPEED;
+}
+
+int game_scene(game_t *game, player_t *player, map_t map)
+{
+    sfRenderWindow_clear(game->window, sfBlack);
+    update_player(player, game->time);
+    events(game, player, game->time, map);
+    draw_in_game(game, player, map);
+    draw_hud_overlay(game, player);
     sfRenderWindow_display(game->window);
     return EXIT_S;
 }
 
-int game_loop(game_t *game)
+int game_loop(sys_data_t *sys_data)
 {
-    player_t *player = init_player();
-    info_t *info = init_info();
-
-    while (sfRenderWindow_isOpen(game->window) == sfTrue) {
-        game_scene(game, player, info);
+    while (sfRenderWindow_isOpen(sys_data->game->window) == sfTrue) {
+        update_time(&(sys_data->game->time));
+        game_scene(sys_data->game, sys_data->player, *(sys_data->current_map));
     }
     return EXIT_S;
 }

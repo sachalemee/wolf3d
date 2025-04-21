@@ -7,12 +7,13 @@
 
 #ifndef HMAP_H
     #define HMAP_H
-    #define MAP_W 24
-    #define MAP_H 24
-    #define MAP_S (MAP_W * MAP_H)
+    // #define MAP_W 24
+    // #define MAP_H 24
+    // #define MAP_S (MAP_W * MAP_H)
     #define MAPS_DIR "./ressources/Wolf3D_LVLS/"
     #include "my.h"
-    #include "wolfengine.h"
+    #include <SFML/Graphics.h>
+
 // a map being :
 //     11111...
 //     1S00e...
@@ -47,17 +48,13 @@ static const game_tile_t game_tiles[] = {
     {-1, '\0', false}
 };
 
-typedef struct game_s game_t;
-
-extern int map[MAP_W][MAP_H];
-
 static const char *const levels[] = {
     "stage1",
     NULL
 };
 
 typedef struct map_s {
-    int **map;
+    char **map;
     size_t w;
     size_t h;
     sfVector2f start;

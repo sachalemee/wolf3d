@@ -28,6 +28,9 @@
     #define IN(string, char) my_contains(string, char)
     #define IN_2(buf1, buf2, item) (IN(buf1, item) || IN(buf2, item))
     #define W_STRT(cu, prv, sp) !IN_2(sp, "\n\"", cu) && IN_2(sp, "\n\"", prv)
+    #ifndef _Nullable
+        #define _Nullable
+    #endif /* _Nullable */
 
 typedef struct set_s {
     size_t start;

@@ -8,13 +8,14 @@
 #include <stddef.h>
 #include "wolfengine.h"
 
-int start(void)
+int start(const char *_Nullable map_path)
 {
-    game_t game = {NULL};
+    sys_data_t sys_data[] = {{0}};
 
-    init_game(&game);
-    if (game_loop(&game) == EXIT_F)
+    if (init_sys_data(sys_data, map_path) == FAILURE)
         return EXIT_F;
-    destroy_all(&game);
+    if (game_loop(sys_data) == FAILURE)
+        return EXIT_F;
+    destroy_sys(*sys_data);
     return EXIT_S;
 }
