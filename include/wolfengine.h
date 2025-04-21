@@ -31,6 +31,7 @@
     #define TEXTURE_OVERLAY_SPRINT "ressources/sprint-overlay.png"
     #define TEXTURE_WALL "ressources/wall_bamboo.png"
     #define BACKGROUND_MENU "ressources/Wolf3D_OGG/game_background/background_menu.png"
+    #define BG_RECT 1791.75
 
     /* color of the player */
     #define PLAYER_START_POS_X 22.0

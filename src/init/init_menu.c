@@ -32,9 +32,11 @@ entity_t *init_entity(void)
 entity_t *init_menu(void)
 {
     entity_t *entity = init_entity();
-    entity->sprite->texture_bg = sfTexture_createFromFile(BACKGROUND_MENU, sfFalse);
+    entity->sprite->texture_bg = sfTexture_createFromFile(BACKGROUND_MENU,
+        sfFalse);
     entity->sprite->sprite_bg = sfSprite_create();
-    sfSprite_setTexture(entity->sprite->sprite_bg, entity->sprite->texture_bg, sfTrue);
+    sfSprite_setTexture(entity->sprite->sprite_bg, entity->sprite->texture_bg,
+    sfTrue);
     entity->anim->rect = (sfIntRect){0, 0, 1791, 1000};
     entity->anim->clock_anim = sfClock_create();
     entity->anim->current_frame = 0;

@@ -22,10 +22,10 @@ void animated_bg(entity_t *entity)
     float elapsed_time = sfTime_asSeconds(
         sfClock_getElapsedTime(entity->anim->clock_anim));
 
-    if (elapsed_time > 0.1) {
+    if (elapsed_time > 0.2) {
         entity->anim->current_frame = (entity->anim->current_frame + 1)
             % entity->anim->max_frame;
-        entity->anim->rect.left = entity->anim->current_frame * 32;
+        entity->anim->rect.left = entity->anim->current_frame * BG_RECT;
         sfSprite_setTextureRect(entity->sprite->sprite_bg,
             entity->anim->rect);
         sfClock_restart(entity->anim->clock_anim);

@@ -17,12 +17,12 @@ void play_game(game_t *game)
 
 int menu(game_t *game, entity_t *entity)
 {
-    
     if (game->state != STATE_MENU) {
         free_everything_button(game);
         free(entity);
         return EXIT_S;
     }
+    game->music = sfMusic_createFromFile(MUSIC_PATH);
     events_menu(game);
     animated_bg(entity);
     draw_bg_menu(game, entity);
