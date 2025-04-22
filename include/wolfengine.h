@@ -11,6 +11,7 @@
     /* sfml include */
     #include <SFML/Graphics.h>
     #include <SFML/Audio.h>
+    #include <stdbool.h>
 
     /* value specific of the window */
     #define WIN_FRAME 60
@@ -27,7 +28,8 @@
     #define MUSIC_GAP 5.0
 
     /* ressources */
-    #define MUSIC_PATH "ressources/Wolf3D_OGG/game_music/URAHERO.ogg"
+    #define MUSIC_PATH_GAME "ressources/Wolf3D_OGG/game_music/URAHERO.ogg"
+    #define MUSIC_PATH_BG "ressources/Wolf3D_OGG/game_music/Tropical_music_bg.ogg"
     #define TEXTURE_OVERLAY_SPRINT "ressources/sprint-overlay.png"
     #define TEXTURE_WALL "ressources/wall_bamboo.png"
     #define BACKGROUND_MENU "ressources/Wolf3D_OGG/game_background/background_menu.png"
@@ -122,8 +124,10 @@ typedef struct buttons_s buttons_t;
 typedef struct game_s {
     sfRenderWindow *window;
     sfClock *clock;
-    sfMusic *music;
+    sfMusic *music_game;
+    sfMusic *music_bg;
     sfColor bg;
+    bool music_change;
     buttons_t **buttons;
     player_t *player;
     entity_t *entity;
@@ -162,17 +166,20 @@ int error_handling(game_t *game, player_t *player);
 /* map */
 int browse_map(game_t *game);
 
+/* music */
+void choose_music(game_t *game);
+
 /* EVENTS */
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
 
-    /* call menu */
+/* call menu */
 int menu(game_t *game, entity_t *entity);
 int events_menu(game_t *game);
 void animated_bg(entity_t *entity);
 void draw_bg_menu(game_t *game, entity_t *entity);
 void play_game(game_t *game);
 
-    /* call game */
+/* call game */
 int game_scene(game_t *game, player_t *player, info_t *info);
 int events_game(game_t *game, player_t *player, info_t *info);
 void mov_player(player_t *player);

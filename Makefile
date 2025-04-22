@@ -22,6 +22,7 @@ BUTTON_PATH = buttons/
 MENU_PATH = menu/
 CALL_MENU_PATH = call_menu/
 CALL_GAME_PATH = call_game/
+MUSIC_PATH = music/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(BUTTON_PATH), \
@@ -51,6 +52,10 @@ SRC =		$(addprefix $(SRC_PATH), \
 						calls_game.c \
 						game_scene.c \
 						mov_player.c \
+					)\
+					$(addprefix $(MUSIC_PATH), \
+						choose_music.c \
+						music.c	\
 					)\
 					$(addprefix $(CALL_MENU_PATH), \
 						calls_menu.c \

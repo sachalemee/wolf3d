@@ -32,6 +32,7 @@ entity_t *init_entity(void)
 entity_t *init_menu(void)
 {
     entity_t *entity = init_entity();
+
     entity->sprite->texture_bg = sfTexture_createFromFile(BACKGROUND_MENU,
         sfFalse);
     entity->sprite->sprite_bg = sfSprite_create();
