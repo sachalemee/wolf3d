@@ -12,6 +12,12 @@
     #include <SFML/Graphics.h>
     #include <SFML/Audio.h>
 
+    /* libc include */
+    #include <sys/types.h>
+
+    /* wolf include */
+    #include "hmap.h"
+
     /* value specific of the window */
     #define WIN_FRAME 60
     #define WIN_BITS 32
@@ -28,8 +34,8 @@
 
     /* ressources */
     #define MUSIC_PATH "ressources/Wolf3D_OGG/game_music/URAHERO.ogg"
-    #define TEXTURE_OVERLAY_SPRINT "ressources/sprint-overlay.png"
-    #define TEXTURE_WALL "ressources/wall_bamboo.png"
+    #define TEXTURE_OVERLAY_SPRINT "ressources/Wolf3D_IMG/sprint-overlay.png"
+    #define TEXTURE_WALL "ressources/Wolf3D_IMG/wall_bamboo.png"
 
     /* color of the player */
     #define PLAYER_START_POS_X 22.0
@@ -38,11 +44,15 @@
     #define PLAYER_ROTA_SPEED 3.0
     #define PLAYER_FOV 1
     #define PLAYER_BORDER_MAP 5
-    #define PLAYER_SPRINT_SPEED 3
+    #define PLAYER_SPRINT_SPEED 5
+    #define DEFAULT_RENDER_DIST 1000
 
     /* wall info */
     #define WALL_HEIGHT_MULTI 0
     #define NUM_RAYS 1000
+    #define ROOF_RGB 90, 231, 223
+    #define FLOOR_RGB 223, 231, 90
+    #define END_SIZE 2.5
 
     /* return values */
     #define EXIT_S 0
@@ -55,14 +65,6 @@
     /* map define */
     #define IS_WALL 1
     #define IS_VOID 0
-
-typedef struct hmap_s {
-    sfVector2i map_pos;
-} hmap_t;
-
-typedef struct info_s {
-    float d_time;
-} info_t;
 
 typedef struct rays_s {
     sfVertexArray *vertex;
@@ -86,47 +88,85 @@ typedef struct player_s {
     sfVector2f pos;
     sfVector2f dir;
     sfVector2f plane;
-    double mov_speed;
-    double rotate_speed;
+    size_t render_dist;
     mov_t *mov;
     rays_t *rays;
-    hmap_t *map;
+    sfVector2i map;
 } player_t;
+
+typedef struct time_info_s {
+    sfClock *clock;
+    float last_update;
+    float delta_time;
+} time_info_t;
+
+typedef struct horiz_surfaces_s {
+    sfRectangleShape *roof;
+    sfRectangleShape *floor;
+} horiz_surfaces_t;
+
+typedef struct sprites_s {
+    sfTexture *sprint_overlay_tex;
+    sfSprite *sprint_overlay;
+} sprites_t;
 
 typedef struct game_s {
     sfRenderWindow *window;
-    sfClock *clock;
     sfMusic *music;
-    sfColor bg;
+    horiz_surfaces_t background;
+    sprites_t sprites;
+    time_info_t time;
 } game_t;
 
+enum scenes {
+    GAME = 0,
+    PAUSE = 1,
+    SETTINGS = 2
+};
+
+// int scene; corresponds to the above enum (user location)
+typedef struct sys_data_s {
+    game_t *game;
+    player_t *player;
+    map_t *current_map;
+    ssize_t level;
+    float difficulty;
+    int scene;
+} sys_data_t;
+
 /* init */
-int init_game(game_t *game);
-player_t *init_player(void);
-hmap_t *init_map(player_t *player);
-info_t *init_info(void);
+void destroy_game(game_t *game);
+game_t *init_game(void);
+int init_sys_data(sys_data_t *sys, const char *_Nullable map_path);
+void destroy_player(player_t *player);
+player_t *init_player(sfVector2f pos);
+// void init_map(player_t *player);
 
 /* init function relative to a struct */
 sfRenderWindow *set_window(void);
 
+/* time */
+void update_time(time_info_t *time);
+
 /* events */
-int events(game_t *game, player_t *player, info_t *info);
+int events(sys_data_t *sys);
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
-void mov_player(player_t *player);
+void mov_player(player_t *player, map_t map);
 
 /* game */
-int game_loop(game_t *game);
-int start(void);
+int game_loop(sys_data_t *sys_data);
+int start(const char *_Nullable map_path);
 
 /* in game */
-void draw_in_game(game_t *game, player_t *player);
-void draw_background(game_t *game);
+void draw_in_game(game_t *game, player_t *player, map_t map);
+void draw_background(sfRenderWindow *win, horiz_surfaces_t background);
 
 /* raycast */
-void raycasting(game_t *game, player_t *player);
+void raycasting(game_t *game, player_t *player, map_t map);
 
 /* destroy */
-void destroy_all(game_t *game);
+void destroy_sys(sys_data_t sys);
+// void destroy_all(game_t *game);
 
 /* error handling */
 int error_handling(game_t *game, player_t *player);
@@ -135,6 +175,9 @@ int error_handling(game_t *game, player_t *player);
 double degree_to_radian(double angle);
 
 /* map */
-int browse_map(game_t *game);
+int browse_map(game_t *game, map_t map);
+
+/* hud */
+int draw_hud_overlay(game_t *game, player_t *player);
 
 #endif /* WOLFENGINE_H */

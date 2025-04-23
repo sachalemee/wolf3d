@@ -18,6 +18,7 @@ MATH_PATH = math/
 RAYCAST_PATH = raycast/
 PARSING_PATH = parsing/
 DEBUG_PATH = debug/
+HUD_PATH = hud_overlay/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(DESTROY_PATH), \
@@ -33,6 +34,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(GAME_PATH), \
 					game_loop.c \
 					start.c \
+					time.c \
 				)\
 				$(addprefix $(IN_GAME_PATH), \
 					draw_background.c \
@@ -40,7 +42,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 				)\
 				$(addprefix $(INIT_PATH), \
 					init_game.c \
-					init_info.c \
+					init_sys_data.c \
 					init_map.c \
 					init_player.c \
 					set_window.c \
@@ -61,6 +63,9 @@ SRC =		$(addprefix $(SRC_PATH), \
 						browse_map.c \
 						map.c \
 					)\
+				)\
+				$(addprefix $(HUD_PATH), \
+					hud_overlay.c	\
 				)\
 				main.c \
 			)

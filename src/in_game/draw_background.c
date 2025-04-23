@@ -8,20 +8,8 @@
 
 #include "wolfengine.h"
 
-void draw_background(game_t *game)
+void draw_background(sfRenderWindow *win, horiz_surfaces_t background)
 {
-    sfRectangleShape *background = sfRectangleShape_create();
-    sfColor color = sfColor_fromRGB(90, 231, 223);
-
-    sfRectangleShape_setFillColor(background, color);
-    sfRectangleShape_setSize(
-        background, (sfVector2f){WIN_WIDTH, WIN_HEIGHT / 2});
-    sfRenderWindow_drawRectangleShape(game->window,
-        background, sfFalse);
-    color = sfColor_fromRGB(223, 231, 90);
-    sfRectangleShape_setFillColor(background, color);
-    sfRectangleShape_setPosition(
-        background, (sfVector2f){0, WIN_HEIGHT / 2});
-    sfRenderWindow_drawRectangleShape(game->window,
-        background, sfFalse);
+    sfRenderWindow_drawRectangleShape(win, background.floor, sfFalse);
+    sfRenderWindow_drawRectangleShape(win, background.roof, sfFalse);
 }

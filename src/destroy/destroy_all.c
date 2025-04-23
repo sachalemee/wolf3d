@@ -7,7 +7,7 @@
 
 #include "wolfengine.h"
 
-void destroy_all(game_t *game)
+void destroy_all(sys_data_t *sys)
 {
-    sfRenderWindow_destroy(game->window);
+    sfRenderWindow_destroy(sys->game->window);
 }

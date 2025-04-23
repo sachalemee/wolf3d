@@ -9,23 +9,16 @@
 
 void draw_sprint_overlay(game_t *game)
 {
-    sfTexture *texture = NULL;
-    sfSprite *sprite = NULL;
-
     if (sfKeyboard_isKeyPressed(sfKeyZ)
         && sfKeyboard_isKeyPressed(sfKeyLShift)) {
-        texture = sfTexture_createFromFile(TEXTURE_OVERLAY_SPRINT, NULL);
-        sprite = sfSprite_create();
-        sfSprite_setTexture(sprite, texture, sfTrue);
-        sfSprite_setColor(sprite, sfColor_fromRGBA(100, 240, 220, 75));
-        sfSprite_setScale(sprite, (sfVector2f){3, 3});
-        sfRenderWindow_drawSprite(game->window, sprite, NULL);
+        sfRenderWindow_drawSprite(game->window,
+            game->sprites.sprint_overlay, NULL);
     }
 }
 
-void draw_in_game(game_t *game, player_t *player)
+void draw_in_game(game_t *game, player_t *player, map_t map)
 {
-    draw_background(game);
-    raycasting(game, player);
+    draw_background(game->window, game->background);
+    raycasting(game, player, map);
     draw_sprint_overlay(game);
 }

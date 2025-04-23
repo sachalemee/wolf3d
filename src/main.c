@@ -6,7 +6,6 @@
 */
 
 #include <stddef.h>
-#include <stdio.h>
 #include "wolfengine.h"
 
 #include "hmap.h"

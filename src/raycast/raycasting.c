@@ -42,43 +42,43 @@ static void dist_ray_travel_sidexy(player_t *player, int x)
 
 static void dist_ray_travel(player_t *player)
 {
-    player->map->map_pos.x = (int)(player->pos.x);
-    player->map->map_pos.y = (int)(player->pos.y);
+    player->map.x = (int)(player->pos.x);
+    player->map.y = (int)(player->pos.y);
     if (player->rays->raydir.x < 0) {
         player->rays->step.x = -1;
         player->rays->sidedist.x = (player->pos.x
-            - player->map->map_pos.x) * player->rays->delta_dist.x;
+            - player->map.x) * player->rays->delta_dist.x;
     } else {
         player->rays->step.x = 1;
-        player->rays->sidedist.x = (player->map->map_pos.x + 1.0
+        player->rays->sidedist.x = (player->map.x + 1.0
             - player->pos.x) * player->rays->delta_dist.x;
     }
     if (player->rays->raydir.y < 0) {
         player->rays->step.y = -1;
         player->rays->sidedist.y = (player->pos.y
-            - player->map->map_pos.y) * player->rays->delta_dist.y;
+            - player->map.y) * player->rays->delta_dist.y;
     } else {
         player->rays->step.y = 1;
-        player->rays->sidedist.y = (player->map->map_pos.y
+        player->rays->sidedist.y = (player->map.y
             + 1.0 - player->pos.y) * player->rays->delta_dist.y;
     }
 }
 
-static void dda_algo(player_t *player)
+static void dda_algo(player_t *player, map_t map)
 {
     int hit_wall = 0;
 
-    while (hit_wall == 0) {
+    for (size_t i = 0; hit_wall == 0 && i < player->render_dist; i++) {
         if (player->rays->sidedist.x < player->rays->sidedist.y) {
             player->rays->sidedist.x += player->rays->delta_dist.x;
-            player->map->map_pos.x += player->rays->step.x;
+            player->map.x += player->rays->step.x;
             player->rays->side = 0;
         } else {
             player->rays->sidedist.y += player->rays->delta_dist.y;
-            player->map->map_pos.y += player->rays->step.y;
+            player->map.y += player->rays->step.y;
             player->rays->side = 1;
         }
-        if (map[player->map->map_pos.x][player->map->map_pos.y] > 0)
+        if (GET_TIL(map, player->map.x, player->map.y) > 0)
             hit_wall = 1;
     }
 }
@@ -124,7 +124,7 @@ static void draw_vertex_lines(player_t *player, int x, sfRenderWindow* window)
         player->rays->vertex, &player->rays->wall_states);
 }
 
-void raycasting(game_t *game, player_t *player)
+void raycasting(game_t *game, player_t *player, map_t map)
 {
     int x = 0;
 
@@ -132,7 +132,7 @@ void raycasting(game_t *game, player_t *player)
         x = i * (WIN_WIDTH / NUM_RAYS);
         dist_ray_travel_sidexy(player, x);
         dist_ray_travel(player);
-        dda_algo(player);
+        dda_algo(player, map);
         len_ray(player);
         draw_vertex_lines(player, x, game->window);
         sfVertexArray_clear(player->rays->vertex);
