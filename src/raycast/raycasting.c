@@ -68,7 +68,7 @@ static void dda_algo(player_t *player, map_t map)
 {
     int hit_wall = 0;
 
-    while (hit_wall == 0) {
+    for (size_t i = 0; hit_wall == 0 && i < player->render_dist; i++) {
         if (player->rays->sidedist.x < player->rays->sidedist.y) {
             player->rays->sidedist.x += player->rays->delta_dist.x;
             player->map.x += player->rays->step.x;
@@ -78,7 +78,7 @@ static void dda_algo(player_t *player, map_t map)
             player->map.y += player->rays->step.y;
             player->rays->side = 1;
         }
-        if (map.map[player->map.x][player->map.y] > 0)
+        if (GET_TIL(map, player->map.x, player->map.y) > 0)
             hit_wall = 1;
     }
 }
@@ -98,7 +98,7 @@ static void set_vertex(player_t *player,
 {
     sfColor color_vertex = sfColor_fromRGB(100, 240, 220);
     sfVertex vertex = {0};
-    
+
     player->rays->vertex = sfVertexArray_create();
     vertex = (sfVertex){{(float)x, (float)beg_draw}, sfWhite, {491, 0}};
     sfVertexArray_append(player->rays->vertex, vertex);

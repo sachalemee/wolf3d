@@ -16,7 +16,7 @@ rays_t *init_rays(player_t *player)
     player->rays->wall_states.texture =
         sfTexture_createFromFile(TEXTURE_WALL, NULL);
     if (player->rays->wall_states.texture == NULL) {
-        // sfTexture_destroy(player->rays->wall_states.texture);
+        free(player->rays);
         return NULL;
     }
     player->rays->wall_states.blendMode = sfBlendAlpha;
@@ -42,12 +42,13 @@ player_t *init_player(sfVector2f coords)
 
     if (player == NULL)
         return NULL;
+    player->render_dist = DEFAULT_RENDER_DIST;
     player->dir = (sfVector2f){-1, 0.0};
     player->plane = (sfVector2f){0.0, PLAYER_FOV};
     player->rays = init_rays(player);
     player->mov = calloc(1, sizeof(mov_t));
-    player->map = (sfVector2i){(int)coords.x + 0.5, (int)coords.y + 0.5};
-    player->pos = (sfVector2f){(float)coords.x + 0.5, (float)coords.y + 0.5};
+    player->map = (sfVector2i){(int)coords.x, (int)coords.y};
+    player->pos = coords;
     if (player->rays == NULL || player->mov == NULL) {
         destroy_player(player);
         return NULL;

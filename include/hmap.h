@@ -13,6 +13,8 @@
     #define MAPS_DIR "./ressources/Wolf3D_LVLS/"
     #include "my.h"
     #include <SFML/Graphics.h>
+    #define MCTAINS(m, x, y) (x < 0 || y < 0 || x >= (int)m.w || y >= (int)m.h)
+    #define GET_TIL(m, x, y) (MCTAINS(m, x, y) ? 0 : m.map[x][y])
 
 // a map being :
 //     11111...

@@ -13,13 +13,13 @@
 static void is_up(player_t *player, map_t map)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)) {
-        if (map.map[(int)(player->pos.x + (player->dir.x * PLAYER_BORDER_MAP)
-            * player->mov->mov_speed)]
-            [(int)player->pos.y] == 0)
+        if (GET_TIL(map, (int)(player->pos.x + player->dir.x
+            * player->mov->mov_speed * PLAYER_BORDER_MAP),
+            (int)player->pos.y) == 0)
             player->pos.x += player->dir.x * player->mov->mov_speed;
-        if (map.map[(int)player->pos.x]
-            [(int)(player->pos.y + (player->dir.y * PLAYER_BORDER_MAP)
-                * player->mov->mov_speed)] == 0)
+        if (GET_TIL(map, (int)player->pos.x,
+            (int)(player->pos.y + player->dir.y * player->mov->mov_speed
+            * PLAYER_BORDER_MAP)) == 0)
             player->pos.y += player->dir.y * player->mov->mov_speed;
     }
 }
@@ -27,13 +27,13 @@ static void is_up(player_t *player, map_t map)
 static void is_down(player_t *player, map_t map)
 {
     if (sfKeyboard_isKeyPressed(sfKeyS)) {
-        if (map.map[(int)(player->pos.x - (player->dir.x * PLAYER_BORDER_MAP)
-            * player->mov->mov_speed)]
-            [(int)player->pos.y] == 0)
+        if (GET_TIL(map, (int)(player->pos.x - player->dir.x
+            * player->mov->mov_speed * PLAYER_BORDER_MAP),
+            (int)player->pos.y) == 0)
             player->pos.x -= player->dir.x * player->mov->mov_speed;
-        if (map.map[(int)player->pos.x]
-            [(int)(player->pos.y - (player->dir.y * PLAYER_BORDER_MAP)
-            * player->mov->mov_speed)] == 0)
+        if (GET_TIL(map, (int)player->pos.x,
+            (int)(player->pos.y - player->dir.y * player->mov->mov_speed)
+            * PLAYER_BORDER_MAP) == 0)
             player->pos.y -= player->dir.y * player->mov->mov_speed;
     }
 }
@@ -77,11 +77,11 @@ static void crab_left(player_t *player, sfVector2f crab_mov, map_t map)
     if (sfKeyboard_isKeyPressed(sfKeyQ)) {
         crab_mov.x = -player->dir.y;
         crab_mov.y = player->dir.x;
-        if (map.map[(int)(player->pos.x + crab_mov.x * player->mov->mov_speed)]
-            [(int)player->pos.y] == 0)
+        if (GET_TIL(map, (int)(player->pos.x + crab_mov.x
+            * player->mov->mov_speed), (int)player->pos.y) == 0)
             player->pos.x += crab_mov.x * player->mov->mov_speed;
-        if (map.map[(int)player->pos.x]
-            [(int)(player->pos.y + crab_mov.y * player->mov->mov_speed)] == 0)
+        if (GET_TIL(map, (int)player->pos.x, (int)(player->pos.y + crab_mov.y
+            * player->mov->mov_speed)) == 0)
             player->pos.y += crab_mov.y * player->mov->mov_speed;
     }
 }
@@ -91,11 +91,11 @@ static void crab_right(player_t *player, sfVector2f crab_mov, map_t map)
     if (sfKeyboard_isKeyPressed(sfKeyD)) {
         crab_mov.x = player->dir.y;
         crab_mov.y = -player->dir.x;
-        if (map.map[(int)(player->pos.x + crab_mov.x * player->mov->mov_speed)]
-            [(int)player->pos.y] == 0)
+        if (GET_TIL(map, (int)(player->pos.x + crab_mov.x
+            * player->mov->mov_speed), (int)player->pos.y) == 0)
             player->pos.x += crab_mov.x * player->mov->mov_speed;
-        if (map.map[(int)player->pos.x]
-        [(int)(player->pos.y + crab_mov.y * player->mov->mov_speed)] == 0)
+        if (GET_TIL(map, (int)player->pos.x, (int)(player->pos.y
+            + crab_mov.y * player->mov->mov_speed)) == 0)
             player->pos.y += crab_mov.y * player->mov->mov_speed;
     }
 }

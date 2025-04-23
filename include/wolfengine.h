@@ -45,6 +45,7 @@
     #define PLAYER_FOV 1
     #define PLAYER_BORDER_MAP 5
     #define PLAYER_SPRINT_SPEED 5
+    #define DEFAULT_RENDER_DIST 1000
 
     /* wall info */
     #define WALL_HEIGHT_MULTI 0
@@ -82,15 +83,14 @@ typedef struct mov_s {
     double rotate_speed;
 } mov_t;
 
-typedef struct player_s { // discuss w/ sacha
+typedef struct player_s {
     sfVector2f pos;
     sfVector2f dir;
     sfVector2f plane;
-    double mov_speed;
-    double rotate_speed;
-    mov_t *mov; // the two above vars already state
+    size_t render_dist;
+    mov_t *mov;
     rays_t *rays;
-    sfVector2i map; 
+    sfVector2i map;
 } player_t;
 
 typedef struct time_info_s {
@@ -113,7 +113,7 @@ typedef struct game_s {
     sfRenderWindow *window;
     sfMusic *music;
     horiz_surfaces_t background;
-    sprites_t textures;
+    sprites_t sprites;
     time_info_t time;
 } game_t;
 

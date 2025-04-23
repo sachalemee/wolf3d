@@ -8,6 +8,14 @@
 #include "wolfengine.h"
 #include <stdlib.h>
 
+static void destroy_sprites(sprites_t sprites)
+{
+    if (sprites.sprint_overlay_tex)
+        sfTexture_destroy(sprites.sprint_overlay_tex);
+    if (sprites.sprint_overlay)
+        sfSprite_destroy(sprites.sprint_overlay);
+}
+
 void destroy_horiz_surfaces(horiz_surfaces_t horizontal_surfaces)
 {
     if (horizontal_surfaces.roof)
@@ -19,6 +27,7 @@ void destroy_horiz_surfaces(horiz_surfaces_t horizontal_surfaces)
 void destroy_game(game_t *game)
 {
     if (game) {
+        destroy_sprites(game->sprites);
         destroy_horiz_surfaces(game->background);
         if (game->window)
             sfRenderWindow_destroy(game->window);
@@ -34,9 +43,9 @@ horiz_surfaces_t init_horiz_surfaces(void)
 {
     sfColor color = sfColor_fromRGB(ROOF_RGB);
     horiz_surfaces_t new_horiz_surfaces = {0};
+
     new_horiz_surfaces.roof = sfRectangleShape_create();
     new_horiz_surfaces.floor = sfRectangleShape_create();
-
     if (!new_horiz_surfaces.roof || !new_horiz_surfaces.floor) {
         destroy_horiz_surfaces(new_horiz_surfaces);
         return (horiz_surfaces_t){0};
@@ -53,11 +62,14 @@ horiz_surfaces_t init_horiz_surfaces(void)
     return new_horiz_surfaces;
 }
 
-sprites_t init_textures(void)
+sprites_t init_sprites(void)
 {
-    sfTexture *texture = sfTexture_createFromFile(TEXTURE_OVERLAY_SPRINT, NULL);
+    sfTexture *texture =
+        sfTexture_createFromFile(TEXTURE_OVERLAY_SPRINT, NULL);
     sfSprite *sprite = sfSprite_create();
 
+    if (texture == NULL || sprite == NULL)
+        destroy_sprites((sprites_t){texture, sprite});
     sfSprite_setTexture(sprite, texture, sfTrue);
     sfSprite_setColor(sprite, sfColor_fromRGBA(100, 240, 220, 75));
     sfSprite_setScale(sprite, (sfVector2f){3, 3});
@@ -70,13 +82,13 @@ game_t *init_game(void)
 
     if (game == NULL)
         return NULL;
-    game->textures = init_textures();
+    game->sprites = init_sprites();
     game->window = set_window();
     game->time.clock = sfClock_create();
     game->music = sfMusic_createFromFile(MUSIC_PATH);
     game->background = init_horiz_surfaces();
     if (!game->window || !game->background.floor || !game->music
-        || !game->time.clock || !game->textures.sprint_overlay) {
+        || !game->time.clock || !game->sprites.sprint_overlay) {
         destroy_game(game);
         return NULL;
     }

@@ -12,7 +12,7 @@ void draw_sprint_overlay(game_t *game)
     if (sfKeyboard_isKeyPressed(sfKeyZ)
         && sfKeyboard_isKeyPressed(sfKeyLShift)) {
         sfRenderWindow_drawSprite(game->window,
-            game->textures.sprint_overlay, NULL);
+            game->sprites.sprint_overlay, NULL);
     }
 }
 
