@@ -52,6 +52,7 @@
     #define NUM_RAYS 1000
     #define ROOF_RGB 90, 231, 223
     #define FLOOR_RGB 223, 231, 90
+    #define END_SIZE 2.5
 
     /* return values */
     #define EXIT_S 0
@@ -148,7 +149,7 @@ sfRenderWindow *set_window(void);
 void update_time(time_info_t *time);
 
 /* events */
-int events(game_t *game, player_t *player, time_info_t time, map_t map);
+int events(sys_data_t *sys);
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
 void mov_player(player_t *player, map_t map);
 

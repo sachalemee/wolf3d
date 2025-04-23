@@ -48,7 +48,7 @@ player_t *init_player(sfVector2f coords)
     player->rays = init_rays(player);
     player->mov = calloc(1, sizeof(mov_t));
     player->map = (sfVector2i){(int)coords.x, (int)coords.y};
-    player->pos = coords;
+    player->pos = (sfVector2f){coords.x + 0.5, (int)coords.y + 0.5};
     if (player->rays == NULL || player->mov == NULL) {
         destroy_player(player);
         return NULL;

@@ -32,8 +32,8 @@ static void is_down(player_t *player, map_t map)
             (int)player->pos.y) == 0)
             player->pos.x -= player->dir.x * player->mov->mov_speed;
         if (GET_TIL(map, (int)player->pos.x,
-            (int)(player->pos.y - player->dir.y * player->mov->mov_speed)
-            * PLAYER_BORDER_MAP) == 0)
+            (int)(player->pos.y - player->dir.y * player->mov->mov_speed
+            * PLAYER_BORDER_MAP)) == 0)
             player->pos.y -= player->dir.y * player->mov->mov_speed;
     }
 }
