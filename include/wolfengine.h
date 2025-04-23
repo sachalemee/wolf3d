@@ -20,7 +20,7 @@
 
     /* value specific of the window */
     #define WIN_FRAME 60
-    #define WIN_BITS 64
+    #define WIN_BITS 32
     #define WIN_WIDTH 1920
     #define WIN_HEIGHT 1080
 
@@ -40,7 +40,7 @@
     /* color of the player */
     #define PLAYER_START_POS_X 22.0
     #define PLAYER_START_POS_Y 11.5
-    #define PLAYER_MOV_SPEED 3.0
+    #define PLAYER_MOV_SPEED 2.0
     #define PLAYER_ROTA_SPEED 3.0
     #define PLAYER_FOV 1
     #define PLAYER_BORDER_MAP 5

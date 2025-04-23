@@ -59,6 +59,10 @@ int events(sys_data_t *sys)
     mov_sprint(player, info);
     mov_player(player, map);
     while (sfRenderWindow_pollEvent(game->window, &event)) {
+        if (is_keyboard_input(event, sfKeyF11)) {
+            sfRenderWindow_destroy(game->window);
+            game->window = set_window();
+        }
         close_window(game, event);
         enter_next_level(sys, event);
     }

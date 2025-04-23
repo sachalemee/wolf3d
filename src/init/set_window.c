@@ -16,5 +16,6 @@ sfRenderWindow *set_window(void)
     if (window == NULL)
         return NULL;
     sfRenderWindow_setFramerateLimit(window, WIN_FRAME);
+    ++mode;
     return window;
 }

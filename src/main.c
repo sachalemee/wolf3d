@@ -8,15 +8,11 @@
 #include <stddef.h>
 #include "wolfengine.h"
 
-int main(int ac, char **av, char **)
-{
-    char *map_path = NULL;
+#include "hmap.h"
 
-    if (ac != 1 && ac != 2)
-        return EXIT_F;
-    if (ac == 2)
-        map_path = av[1];
-    if (start(map_path) == FAILURE)
+int main(int, char **, char **)
+{
+    if (start() == EXIT_F)
         return EXIT_F;
     return EXIT_S;
 }
