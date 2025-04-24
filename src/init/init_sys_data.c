@@ -8,8 +8,6 @@
 #include "wolfengine.h"
 #include <stdlib.h>
 
-// the MAIN structure 'sys_data_t' is assumed to be ALWAYS allocated on stack
-// thus freeing the pointer must be done manually if allocated in the heap
 void destroy_sys(sys_data_t sys)
 {
     if (sys.window)
