@@ -41,12 +41,9 @@ void destroy_game(game_t game)
 
 int init_background_disp_rect(sfRectangleShape **background_disp_rect)
 {
-    sfColor color = sfColor_fromRGB(ROOF_RGB);
-
     *background_disp_rect = sfRectangleShape_create();
     if (*background_disp_rect == NULL)
         return FAILURE;
-    sfRectangleShape_setFillColor(*background_disp_rect, color);
     sfRectangleShape_setSize(
         *background_disp_rect, (sfVector2f){WIN_WIDTH, WIN_HEIGHT / 2});
     return SUCCESS;

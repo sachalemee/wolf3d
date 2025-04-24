@@ -19,7 +19,9 @@ void play_game(sys_data_t *sys)
 int update_menu(sys_data_t *sys)
 {
     events_menu(sys);
+    sfRenderWindow_clear(sys->window, sfWhite);
     animated_bg(sys->scene.menu.entity, &(sys->time));
     draw_bg_menu(&(sys->scene.menu), sys->window);
+    sfRenderWindow_display(sys->window);
     return EXIT_S;
 }

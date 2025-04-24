@@ -19,26 +19,6 @@ void destroy_sys(sys_data_t sys)
     destroy_settings(sys.settings);
 }
 
-
-/*
-    init_buttons(&game);
-    init_game(&game);
-    if (game_loop(&game) == EXIT_F)
-
-
-    bool is_running;
-    menu_t menu;
-    musics_t musics;
-    state_t state;
-    game_t game;
-    player_t player;
-    map_t *current_map;
-    ssize_t level;
-    float difficulty;
-    int scene;
-    time_info_t time;
-*/
-
 int init_sys_data(sys_data_t *sys, const char *_Nullable map_path)
 {
     sys->is_running = sfTrue;

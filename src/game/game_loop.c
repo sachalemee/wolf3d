@@ -56,11 +56,11 @@ static int update_scenes(sys_data_t *sys_data)
 
     update_music(&(sys_data->scene));
     switch (sys_data->scene.state) {
-        case STATE_GAME:
-            failure_catch = game_scene(&(sys_data->scene.game), sys_data);
-            break;
         case STATE_MENU:
             failure_catch = update_menu(sys_data);
+            break;
+        case STATE_GAME:
+            failure_catch = game_scene(&(sys_data->scene.game), sys_data);
             break;
         default:
             failure_catch = update_error_screen(&(sys_data->scene.error_scene),

@@ -16,11 +16,9 @@ void close_menu(sys_data_t *sys)
 
 static void buttons_event(sys_data_t *sys, sfEvent event)
 {
-    if ((event.mouseButton.type == sfEvtMouseButtonPressed
-        && event.mouseButton.button == sfMouseLeft) == sfFalse)
-        return;
     for (int i = 0; i < NB_BUTTONS; i++)
-        buttons_status(sys->window, sys->scene.menu.buttons[i], event, sys);
+        buttons_status(sys->window,
+            sys->scene.menu.buttons[i], event, sys);
 }
 
 int events_menu(sys_data_t *sys)
