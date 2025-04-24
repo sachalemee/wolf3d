@@ -6,41 +6,22 @@
 */
 
 #include "wolfengine.h"
+#include "buttons.h"
 #include <stdlib.h>
 #include <stddef.h>
 
-entity_t *init_entity(void)
+void destroy_menu(menu_t menu)
 {
-    entity_t *entity = malloc(sizeof(entity_t));
-
-    if (entity == NULL)
-        return NULL;
-    entity->sprite = malloc(sizeof(sprite_t));
-    if (entity->sprite == NULL)
-        return NULL;
-    entity->anim = malloc(sizeof(anim_t));
-    if (entity->anim == NULL)
-        return NULL;
-    entity->sprite->sprite_bg = NULL;
-    entity->sprite->texture_bg = NULL;
-    entity->anim->current_frame = 0;
-    entity->anim->max_frame = 0;
-    entity->anim->rect = (sfIntRect){0, 0, 0, 0};
-    return entity;
+    destroy_entity(menu.entity);
+    destroy_buttons(menu.buttons);
 }
 
-entity_t *init_menu(void)
+int init_menu(menu_t *menu)
 {
-    entity_t *entity = init_entity();
-
-    entity->sprite->texture_bg = sfTexture_createFromFile(BACKGROUND_MENU,
-        sfFalse);
-    entity->sprite->sprite_bg = sfSprite_create();
-    sfSprite_setTexture(entity->sprite->sprite_bg, entity->sprite->texture_bg,
-    sfTrue);
-    entity->anim->rect = (sfIntRect){0, 0, 1791, 1000};
-    entity->anim->clock_anim = sfClock_create();
-    entity->anim->current_frame = 0;
-    entity->anim->max_frame = 8;
-    return entity;
+    if (init_buttons(&(menu->buttons)) == FAILURE
+        || init_entity(&(menu->entity)) == FAILURE) {
+        destroy_menu(*menu);
+        return FAILURE;
+    }
+    return SUCCESS;
 }

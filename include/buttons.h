@@ -9,6 +9,7 @@
     #define BUTTONS_H_
     #include <SFML/Graphics.h>
     #include <SFML/System.h>
+    #include "wolfengine.h"
     #define SUCCESS 0
     #define NB_BUTTONS 3
     #define NB_COLOR 5
@@ -35,7 +36,7 @@ typedef struct buttons_s {
     sfSprite *sprite;
     sfFont *font;
     sfColor color[NB_COLOR];
-    void (*function)(game_t *);
+    void (*function)(sys_data_t *);
 } buttons_t;
 
 
@@ -54,15 +55,17 @@ sfVector2f size, sfVector2f pos);
 buttons_t *create_button(sfVector2f pos,
 sfVector2f size, char *title, char *path);
 
-void init_buttons(game_t *game);
+int init_buttons(buttons_t ***buttons);
+void destroy_buttons(buttons_t **buttons);
 
 int draw_button(sfRenderWindow *window,
 buttons_t *button);
 
 int buttons_status(sfRenderWindow *window,
-buttons_t *button, sfEvent event, game_t *game);
+buttons_t *button, sfEvent event, sys_data_t *sys);
 
-void draw_all_buttons(sfRenderWindow *window, game_t *game);
-void free_everything_button(game_t *game);
+void draw_all_buttons(menu_t *menu, sfRenderWindow *window);
+void free_everything_button(buttons_t **buttons);
+void free_button(buttons_t *buttons);
 
 #endif /* !BUTTONS_H_ */

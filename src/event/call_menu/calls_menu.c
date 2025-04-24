@@ -9,26 +9,27 @@
 #include "buttons.h"
 #include <stdio.h>
 
-static void close_menu(game_t *game)
+void close_menu(sys_data_t *sys)
 {
-    sfRenderWindow_close(game->window);
+    sys->is_running = false;
 }
 
-static void buttons_event(game_t *game, sfEvent event)
+static void buttons_event(sys_data_t *sys, sfEvent event)
 {
-    game->buttons[0]->function = play_game;
-    game->buttons[1]->function = play_game;
-    game->buttons[2]->function = close_menu;
+    if ((event.mouseButton.type == sfEvtMouseButtonPressed
+        && event.mouseButton.button == sfMouseLeft) == sfFalse)
+        return;
     for (int i = 0; i < NB_BUTTONS; i++)
-        buttons_status(game->window, game->buttons[i], event, game);
+        buttons_status(sys->window, sys->scene.menu.buttons[i], event, sys);
 }
 
-int events_menu(game_t *game)
+int events_menu(sys_data_t *sys)
 {
     sfEvent event;
 
-    while (sfRenderWindow_pollEvent(game->window, &event)) {
-        buttons_event(game, event);
+    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+        close_window(sys, event);
+        buttons_event(sys, event);
     }
     return EXIT_S;
 }

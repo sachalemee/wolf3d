@@ -7,25 +7,18 @@
 
 #include "wolfengine.h"
 
-void draw_sprint_overlay(game_t *game)
+static void draw_sprint_overlay(game_t *game, sfRenderWindow *win)
 {
-    sfTexture *texture = NULL;
-    sfSprite *sprite = NULL;
-
     if (sfKeyboard_isKeyPressed(sfKeyZ)
         && sfKeyboard_isKeyPressed(sfKeyLShift)) {
-        texture = sfTexture_createFromFile(TEXTURE_OVERLAY_SPRINT, NULL);
-        sprite = sfSprite_create();
-        sfSprite_setTexture(sprite, texture, sfTrue);
-        sfSprite_setColor(sprite, sfColor_fromRGBA(100, 240, 220, 75));
-        sfSprite_setScale(sprite, (sfVector2f){3, 3});
-        sfRenderWindow_drawSprite(game->window, sprite, NULL);
+        sfRenderWindow_drawSprite(win, game->sprites.sprint_overlay, NULL);
     }
 }
 
-void draw_in_game(game_t *game, player_t *player)
+void draw_in_game(game_t *game, map_t map, settings_t *settings,
+    sfRenderWindow *win)
 {
-    draw_background(game);
-    raycasting(game, player);
-    draw_sprint_overlay(game);
+    draw_background(win, game->background_dsp_rect);
+    raycasting(game, map, settings, win);
+    draw_sprint_overlay(game, win);
 }

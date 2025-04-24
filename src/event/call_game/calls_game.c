@@ -7,29 +7,57 @@
 
 #include "wolfengine.h"
 
-static void close_game(game_t *game, sfEvent event)
+static void enter_next_level(game_t *game, sfEvent event, bool *is_running)
 {
-    if (is_keyboard_input(event, sfKeyEscape) || event.type == sfEvtClosed) {
-        sfRenderWindow_close(game->window);
+    sfVector2f player_pos = game->player.pos;
+    sfVector2f end_pos = game->current_map->end;
+    float approx_dist_end = ABS(player_pos.x - end_pos.x)
+        + ABS(player_pos.y - end_pos.y);
+
+    if (is_keyboard_input(event, sfKeyReturn) && approx_dist_end <= END_SIZE) {
+        if (levels[game->level + 1] == NULL)
+            return;
+        (game->level)++;
+        destroy_map(game->current_map);
+        game->current_map = get_level(game->level);
+        if (game->current_map == NULL)
+            *is_running = sfFalse;
+        game->player.pos = game->current_map->start;
     }
 }
 
-static void mov_sprint(player_t *player, info_t *info)
+void close_window(sys_data_t *sys, sfEvent event)
+{
+    if (is_keyboard_input(event, sfKeyEscape) || event.type == sfEvtClosed)
+        sys->is_running = sfFalse;
+}
+
+
+static void mov_sprint(player_t *player, time_info_t info)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)
         && sfKeyboard_isKeyPressed(sfKeyLShift))
         player->mov->mov_speed =
-        (info->d_time * PLAYER_MOV_SPEED) * PLAYER_SPRINT_SPEED;
+        (info.delta_time * PLAYER_MOV_SPEED) * PLAYER_SPRINT_SPEED;
 }
 
-int events_game(game_t *game, player_t *player, info_t *info)
+        // if (is_keyboard_input(event, sfKeyF11)) {
+            // sfRenderWindow_destroy(sys->window);
+            // sys->window = init_window();
+        // }
+int game_events(sys_data_t *sys)
 {
     sfEvent event;
+    game_t *game = &(sys->scene.game);
+    player_t *player = &(sys->scene.game.player);
+    time_info_t info = sys->time;
+    map_t map = *(sys->scene.game.current_map);
 
     mov_sprint(player, info);
-    mov_player(player);
-    while (sfRenderWindow_pollEvent(game->window, &event)) {
-        close_game(game, event);
+    mov_player(player, map);
+    while (sfRenderWindow_pollEvent(sys->window, &event)) {
+        close_window(sys, event);
+        enter_next_level(game, event, &(sys->is_running));
     }
     return EXIT_S;
 }

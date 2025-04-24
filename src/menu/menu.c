@@ -11,22 +11,15 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void play_game(game_t *game)
+void play_game(sys_data_t *sys)
 {
-    game->music_change = true;
-    game->state = STATE_GAME;
-    sfMusic_destroy(game->music_bg);
+    sys->scene.state = STATE_GAME;
 }
 
-int menu(game_t *game, entity_t *entity)
+int update_menu(sys_data_t *sys)
 {
-    if (game->state != STATE_MENU) {
-        free_everything_button(game);
-        free(entity);
-        return EXIT_S;
-    }
-    events_menu(game);
-    animated_bg(entity);
-    draw_bg_menu(game, entity);
+    events_menu(sys);
+    animated_bg(sys->scene.menu.entity, &(sys->time));
+    draw_bg_menu(&(sys->scene.menu), sys->window);
     return EXIT_S;
 }

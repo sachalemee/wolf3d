@@ -7,22 +7,34 @@
 
 #include "wolfengine.h"
 
-entity_t *init_entity(void)
+void destroy_entity(entity_t *entity)
 {
-    entity_t *entity = malloc(sizeof(entity_t));
+    if (entity != NULL) {
+        if (entity->sprite.texture_bg != NULL)
+            sfTexture_destroy(entity->sprite.texture_bg);
+        if (entity->sprite.sprite_bg != NULL)
+            sfSprite_destroy(entity->sprite.sprite_bg);
+    }
+    free(entity);
+}
 
-    if (entity == NULL)
-        return NULL;
-    entity->sprite = malloc(sizeof(sprite_t));
-    if (entity->sprite == NULL)
-        return NULL;
-    entity->anim = malloc(sizeof(anim_t));
-    if (entity->anim == NULL)
-        return NULL;
-    entity->sprite->sprite_bg = NULL;
-    entity->sprite->texture_bg = NULL;
-    entity->anim->current_frame = 0;
-    entity->anim->max_frame = 0;
-    entity->anim->rect = (sfIntRect){0, 0, 0, 0};
-    return entity;
+int init_entity(entity_t **entity)
+{
+    *entity = calloc(1, sizeof(entity_t));
+    if (*entity != NULL) {
+        (*entity)->sprite.texture_bg = sfTexture_createFromFile(BG_MENU, sfFalse);
+        (*entity)->sprite.sprite_bg = sfSprite_create();
+    }
+    if (*entity == NULL
+        || (*entity)->sprite.texture_bg == NULL
+        || (*entity)->sprite.sprite_bg == NULL) {
+        destroy_entity(*entity);
+        return FAILURE;
+    }
+    sfSprite_setTexture((*entity)->sprite.sprite_bg,
+        (*entity)->sprite.texture_bg, sfTrue);
+    (*entity)->anim.rect = (sfIntRect){BACKGROUND_MENU_DEF};
+    (*entity)->anim.current_frame = 0;
+    (*entity)->anim.max_frame = 8;
+    return SUCCESS;
 }

@@ -9,22 +9,26 @@
 #include "wolfengine.h"
 #include <stdlib.h>
 
-static void free_button(buttons_t *buttons)
+void free_button(buttons_t *button)
 {
-    sfRectangleShape_destroy(buttons->rect);
-    if (buttons->sprite != NULL)
-        sfSprite_destroy(buttons->sprite);
-    if (buttons->texture != NULL)
-        sfTexture_destroy(buttons->texture);
-    if (buttons->title != NULL)
-        sfText_destroy(buttons->title);
-    free(buttons);
+    if (button != NULL) {
+        if (button->rect != NULL)
+            sfRectangleShape_destroy(button->rect);
+        if (button->sprite != NULL)
+            sfSprite_destroy(button->sprite);
+        if (button->texture != NULL)
+            sfTexture_destroy(button->texture);
+        if (button->title != NULL)
+            sfText_destroy(button->title);
+    }
+    free(button);
 }
 
-void free_everything_button(game_t *game)
+void free_everything_button(buttons_t **buttons)
 {
-    free_button(game->buttons[0]);
-    free_button(game->buttons[1]);
-    free_button(game->buttons[2]);
-    free(game->buttons);
+    if (buttons != NULL) {
+        for (size_t i = 0; buttons[i] != NULL; i++)
+            free_button(buttons[i]);
+    }
+    free(buttons);
 }

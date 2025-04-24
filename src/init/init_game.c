@@ -8,14 +8,78 @@
 #include "wolfengine.h"
 #include <stdlib.h>
 
-int init_game(game_t *game)
+static int get_param_map(const char *_Nullable map_path,
+    ssize_t *level, map_t **current_map)
 {
-    game->window = set_window();
-    game->clock = sfClock_create();
-    game->music_game = sfMusic_createFromFile(MUSIC_PATH_GAME);
-    game->music_bg = sfMusic_createFromFile(MUSIC_PATH_BG);
-    sfMusic_setLoop(game->music_bg, sfTrue);
-    sfMusic_setLoop(game->music_game, sfTrue);
-    game->bg = sfColor_fromRGB(0, 0, 0);
-    return EXIT_S;
+    if (map_path == NULL) {
+        *level = 0;
+        *current_map = get_level((size_t)*level);
+    } else {
+        *level = -1;
+        *current_map = get_map(map_path);
+    }
+    if (*current_map == NULL)
+        return FAILURE;
+    return SUCCESS;
+}
+
+static void destroy_sprites(sprites_t sprites)
+{
+    if (sprites.sprint_overlay_tex)
+        sfTexture_destroy(sprites.sprint_overlay_tex);
+    if (sprites.sprint_overlay)
+        sfSprite_destroy(sprites.sprint_overlay);
+}
+
+void destroy_game(game_t game)
+{
+    destroy_map(game.current_map);
+    destroy_player(game.player);
+    sfRectangleShape_destroy(game.background_dsp_rect);
+    destroy_sprites(game.sprites);
+}
+
+int init_background_disp_rect(sfRectangleShape **background_disp_rect)
+{
+    sfColor color = sfColor_fromRGB(ROOF_RGB);
+
+    *background_disp_rect = sfRectangleShape_create();
+    if (*background_disp_rect == NULL)
+        return FAILURE;
+    sfRectangleShape_setFillColor(*background_disp_rect, color);
+    sfRectangleShape_setSize(
+        *background_disp_rect, (sfVector2f){WIN_WIDTH, WIN_HEIGHT / 2});
+    return SUCCESS;
+}
+
+int init_sprites(sprites_t *sprites)
+{
+    sfTexture *texture = sfTexture_createFromFile(TEXTURE_OVERLAY_SPRINT,
+        NULL);
+    sfSprite *sprite = sfSprite_create();
+
+    if (texture == NULL || sprite == NULL) {
+        destroy_sprites((sprites_t){texture, sprite});
+        return FAILURE;
+    }
+    sfSprite_setTexture(sprite, texture, sfTrue);
+    sfSprite_setColor(sprite, sfColor_fromRGBA(100, 240, 220, 75));
+    sfSprite_setScale(sprite, (sfVector2f){3, 3});
+    sprites->sprint_overlay_tex = texture;
+    sprites->sprint_overlay = sprite;
+    return SUCCESS;
+}
+
+
+int init_game(game_t *game, const char *_Nullable map_path)
+{
+    get_param_map(map_path, &(game->level), &(game->current_map));
+    if (game->current_map == NULL
+        || init_player(game->current_map->start, &(game->player)) == FAILURE
+        || init_background_disp_rect(&(game->background_dsp_rect)) == FAILURE
+        || init_sprites(&(game->sprites)) == FAILURE) {
+        destroy_game(*game);
+        return FAILURE;
+    }
+    return SUCCESS;
 }

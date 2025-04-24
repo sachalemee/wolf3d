@@ -7,14 +7,19 @@
 
 #include "wolfengine.h"
 
-int game_scene(game_t *game, player_t *player, info_t *info)
+static void update_player(player_t *player, time_info_t time)
 {
-    info->d_time = sfTime_asSeconds(sfClock_restart(game->clock));
-    player->mov->mov_speed = info->d_time * PLAYER_MOV_SPEED;
-    player->mov->rotate_speed = info->d_time * PLAYER_ROTA_SPEED;
-    sfRenderWindow_clear(game->window, game->bg);
-    events_game(game, player, info);
-    draw_in_game(game, player);
-    sfRenderWindow_display(game->window);
+    player->mov->mov_speed = time.delta_time * PLAYER_MOV_SPEED;
+    player->mov->rotate_speed = time.delta_time * PLAYER_ROTA_SPEED;
+}
+
+int game_scene(game_t *game, sys_data_t *sys)
+{
+    sfRenderWindow_clear(sys->window, sfBlack);
+    update_player(&(game->player), sys->time);
+    game_events(sys);
+    draw_in_game(game, *(game->current_map), &(sys->settings), sys->window);
+    draw_hud_overlay(game, &(game->player));
+    sfRenderWindow_display(sys->window);
     return EXIT_S;
 }

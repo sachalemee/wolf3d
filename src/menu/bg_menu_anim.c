@@ -8,26 +8,23 @@
 #include "wolfengine.h"
 #include "buttons.h"
 
-void draw_bg_menu(game_t *game, entity_t *entity)
+void draw_bg_menu(menu_t *menu, sfRenderWindow *win)
 {
-    sfRenderWindow_clear(game->window, sfBlack);
-    sfSprite_setScale(entity->sprite->sprite_bg, (sfVector2f){1.25, 1.05});
-    sfRenderWindow_drawSprite(game->window, entity->sprite->sprite_bg, NULL);
-    draw_all_buttons(game->window, game);
-    sfRenderWindow_display(game->window);
+    sfRenderWindow_clear(win, sfBlack);
+    sfSprite_setScale(menu->entity->sprite.sprite_bg,
+        (sfVector2f){MENU_SCALE});
+    sfRenderWindow_drawSprite(win, menu->entity->sprite.sprite_bg, NULL);
+    draw_all_buttons(menu, win);
+    sfRenderWindow_display(win);
 }
 
-void animated_bg(entity_t *entity)
+void animated_bg(entity_t *entity, time_info_t *time)
 {
-    float elapsed_time = sfTime_asSeconds(
-        sfClock_getElapsedTime(entity->anim->clock_anim));
-
-    if (elapsed_time > 0.2) {
-        entity->anim->current_frame = (entity->anim->current_frame + 1)
-            % entity->anim->max_frame;
-        entity->anim->rect.left = entity->anim->current_frame * BG_RECT;
-        sfSprite_setTextureRect(entity->sprite->sprite_bg,
-            entity->anim->rect);
-        sfClock_restart(entity->anim->clock_anim);
+    if (time->delta_time > 0.2) {
+        entity->anim.current_frame = (entity->anim.current_frame + 1)
+            % entity->anim.max_frame;
+        entity->anim.rect.left = entity->anim.current_frame * BG_RECT;
+        sfSprite_setTextureRect(entity->sprite.sprite_bg,
+            entity->anim.rect);
     }
 }

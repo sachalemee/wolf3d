@@ -9,13 +9,33 @@
 #include "buttons.h"
 #include "wolfengine.h"
 
-void init_buttons(game_t *game)
+void destroy_buttons(buttons_t **buttons)
 {
-    game->buttons = malloc(sizeof(game->buttons) * NB_BUTTONS);
-    game->buttons[0] = create_button((sfVector2f){1400, 200},
+    if (buttons != NULL) {
+        free_button(buttons[0]);
+        free_button(buttons[1]);
+        free_button(buttons[2]);
+    }
+    free(buttons);
+}
+
+int init_buttons(buttons_t ***buttons)
+{
+    *buttons = calloc(3, sizeof(buttons_t *));
+    if (buttons == NULL)
+        return FAILURE;
+    (*buttons)[0] = create_button((sfVector2f){1400, 200},
         (sfVector2f){250, 50}, "PLAY", NULL);
-    game->buttons[1] = create_button((sfVector2f){1400, 400},
+    (*buttons)[1] = create_button((sfVector2f){1400, 400},
         (sfVector2f){250, 50}, "SETTINGS", NULL);
-    game->buttons[2] = create_button((sfVector2f){1400, 600},
+    (*buttons)[2] = create_button((sfVector2f){1400, 600},
         (sfVector2f){250, 50}, "QUIT", NULL);
+    if (!(*buttons)[0] || !(*buttons)[1] || !(*buttons)[2]) {
+        destroy_buttons(*buttons);
+        return FAILURE;
+    }
+    (*buttons)[0]->function = play_game;
+    (*buttons)[1]->function = play_game;
+    (*buttons)[2]->function = close_menu;
+    return SUCCESS;
 }
