@@ -36,6 +36,6 @@ int init_entity(entity_t **entity)
         (*entity)->sprite.texture_bg, sfTrue);
     (*entity)->anim.rect = (sfIntRect){BACKGROUND_MENU_DEF};
     (*entity)->anim.current_frame = 0;
-    (*entity)->anim.max_frame = 8;
+    (*entity)->anim.max_frame = BG_MAX_FRAME;
     return SUCCESS;
 }
