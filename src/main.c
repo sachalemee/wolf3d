@@ -6,14 +6,19 @@
 */
 
 #include <stddef.h>
-#include <stdio.h>
 #include "wolfengine.h"
 
 #include "hmap.h"
 
-int main(int, char **, char **)
+int main(int ac, char **av, char **)
 {
-    if (start() == EXIT_F)
+    char *map_path = NULL;
+
+    if (ac != 1 && ac != 2)
+        return EXIT_F;
+    if (ac == 2)
+        map_path = av[1];
+    if (start(map_path) == FAILURE)
         return EXIT_F;
     return EXIT_S;
 }

@@ -13,21 +13,19 @@
     #include <stdarg.h>
     #include <string.h>
     #include "my_qsort_r.h"
-    #define MIN(a, b) ((a < b) ? a : b)
-    #define MAX(a, b) ((a > b) ? a : b)
-    #define ABS(value) ((value) < 0 ? (value) * (-1) : value)
-    #define SQUARE(value) (value * value)
     #define UNUSED(var) (void)(var)
-    #define TRUE 1
-    #define FALSE 0
+    #define ABS(value) ((value) < 0 ? (value) * (-1) : (value))
     #define EXIT_84 84
-    #define MY_PI 3.14159265358979323
+    #define MY_INF ((double)1.0 / (double)0.0)
     #define SUCCESS 0
     #define FAILURE -1
     #define UNINIT ((void *)1)
     #define IN(string, char) my_contains(string, char)
     #define IN_2(buf1, buf2, item) (IN(buf1, item) || IN(buf2, item))
     #define W_STRT(cu, prv, sp) !IN_2(sp, "\n\"", cu) && IN_2(sp, "\n\"", prv)
+    #ifndef _Nullable
+        #define _Nullable
+    #endif /* _Nullable */
 
 typedef struct set_s {
     size_t start;
@@ -61,7 +59,7 @@ size_t my_arrlen(void *ptr_array);
 void my_swap(void *a, void *b, size_t size);
 char **va_list_to_word_array(va_list to_concat);
 char *my_strconcat(char *first_word, ...);
-    #define CONCAT(words...) my_strconcat(words, NULL) // conveninent null term
+    #define CONCAT(words...) my_strconcat(words, NULL) // null termination
 char *my_strcat(char *dest, char const *src);
 
 #endif /* MY_H_ */

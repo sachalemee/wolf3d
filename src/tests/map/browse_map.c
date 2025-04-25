@@ -5,13 +5,12 @@
 ** browse_map.c
 */
 
-#include <stdio.h>
 #include "wolfengine.h"
 #include "hmap.h"
 
-static int is_wall(int x, int y)
+static int is_wall(int x, int y, map_t map)
 {
-    if (map[y][x] == 1) {
+    if (map.map[y][x] == 1) {
         return IS_WALL;
     } else {
         return IS_VOID;
@@ -19,13 +18,13 @@ static int is_wall(int x, int y)
     return EXIT_E;
 }
 
-int browse_map(game_t *game)
+int browse_map(game_t *game, map_t map)
 {
     if (game == NULL)
         return EXIT_S;
-    for (int y = 0; y < MAP_H; y++) {
-        for (int x = 0; x < MAP_W; x++) {
-            is_wall(x, y);
+    for (size_t y = 0; y < map.h; y++) {
+        for (size_t x = 0; x < map.w; x++) {
+            is_wall(x, y, map);
         }
     }
     return EXIT_S;

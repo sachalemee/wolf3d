@@ -8,54 +8,40 @@
 #include <stdlib.h>
 #include "wolfengine.h"
 
-static void set_states(player_t *player)
+int init_rays(rays_t *rays)
 {
-    player->rays->wall_states = (sfRenderStates){0};
-    player->rays->wall_states.texture =
-    sfTexture_createFromFile(TEXTURE_WALL, NULL);
-    player->rays->wall_states.blendMode = sfBlendAlpha;
-    player->rays->wall_states.transform = sfTransform_Identity;
+    rays->wall_states.texture = sfTexture_createFromFile(TEXTURE_WALL, NULL);
+    if (rays->wall_states.texture == NULL)
+        return FAILURE;
+    rays->wall_states.blendMode = sfBlendAlpha;
+    rays->wall_states.transform = sfTransform_Identity;
+    rays->pixel_texture = 900;
+    return SUCCESS;
 }
 
-rays_t *init_rays(player_t *player)
+void destroy_rays(rays_t rays)
 {
-    player->rays = malloc(sizeof(rays_t));
-    if (player->rays == NULL)
-        return NULL;
-    player->rays->vertex = NULL;
-    player->rays->raydir = (sfVector2f){0, 0};
-    player->rays->camera_x = 0;
-    player->rays->delta_dist = (sfVector2f){0, 0};
-    player->rays->sidedist = (sfVector2f){0, 0};
-    player->rays->step = (sfVector2i){0, 0};
-    player->rays->perpwalldist = 0;
-    player->rays->side = 0;
-    set_states(player);
-    player->rays->pixel_texture = 900;
-    return player->rays;
+    sfTexture_destroy((void *)rays.wall_states.texture);
 }
 
-mov_t *init_mov(player_t *player)
+void destroy_player(player_t player)
 {
-    player->mov = malloc(sizeof(mov_t));
-    if (player->mov == NULL)
-        return NULL;
-    player->mov->mov_speed = 0;
-    player->mov->rotate_speed = 0;
-    return player->mov;
+    free(player.mov);
+    destroy_rays(player.rays);
 }
 
-player_t *init_player(void)
+int init_player(sfVector2f coords, player_t *dest)
 {
-    player_t *player = malloc(sizeof(player_t));
-
-    if (player == NULL)
-        return NULL;
-    player->pos = (sfVector2f){PLAYER_START_POS_X, PLAYER_START_POS_Y};
-    player->dir = (sfVector2f){-1, 0.0};
-    player->plane = (sfVector2f){0.0, PLAYER_FOV};
-    player->rays = init_rays(player);
-    player->map = init_map(player);
-    player->mov = init_mov(player);
-    return player;
+    dest->mov = calloc(1, sizeof(player_settings_t));
+    if (dest->mov == NULL)
+        return FAILURE;
+    if (init_rays(&(dest->rays)) == FAILURE) {
+        free(dest->mov);
+        return FAILURE;
+    }
+    dest->dir = (sfVector2f){-1, 0.0};
+    dest->plane = (sfVector2f){0.0, PLAYER_FOV};
+    dest->map = (sfVector2i){(int)coords.x, (int)coords.y};
+    dest->pos = (sfVector2f){coords.x + 0.5, (int)coords.y + 0.5};
+    return SUCCESS;
 }
