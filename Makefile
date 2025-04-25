@@ -56,6 +56,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					$(addprefix $(CALL_MENU_PATH), \
 						calls_menu.c \
 					)\
+					set_fullscreen.c \
 					is_keyboard_input.c \
 				)\
 				$(addprefix $(GAME_PATH), \

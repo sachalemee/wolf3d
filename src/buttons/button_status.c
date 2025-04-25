@@ -30,7 +30,8 @@ static void set_status(buttons_t *button,
     } else {
         sfRectangleShape_setFillColor(button->rect, button->color[B_DEFAULT]);
         if (button->title != NULL)
-            sfText_setColor(button->title, sfColor_fromRGBA(248, 226, 126, 175));
+            sfText_setColor(button->title,
+                sfColor_fromRGBA(248, 226, 126, 175));
     }
 }
 

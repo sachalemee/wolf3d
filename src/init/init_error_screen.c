@@ -44,10 +44,10 @@ int update_error_screen(error_screen_t *error_screen, sfRenderWindow *win,
     time_info_t *time)
 {
     sfEvent event = {0};
+    sfIntRect disp_rect = {0};
 
     sfRenderWindow_clear(win, sfBlack);
-    sfIntRect disp_rect =
-        sfSprite_getTextureRect(error_screen->error_screen_background);
+    disp_rect = sfSprite_getTextureRect(error_screen->error_screen_background);
     error_screen->frame_index = (int)(time->last_update * MORSHU_SPEED)
         % error_screen->frame_count;
     disp_rect.top = disp_rect.height * error_screen->frame_index;

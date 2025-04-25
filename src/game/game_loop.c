@@ -19,7 +19,6 @@ static void get_music_data(scene_t *scenes,
         sfMusic_getStatus(scenes->musics.game_music);
     *menu_music_status =
         sfMusic_getStatus(scenes->musics.menu_music);
-
     if (*game_music_status == sfPlaying && *menu_music_status == sfPlaying) {
         sfMusic_pause(scenes->musics.game_music);
         sfMusic_pause(scenes->musics.menu_music);

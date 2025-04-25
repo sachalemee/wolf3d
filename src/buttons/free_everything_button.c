@@ -20,12 +20,3 @@ void free_button(buttons_t *button)
     sfFont_destroy(button->font);
     free(button);
 }
-
-void free_everything_button(buttons_t **buttons)
-{
-    if (buttons != NULL) {
-        for (size_t i = 0; buttons[i] != NULL; i++)
-            free_button(buttons[i]);
-    }
-    free(buttons);
-}

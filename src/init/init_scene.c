@@ -21,10 +21,10 @@ int init_scene(scene_t *scene, const char *_Nullable map_path,
     sfRenderWindow *win)
 {
     scene->state = DEFAULT_SCENE;
-    if (init_musics(&(scene->musics)) == FAILURE
-        || init_error_screen(&(scene->error_scene), win) == FAILURE
-        || init_game(&(scene->game), map_path) == FAILURE
-        || init_menu(&(scene->menu)) == FAILURE) {
+    if (init_error_screen(&(scene->error_scene), win) == FAILURE
+        || init_menu(&(scene->menu)) == FAILURE
+        || init_musics(&(scene->musics)) == FAILURE
+        || init_game(&(scene->game), map_path) == FAILURE) {
         destroy_scene(*scene);
         return FAILURE;
     }

@@ -67,7 +67,6 @@ int init_sprites(sprites_t *sprites)
     return SUCCESS;
 }
 
-
 int init_game(game_t *game, const char *_Nullable map_path)
 {
     get_param_map(map_path, &(game->level), &(game->current_map));

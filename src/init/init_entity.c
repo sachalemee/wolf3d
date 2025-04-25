@@ -22,7 +22,8 @@ int init_entity(entity_t **entity)
 {
     *entity = calloc(1, sizeof(entity_t));
     if (*entity != NULL) {
-        (*entity)->sprite.texture_bg = sfTexture_createFromFile(BG_MENU, sfFalse);
+        (*entity)->sprite.texture_bg =
+            sfTexture_createFromFile(BG_MENU, sfFalse);
         (*entity)->sprite.sprite_bg = sfSprite_create();
     }
     if (*entity == NULL

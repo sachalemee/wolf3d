@@ -42,30 +42,29 @@ typedef struct buttons_s {
 
 /* buttons functions */
 void set_button_text(buttons_t *button,
-char *title, sfFloatRect bounds, sfVector2f origin);
+    char *title, sfFloatRect bounds, sfVector2f origin);
 
 void set_button_color(buttons_t *button);
 
 void set_sprite(buttons_t *button,
-sfFloatRect bounds, sfVector2f origin, char *path);
+    sfFloatRect bounds, sfVector2f origin, char *path);
 
 void set_button_rect(buttons_t *button,
-sfVector2f size, sfVector2f pos);
+    sfVector2f size, sfVector2f pos);
 
 buttons_t *create_button(sfVector2f pos,
-sfVector2f size, char *title, char *path);
+    sfVector2f size, char *title, char *path);
 
 int init_buttons(buttons_t ***buttons);
 void destroy_buttons(buttons_t **buttons);
 
 int draw_button(sfRenderWindow *window,
-buttons_t *button);
+    buttons_t *button);
 
 int buttons_status(sfRenderWindow *window,
-buttons_t *button, sfEvent event, sys_data_t *sys);
+    buttons_t *button, sfEvent event, sys_data_t *sys);
 
 void draw_all_buttons(menu_t *menu, sfRenderWindow *window);
-void free_everything_button(buttons_t **buttons);
 void free_button(buttons_t *buttons);
 
 #endif /* !BUTTONS_H_ */

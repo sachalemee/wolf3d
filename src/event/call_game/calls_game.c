@@ -32,7 +32,6 @@ void close_window(sys_data_t *sys, sfEvent event)
         sys->is_running = sfFalse;
 }
 
-
 static void mov_sprint(player_t *player, time_info_t info)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)
@@ -41,10 +40,6 @@ static void mov_sprint(player_t *player, time_info_t info)
         (info.delta_time * PLAYER_MOV_SPEED) * PLAYER_SPRINT_SPEED;
 }
 
-        // if (is_keyboard_input(event, sfKeyF11)) {
-            // sfRenderWindow_destroy(sys->window);
-            // sys->window = init_window();
-        // }
 int game_events(sys_data_t *sys)
 {
     sfEvent event;
@@ -57,6 +52,8 @@ int game_events(sys_data_t *sys)
     mov_player(player, map);
     while (sfRenderWindow_pollEvent(sys->window, &event)) {
         close_window(sys, event);
+        if (set_fullscreen(sys, event) == EXIT_F)
+            return EXIT_F;
         enter_next_level(game, event, &(sys->is_running));
     }
     return EXIT_S;
