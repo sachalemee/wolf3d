@@ -11,16 +11,13 @@
 
 void free_button(buttons_t *button)
 {
-    if (button != NULL) {
-        if (button->rect != NULL)
-            sfRectangleShape_destroy(button->rect);
-        if (button->sprite != NULL)
-            sfSprite_destroy(button->sprite);
-        if (button->texture != NULL)
-            sfTexture_destroy(button->texture);
-        if (button->title != NULL)
-            sfText_destroy(button->title);
-    }
+    const sfTexture *button_texture =
+        sfRectangleShape_getTexture(button->rect);
+
+    sfTexture_destroy((void *)button_texture);
+    sfRectangleShape_destroy(button->rect);
+    sfText_destroy(button->title);
+    sfFont_destroy(button->font);
     free(button);
 }
 
