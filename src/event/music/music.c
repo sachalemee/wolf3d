@@ -7,7 +7,7 @@
 
 #include "wolfengine.h"
 
-static void music_setvolume(sfEvent event, game_t *game)
+/* static void music_setvolume(sfEvent event, game_t *game)
 {
     float volume = sfMusic_getVolume(game->music);
 
@@ -26,4 +26,4 @@ static void music_setvolume(sfEvent event, game_t *game)
     if (is_keyboard_input(event, sfKeyF3) && volume < MUSIC_MAX - MUSIC_GAP)
         volume += MUSIC_GAP;
     sfMusic_setVolume(game->music, volume);
-}
+} */

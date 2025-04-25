@@ -34,11 +34,11 @@ static int get_map_str(const char *path, char **dest)
     return SUCCESS;
 }
 
-static int get_map_tile(const char tile)
+static char get_thing_code(const char tile)
 {
     for (size_t i = 0; game_tiles[i].config_value != '\0'; i++) {
         if (game_tiles[i].config_value == tile)
-            return (int)i;
+            return (char)i;
     }
     return FAILURE;
 }
@@ -55,7 +55,7 @@ static size_t count_enemies(const char *mapstr)
 static int parse_map_tile(const char map_tile,
     sfVector2u coords, size_t *enemy_index, map_t *dest)
 {
-    int tile = get_map_tile(map_tile);
+    int tile = get_thing_code(map_tile);
 
     if (tile == FAILURE)
         return FAILURE;
@@ -70,9 +70,9 @@ static int parse_map_tile(const char map_tile,
     return SUCCESS;
 }
 
-static int get_map_code(const char tile)
+static char get_tile_code(const char tile)
 {
-    int index = get_map_tile(tile);
+    int index = get_thing_code(tile);
 
     return game_tiles[index].istangible * index;
 }
@@ -81,17 +81,18 @@ static int get_str_as_map(const char *mapstr, map_t *map)
 {
     if (map->w == 0 || map->h == 0 || map->start.x == -1 || map->end.x == -1)
         return FAILURE;
-    map->map = malloc(map->w * sizeof(int *));
+    map->map = malloc(map->w * sizeof(char *));
     if (map->map == NULL)
         return FAILURE;
     for (size_t x = 0; x < map->w; x++) {
-        map->map[x] = malloc(map->h * sizeof(int));
+        map->map[x] = malloc(map->h * sizeof(char));
         if (map->map[x] == NULL) {
             map->w = x - 1;
             return FAILURE;
         }
-        for (size_t y = 0; y < map->h; y++)
-            map->map[x][y] = get_map_code(mapstr[y * (map->w + 1) + x]);
+        for (size_t y = 0; y < map->h; y++) {
+            map->map[x][y] = get_tile_code(mapstr[y * (map->w + 1) + x]);
+        }
     }
     return SUCCESS;
 }

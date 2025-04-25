@@ -8,25 +8,17 @@
 #include "wolfengine.h"
 #include "buttons.h"
 
-void draw_bg_menu(game_t *game, entity_t *entity)
+void animated_bg(entity_t *entity, time_info_t *time)
 {
-    sfRenderWindow_clear(game->window, sfBlack);
-    sfRenderWindow_drawSprite(game->window, entity->sprite->sprite, NULL);
-    draw_all_buttons(game->window, game);
-    sfRenderWindow_display(game->window);
+    time->last_update = (int)(time->last_update) % entity->anim.max_frame;
+    entity->anim.rect.left = time->last_update * BG_RECT;
+    sfSprite_setTextureRect(entity->sprite.sprite_bg, entity->anim.rect);
 }
 
-void animated_bg(entity_t *entity)
+void draw_bg_menu(menu_t *menu, sfRenderWindow *win)
 {
-    float elapsed_time = sfTime_asSeconds(
-        sfClock_getElapsedTime(entity->anim->clock_anim));
-
-    if (elapsed_time > 0.1) {
-        entity->anim->current_frame = (entity->anim->current_frame + 1)
-            % entity->anim->max_frame;
-        entity->anim->rect.left = entity->anim->current_frame * 32;
-        sfSprite_setTextureRect(entity->sprite->sprite,
-            entity->anim->rect);
-        sfClock_restart(entity->anim->clock_anim);
-    }
+    sfSprite_setScale(menu->entity->sprite.sprite_bg,
+        (sfVector2f){MENU_SCALE});
+    sfRenderWindow_drawSprite(win, menu->entity->sprite.sprite_bg, NULL);
+    draw_all_buttons(menu, win);
 }

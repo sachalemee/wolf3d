@@ -11,13 +11,18 @@ TEST_PATH = tests/
 EVENT_PATH = event/
 GAME_PATH = game/
 IN_GAME_PATH = in_game/
-DESTROY_PATH = destroy/
 MAP_PATH = map/
 ERROR_PATH = error_handling/
 MATH_PATH = math/
 RAYCAST_PATH = raycast/
 PARSING_PATH = parsing/
 DEBUG_PATH = debug/
+BUTTON_PATH = buttons/
+MENU_PATH = menu/
+CALL_MENU_PATH = call_menu/
+CALL_GAME_PATH = call_game/
+MUSIC_PATH = music/
+HUD_PATH = hud_overlay/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(BUTTON_PATH), \
@@ -36,31 +41,45 @@ SRC =		$(addprefix $(SRC_PATH), \
 					bg_menu_anim.c	\
 					menu.c	\
 				)\
-				$(addprefix $(DESTROY_PATH), \
-					destroy_all.c \
-				)\
 				$(addprefix $(ERROR_PATH), \
 					error_handling.c \
 				)\
 				$(addprefix $(EVENT_PATH), \
-					event_loop.c \
-					mov_player.c \
+					$(addprefix $(CALL_GAME_PATH), \
+						calls_game.c \
+						game_scene.c \
+						mov_player.c \
+					)\
+					$(addprefix $(MUSIC_PATH), \
+						music.c	\
+					)\
+					$(addprefix $(CALL_MENU_PATH), \
+						calls_menu.c \
+					)\
+					set_fullscreen.c \
+					is_keyboard_input.c \
 				)\
 				$(addprefix $(GAME_PATH), \
 					game_loop.c \
 					start.c \
+					time.c \
 				)\
 				$(addprefix $(IN_GAME_PATH), \
 					draw_background.c \
 					draw.c \
 				)\
 				$(addprefix $(INIT_PATH), \
+					init_error_screen.c	\
+					init_music.c	\
+					init_scene.c	\
+					init_entity.c	\
+					init_settings.c	\
 					init_menu.c	\
 					init_game.c \
-					init_info.c \
+					init_sys_data.c \
 					init_map.c \
 					init_player.c \
-					set_window.c \
+					init_window.c \
 				)\
 				$(addprefix  $(RAYCAST_PATH), \
 					raycasting.c \
@@ -78,6 +97,9 @@ SRC =		$(addprefix $(SRC_PATH), \
 						browse_map.c \
 						map.c \
 					)\
+				)\
+				$(addprefix $(HUD_PATH), \
+					hud_overlay.c	\
 				)\
 				main.c \
 			)

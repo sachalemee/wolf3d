@@ -7,17 +7,21 @@
 
 #include "wolfengine.h"
 #include "buttons.h"
+#include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
-void play_game(game_t *game)
+void play_game(sys_data_t *sys)
 {
-    printf("WOW\n");
+    sys->scene.state = STATE_GAME;
 }
 
-int menu(game_t *game, entity_t *entity)
+int update_menu(sys_data_t *sys)
 {
-    events_menu(game);
-    animated_bg(entity);
-    draw_bg_menu(game, entity);
+    events_menu(sys);
+    sfRenderWindow_clear(sys->window, sfWhite);
+    animated_bg(sys->scene.menu.entity, &(sys->time));
+    draw_bg_menu(&(sys->scene.menu), sys->window);
+    sfRenderWindow_display(sys->window);
     return EXIT_S;
 }

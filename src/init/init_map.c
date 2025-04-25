@@ -8,11 +8,8 @@
 #include <stdlib.h>
 #include "wolfengine.h"
 
-hmap_t *init_map(player_t *player)
-{
-    player->map = malloc(sizeof(hmap_t));
-    if (player->map == NULL)
-        return NULL;
-    player->map->map_pos = (sfVector2i){0, 0};
-    return player->map;
-}
+// void init_map(player_t *player, game_t *game)
+// {
+    // player->map->map_pos = (sfVector2i){0, 0};
+    // return player->map;
+// }
