@@ -13,10 +13,14 @@ void draw_background(sfRenderWindow *win,
 {
     sfColor color = sfColor_fromRGB(FLOOR_RGB);
 
-    sfRectangleShape_setPosition(background_dsp_rect, (sfVector2f){0, 0});
+    sfRectangleShape_setPosition(background_dsp_rect,
+        (sfVector2f){0, 0});
     sfRectangleShape_setFillColor(background_dsp_rect, sfCyan);
-    sfRenderWindow_drawRectangleShape(win, background_dsp_rect, sfFalse);
-    sfRectangleShape_setPosition(background_dsp_rect, (sfVector2f){0, WIN_HEIGHT / 2});
+    sfRenderWindow_drawRectangleShape(win,
+        background_dsp_rect, sfFalse);
+    sfRectangleShape_setPosition(background_dsp_rect,
+        (sfVector2f){0, WIN_HEIGHT / 2});
     sfRectangleShape_setFillColor(background_dsp_rect, color);
-    sfRenderWindow_drawRectangleShape(win, background_dsp_rect, sfFalse);
+    sfRenderWindow_drawRectangleShape(win,
+        background_dsp_rect, sfFalse);
 }

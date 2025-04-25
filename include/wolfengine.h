@@ -219,6 +219,8 @@ void destroy_time(time_info_t time);
 /* events */
 int game_events(sys_data_t *sys);
 void close_window(sys_data_t *sys, sfEvent event);
+int set_fullscreen(sys_data_t *sys, sfEvent event);
+
 void mov_player(player_t *player, map_t map);
 
 /* game */
