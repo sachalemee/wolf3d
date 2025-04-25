@@ -11,8 +11,12 @@
 int init_rays(rays_t *rays)
 {
     rays->wall_states.texture = sfTexture_createFromFile(TEXTURE_WALL, NULL);
-    if (rays->wall_states.texture == NULL)
+    rays->vertex = sfVertexArray_create();
+    if (rays->vertex == NULL || rays->wall_states.texture == NULL) {
+        destroy_rays(*rays);
         return FAILURE;
+    }
+    sfVertexArray_setPrimitiveType(rays->vertex, sfLines);
     rays->wall_states.blendMode = sfBlendAlpha;
     rays->wall_states.transform = sfTransform_Identity;
     rays->pixel_texture = 900;
@@ -21,6 +25,7 @@ int init_rays(rays_t *rays)
 
 void destroy_rays(rays_t rays)
 {
+    sfVertexArray_destroy(rays.vertex);
     sfTexture_destroy((void *)rays.wall_states.texture);
 }
 
@@ -33,10 +38,8 @@ void destroy_player(player_t player)
 int init_player(sfVector2f coords, player_t *dest)
 {
     dest->mov = calloc(1, sizeof(player_settings_t));
-    if (dest->mov == NULL)
-        return FAILURE;
-    if (init_rays(&(dest->rays)) == FAILURE) {
-        free(dest->mov);
+    if (dest->mov == NULL || init_rays(&(dest->rays)) == FAILURE) {
+        destroy_player(*dest);
         return FAILURE;
     }
     dest->dir = (sfVector2f){-1, 0.0};

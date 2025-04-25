@@ -38,45 +38,46 @@ static void is_down(player_t *player, map_t map)
     }
 }
 
-static void is_left(player_t *player,
-    double prev_dir_x, double prev_plane_x)
+static void is_left(player_t *player)
 {
+    sfVector2f dir_cpy = player->dir;
+    sfVector2f plane_cpy = player->plane;
+
     if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
-        prev_dir_x = player->dir.x;
-        player->dir.x = player->dir.x * cos(player->mov->rotate_speed)
-            - player->dir.y * sin(player->mov->rotate_speed);
-        player->dir.y = prev_dir_x * sin(player->mov->rotate_speed)
-            + player->dir.y * cos(player->mov->rotate_speed);
-        prev_plane_x = player->plane.x;
-        player->plane.x = player->plane.x * cos(player->mov->rotate_speed)
-            - player->plane.y * sin(player->mov->rotate_speed);
-        player->plane.y = prev_plane_x * sin(player->mov->rotate_speed)
-            + player->plane.y * cos(player->mov->rotate_speed);
+        player->dir.x = dir_cpy.x * cos(player->mov->rotate_speed)
+            - dir_cpy.y * sin(player->mov->rotate_speed);
+        player->dir.y = dir_cpy.x * sin(player->mov->rotate_speed)
+            + dir_cpy.y * cos(player->mov->rotate_speed);
+        
+        player->plane.x = plane_cpy.x * cos(player->mov->rotate_speed)
+            - plane_cpy.y * sin(player->mov->rotate_speed);
+        player->plane.y = plane_cpy.x * sin(player->mov->rotate_speed)
+            + plane_cpy.y * cos(player->mov->rotate_speed);
     }
 }
 
-static void is_right(player_t *player,
-    double prev_dir_x, double prev_plane_x)
+static void is_right(player_t *player)
 {
+    sfVector2f dir_cpy = player->dir;
+    sfVector2f plane_cpy = player->plane;
+
     if (sfKeyboard_isKeyPressed(sfKeyRight)) {
-        prev_dir_x = player->dir.x;
-        player->dir.x = player->dir.x * cos(-player->mov->rotate_speed)
-            - player->dir.y * sin(-player->mov->rotate_speed);
-        player->dir.y = prev_dir_x * sin(-player->mov->rotate_speed)
-            + player->dir.y * cos(-player->mov->rotate_speed);
-        prev_plane_x = player->plane.x;
-        player->plane.x = player->plane.x * cos(-player->mov->rotate_speed)
-            - player->plane.y * sin(-player->mov->rotate_speed);
-        player->plane.y = prev_plane_x * sin(-player->mov->rotate_speed)
-            + player->plane.y * cos(-player->mov->rotate_speed);
+        player->dir.x = dir_cpy.x * cos(-player->mov->rotate_speed)
+            - dir_cpy.y * sin(-player->mov->rotate_speed);
+        player->dir.y = dir_cpy.x * sin(-player->mov->rotate_speed)
+            + dir_cpy.y * cos(-player->mov->rotate_speed);
+        player->plane.x = plane_cpy.x * cos(-player->mov->rotate_speed)
+            - plane_cpy.y * sin(-player->mov->rotate_speed);
+        player->plane.y = plane_cpy.x * sin(-player->mov->rotate_speed)
+            + plane_cpy.y * cos(-player->mov->rotate_speed);
     }
 }
 
-static void crab_left(player_t *player, sfVector2f crab_mov, map_t map)
+static void crab_left(player_t *player, map_t map)
 {
+    sfVector2f crab_mov = (sfVector2f){-player->dir.y, player->dir.x};
+
     if (sfKeyboard_isKeyPressed(sfKeyQ)) {
-        crab_mov.x = -player->dir.y;
-        crab_mov.y = player->dir.x;
         if (GET_TIL(map, (int)(player->pos.x + crab_mov.x
             * player->mov->mov_speed), (int)player->pos.y) == 0)
             player->pos.x += crab_mov.x * player->mov->mov_speed;
@@ -86,11 +87,11 @@ static void crab_left(player_t *player, sfVector2f crab_mov, map_t map)
     }
 }
 
-static void crab_right(player_t *player, sfVector2f crab_mov, map_t map)
+static void crab_right(player_t *player, map_t map)
 {
+    sfVector2f crab_mov = (sfVector2f){player->dir.y, -player->dir.x};
+
     if (sfKeyboard_isKeyPressed(sfKeyD)) {
-        crab_mov.x = player->dir.y;
-        crab_mov.y = -player->dir.x;
         if (GET_TIL(map, (int)(player->pos.x + crab_mov.x
             * player->mov->mov_speed), (int)player->pos.y) == 0)
             player->pos.x += crab_mov.x * player->mov->mov_speed;
@@ -108,19 +109,16 @@ static void up_down(player_t *player, map_t map)
 
 static void left_right(player_t *player)
 {
-    double prev_dir_x = 0;
     double prev_plane_x = 0;
 
-    is_left(player, prev_dir_x, prev_plane_x);
-    is_right(player, prev_dir_x, prev_plane_x);
+    is_left(player);
+    is_right(player);
 }
 
 static void mov_as_crabs(player_t *player, map_t map)
 {
-    sfVector2f crab_mov = (sfVector2f){0, 0};
-
-    crab_left(player, crab_mov, map);
-    crab_right(player, crab_mov, map);
+    crab_left(player, map);
+    crab_right(player, map);
 }
 
 void mov_player(player_t *player, map_t map)

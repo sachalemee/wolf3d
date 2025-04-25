@@ -10,22 +10,25 @@
 #include "wolfengine.h"
 #include "hmap.h"
 
-static void ray_posdir(player_t *player, int x)
+static void ray_posdir(player_t *player, int x, sfRenderWindow *win)
 {
-    player->rays.camera_x = 2 * x / (double)WIN_WIDTH - 1;
+    sfVector2u win_size = sfRenderWindow_getSize(win);
+
+    player->rays.camera_x = 2 * x / (double)win_size.x - 1;
     player->rays.raydir.x =
         player->dir.x + player->plane.x * player->rays.camera_x;
     player->rays.raydir.y =
         player->dir.y + player->plane.y * player->rays.camera_x;
 }
 
-static void dist_ray_travel_sidexy(player_t *player, int x)
+static void dist_ray_travel_sidexy(player_t *player, int x,
+    sfRenderWindow *win)
 {
-    ray_posdir(player, x);
+    ray_posdir(player, x, win);
     if (player->rays.raydir.x == 0) {
         player->rays.delta_dist.x = INFINITY;
     } else {
-        if (1 / player->rays.raydir.x < 0)
+        if (player->rays.raydir.x < 0)
             player->rays.delta_dist.x = -1 / player->rays.raydir.x;
         else
             player->rays.delta_dist.x = 1 / player->rays.raydir.x;
@@ -33,7 +36,7 @@ static void dist_ray_travel_sidexy(player_t *player, int x)
     if (player->rays.raydir.y == 0) {
         player->rays.delta_dist.y = INFINITY;
     } else {
-        if (1 / player->rays.raydir.y < 0)
+        if (player->rays.raydir.y < 0)
             player->rays.delta_dist.y = -1 / player->rays.raydir.y;
         else
             player->rays.delta_dist.y = 1 / player->rays.raydir.y;
@@ -99,14 +102,12 @@ static void set_vertex(player_t *player,
     sfColor color_vertex = sfColor_fromRGB(100, 240, 220);
     sfVertex vertex = {0};
 
-    player->rays.vertex = sfVertexArray_create();
     vertex = (sfVertex){{(float)x, (float)beg_draw}, sfWhite, {491, 0}};
     sfVertexArray_append(player->rays.vertex, vertex);
     color_vertex = sfColor_fromRGB(232, 240, 100);
     vertex = (sfVertex){{(float)x, (float)end_draw}, color_vertex,
         {491, player->rays.pixel_texture}};
     sfVertexArray_append(player->rays.vertex, vertex);
-    sfVertexArray_setPrimitiveType(player->rays.vertex, sfLines);
 }
 
 static void draw_vertex_lines(player_t *player, int x, sfRenderWindow* window)
@@ -114,29 +115,29 @@ static void draw_vertex_lines(player_t *player, int x, sfRenderWindow* window)
     int beg_draw = 0;
     int end_draw = 0;
     int wall_size = 0;
+    sfVector2u win_size = sfRenderWindow_getSize(window);
 
-    wall_size = (int)(WIN_HEIGHT / player->rays.perpwalldist)
+    wall_size = (int)(win_size.y / player->rays.perpwalldist)
         + WALL_HEIGHT_MULTI;
-    beg_draw = (-wall_size / 2) + (WIN_HEIGHT / 2);
-    end_draw = (wall_size / 2) + (WIN_HEIGHT / 2);
+    beg_draw = (-wall_size / 2) + (win_size.y / 2);
+    end_draw = (wall_size / 2) + (win_size.y / 2);
     set_vertex(player, beg_draw, end_draw, x);
     sfRenderWindow_drawVertexArray(window,
         player->rays.vertex, &player->rays.wall_states);
 }
 
-void raycasting(game_t *game, map_t map, settings_t *settings,
-    sfRenderWindow *win)
+void raycasting(game_t *game, settings_t *settings,
+    sfRenderWindow *win, float *raycast_data)
 {
-    int x = 0;
+    sfVector2u win_size = sfRenderWindow_getSize(win);
 
-    for (int i = 0; i < WIN_WIDTH; i++) {
-        x = i * (WIN_WIDTH / NUM_RAYS);
-        dist_ray_travel_sidexy(&(game->player), x);
+    for (int i = 0; i < win_size.x; i++) {
+        dist_ray_travel_sidexy(&(game->player), i, win);
         dist_ray_travel(&(game->player));
-        dda_algo(&(game->player), map, settings);
+        dda_algo(&(game->player), *(game->current_map), settings);
         len_ray(&(game->player));
-        draw_vertex_lines(&(game->player), x, win);
+        draw_vertex_lines(&(game->player), i, win);
+        raycast_data[i] = game->player.rays.perpwalldist;
         sfVertexArray_clear(game->player.rays.vertex);
-        sfVertexArray_destroy(game->player.rays.vertex);
     }
 }

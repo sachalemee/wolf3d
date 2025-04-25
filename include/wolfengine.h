@@ -224,18 +224,20 @@ int set_fullscreen(sys_data_t *sys, sfEvent event);
 void mov_player(player_t *player, map_t map);
 
 /* game */
-int game_loop(sys_data_t *sys_data);
+int main_loop(sys_data_t *sys_data);
 int start(const char *_Nullable map_path);
 
 /* in game */
-void draw_in_game(game_t *game, map_t map, settings_t *settings,
+int draw_in_game(game_t *game, settings_t *settings,
     sfRenderWindow *win);
 void draw_background(sfRenderWindow *win,
     sfRectangleShape *background_dsp_rect);
+void draw_enemies(sfVector2f *enemy_coords, float *raycast_data,
+    sfRenderWindow *win, player_t player);
 
 /* raycast */
-void raycasting(game_t *game, map_t map, settings_t *settings,
-    sfRenderWindow *win);
+void raycasting(game_t *game, settings_t *settings,
+    sfRenderWindow *win, float *raycast_data);
 
 /* destroy */
 void destroy_sys(sys_data_t sys);

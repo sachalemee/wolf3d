@@ -15,7 +15,7 @@ int start(const char *_Nullable map_path)
 
     if (init_sys_data(sys_data, map_path) == FAILURE)
         return EXIT_F;
-    if (game_loop(sys_data) == FAILURE)
+    if (main_loop(sys_data) == FAILURE)
         return EXIT_F;
     destroy_sys(*sys_data);
     return EXIT_S;
