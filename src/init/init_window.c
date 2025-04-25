@@ -9,9 +9,12 @@
 
 int init_window(sfRenderWindow **window)
 {
-    sfVideoMode videomode = sfVideoMode_getDesktopMode();
+    sfVideoMode videomode = {0};
     static int mode = 0;
 
+    videomode.height = WIN_HEIGHT;
+    videomode.width = WIN_WIDTH;
+    videomode.bitsPerPixel = WIN_BITS;
     if (mode % 2 == 0)
         *window = sfRenderWindow_create(videomode, WIN_TITLE,
         sfFullscreen, NULL);

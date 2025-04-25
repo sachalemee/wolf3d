@@ -43,6 +43,7 @@
     #define BACKGROUND_MENU_DEF 0, 0, 1791, 1000
     #define BG_RECT 1791.75
     #define BG_MAX_FRAME 8
+    #define BG_SPEED_FRAME 5
 
     /* color of the player */
     #define PLAYER_START_POS_X 22.0
