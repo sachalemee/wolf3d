@@ -53,7 +53,7 @@ static int update_scenes(sys_data_t *sys_data)
 {
     int failure_catch = SUCCESS;
 
-    update_music(&(sys_data->scene));
+    // update_music(&(sys_data->scene));
     switch (sys_data->scene.state) {
         case STATE_MENU:
             failure_catch = update_menu(sys_data);
