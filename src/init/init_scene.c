@@ -14,6 +14,7 @@ void destroy_scene(scene_t scene)
     destroy_musics(scene.musics);
     destroy_error_screen(scene.error_scene);
     destroy_game(scene.game);
+    destroy_weapon(scene.game.weapon);
     destroy_menu(scene.menu);
 }
 

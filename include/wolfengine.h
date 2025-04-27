@@ -215,6 +215,7 @@ int init_sys_data(sys_data_t *sys, const char *_Nullable map_path);
 int init_rays(rays_t *rays);
 void destroy_rays(rays_t rays);
 void destroy_player(player_t player);
+void destroy_weapon(weapon_t weapon);
 int init_player(sfVector2f coords, player_t *dest);
 int init_scene(scene_t *scene, const char *_Nullable map_path,
     sfRenderWindow *win);

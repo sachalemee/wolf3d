@@ -27,10 +27,10 @@ static int init_main_weapon(weapon_t *weapon)
     return SUCCESS;
 }
 
-void destroy_weapon(weapon_t *weapon)
+void destroy_weapon(weapon_t weapon)
 {
-    sfTexture_destroy(weapon->ttr_main);
-    sfSprite_destroy(weapon->spr_main);
+    sfTexture_destroy(weapon.ttr_main);
+    sfSprite_destroy(weapon.spr_main);
 }
 
 int init_weapon(weapon_t *weapon)
