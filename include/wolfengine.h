@@ -45,14 +45,22 @@
     #define BG_MAX_FRAME 8
     #define BG_SPEED_FRAME 5
 
+    /* weapon sprite sheet */
+    #define TTR_MAIN_WEAPON "ressources/sprite-sheet/weapon/main-weapon-sprite.png"
+    #define TTR_MAIN_RECT_SIZE 0, 0, 91 , 127
+    #define WIN_WEAPON_POS 160
+    #define WEAPON_POS_PADDING 8
+    #define MAIN_WEAPON_SPEED_FRAME 1.1
+    #define WEAPON_RECT 275 / 3
+
     /* color of the player */
     #define PLAYER_START_POS_X 22.0
     #define PLAYER_START_POS_Y 11.5
     #define PLAYER_MOV_SPEED 2.0
-    #define PLAYER_ROTA_SPEED 3.0
+    #define PLAYER_ROTA_SPEED 2.0
     #define PLAYER_FOV 1
     #define PLAYER_BORDER_MAP 5
-    #define PLAYER_SPRINT_SPEED 5
+    #define PLAYER_SPRINT_SPEED 2.5
     #define DEFAULT_RENDER_DIST 1000
     #define DEFAULT_DIFFICULTY 0.5
 
@@ -146,12 +154,19 @@ typedef struct menu_s {
     entity_t *entity;
 } menu_t;
 
+typedef struct weapon_s {
+    sfTexture *ttr_main;
+    sfSprite *spr_main;
+    sfIntRect ttr_main_rect;
+} weapon_t;
+
 typedef struct game_s {
     sfRectangleShape *background_dsp_rect;
     sprites_t sprites;
     ssize_t level;
     map_t *current_map;
     player_t player;
+    weapon_t weapon;
 } game_t;
 
 typedef struct settings_s {
@@ -208,6 +223,7 @@ int init_musics(musics_t *musics);
 void destroy_musics(musics_t musics);
 int init_entity(entity_t **entity);
 void destroy_entity(entity_t *entity);
+int init_weapon(weapon_t *weapon);
 // void init_map(player_t *player);
 
 /* init function relative to a struct */
@@ -230,10 +246,10 @@ int game_loop(sys_data_t *sys_data);
 int start(const char *_Nullable map_path);
 
 /* in game */
-void draw_in_game(game_t *game, map_t map, settings_t *settings,
-    sfRenderWindow *win);
+void draw_in_game(sys_data_t *sys_data, game_t *game, map_t map, settings_t *settings);
 void draw_background(sfRenderWindow *win,
     sfRectangleShape *background_dsp_rect);
+void draw_weapon(game_t *game, sfRenderWindow *win, time_info_t *time);
 
 /* raycast */
 void raycasting(game_t *game, map_t map, settings_t *settings,
