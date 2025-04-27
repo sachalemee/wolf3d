@@ -73,7 +73,8 @@ int init_game(game_t *game, const char *_Nullable map_path)
     if (game->current_map == NULL
         || init_player(game->current_map->start, &(game->player)) == FAILURE
         || init_background_disp_rect(&(game->background_dsp_rect)) == FAILURE
-        || init_sprites(&(game->sprites)) == FAILURE) {
+        || init_sprites(&(game->sprites)) == FAILURE
+        || init_weapon(&(game->weapon))) {
         destroy_game(*game);
         return FAILURE;
     }
