@@ -10,11 +10,10 @@
 
 void animated_bg(entity_t *entity, time_info_t *time)
 {
-    time->last_update = ((int)time->last_update + 1)
+    time->last_update = (int)(time->last_update * BG_SPEED_FRAME)
         % entity->anim.max_frame;
     entity->anim.rect.left = time->last_update * BG_RECT;
-    sfSprite_setTextureRect(entity->sprite.sprite_bg,
-    entity->anim.rect);
+    sfSprite_setTextureRect(entity->sprite.sprite_bg, entity->anim.rect);
 }
 
 void draw_bg_menu(menu_t *menu, sfRenderWindow *win)

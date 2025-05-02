@@ -42,6 +42,8 @@
     #define BG_MENU SONGS_PATH"game_background/background_menu.png"
     #define BACKGROUND_MENU_DEF 0, 0, 1791, 1000
     #define BG_RECT 1791.75
+    #define BG_MAX_FRAME 8
+    #define BG_SPEED_FRAME 5
 
     /* color of the player */
     #define PLAYER_START_POS_X 22.0
@@ -256,7 +258,7 @@ int draw_hud_overlay(game_t *game, player_t *player);
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
 
 /* call menu */
-    #define MENU_SCALE 1.25, 1.05
+    #define MENU_SCALE 1.25, 1.2
 int update_menu(sys_data_t *sys);
 int events_menu(sys_data_t *sys);
 void animated_bg(entity_t *entity, time_info_t *time);
