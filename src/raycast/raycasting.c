@@ -99,7 +99,8 @@ static void draw_raycast_band(ray_hit_data_t ray_data,
     double wall_height = (double)win_size.y / ray_data.walldist;
     int top_band = (double)((-1 * wall_height + (double)win_size.y) / 2);
     sfIntRect wall_texture_rect = sfSprite_getTextureRect(wall_sprite);
-    double band_width = (double)wall_texture_rect.width / ((double)win_size.x / ray_data.walldist);
+    double band_width = (double)wall_texture_rect.width /
+        ((double)win_size.x / ray_data.walldist);
     sfIntRect band_texture_rect = {
         round(ray_data.wall_tex_abscissa * (double)wall_texture_rect.width),
         0, ceil(band_width), wall_texture_rect.height};

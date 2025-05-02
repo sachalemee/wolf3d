@@ -50,24 +50,18 @@ static void is_left(player_t *player)
     sfVector2f plane_cpy = player->camera.plane;
 
     if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
-        player->camera.dir.x = player->camera.dir.x
-            * cos(player->mov->rotate_speed)
-            - player->camera.dir.y * sin(player->mov->rotate_speed);
-        player->camera.dir.y = dir_cpy.x * sin(player->mov->rotate_speed)
-            + player->camera.dir.y * cos(player->mov->rotate_speed);
-        player->camera.plane.x = player->camera.plane.x
-            * cos(player->mov->rotate_speed)
-            - player->camera.plane.y * sin(player->mov->rotate_speed);
-        player->camera.plane.y = plane_cpy.x * sin(player->mov->rotate_speed)
-            + player->camera.plane.y * cos(player->mov->rotate_speed);
-        player->camera.dir.x = dir_cpy.x * cos(player->mov->rotate_speed)
-            - dir_cpy.y * sin(player->mov->rotate_speed);
-        player->camera.dir.y = dir_cpy.x * sin(player->mov->rotate_speed)
-            + dir_cpy.y * cos(player->mov->rotate_speed);
-        player->camera.plane.x = plane_cpy.x * cos(player->mov->rotate_speed)
-            - plane_cpy.y * sin(player->mov->rotate_speed);
-        player->camera.plane.y = plane_cpy.x * sin(player->mov->rotate_speed)
-            + plane_cpy.y * cos(player->mov->rotate_speed);
+        player->camera.dir = (sfVector2f){
+            player->camera.dir.x * cos(player->mov->rotate_speed)
+            - player->camera.dir.y * sin(player->mov->rotate_speed),
+            player->camera.dir.y = dir_cpy.x * sin(player->mov->rotate_speed)
+            + player->camera.dir.y * cos(player->mov->rotate_speed)
+        };
+        player->camera.plane = (sfVector2f){
+            player->camera.plane.x * cos(player->mov->rotate_speed)
+            - player->camera.plane.y * sin(player->mov->rotate_speed),
+            plane_cpy.x * sin(player->mov->rotate_speed)
+            + player->camera.plane.y * cos(player->mov->rotate_speed)
+        };
     }
 }
 
@@ -77,31 +71,24 @@ static void is_right(player_t *player)
     sfVector2f plane_cpy = player->camera.plane;
 
     if (sfKeyboard_isKeyPressed(sfKeyRight)) {
-        player->camera.dir.x = player->camera.dir.x
-            * cos(-player->mov->rotate_speed) - player->camera.dir.y
-            * sin(-player->mov->rotate_speed);
-        player->camera.dir.y = dir_cpy.x * sin(-player->mov->rotate_speed)
-            + player->camera.dir.y * cos(-player->mov->rotate_speed);
-        player->camera.plane.x = player->camera.plane.x
-            * cos(-player->mov->rotate_speed)
-            - player->camera.plane.y * sin(-player->mov->rotate_speed);
-        player->camera.plane.y = plane_cpy.x * sin(-player->mov->rotate_speed)
-            + player->camera.plane.y * cos(-player->mov->rotate_speed);
-        player->camera.dir.x = dir_cpy.x * cos(-player->mov->rotate_speed)
-            - dir_cpy.y * sin(-player->mov->rotate_speed);
-        player->camera.dir.y = dir_cpy.x * sin(-player->mov->rotate_speed)
-            + dir_cpy.y * cos(-player->mov->rotate_speed);
-        player->camera.plane.x = plane_cpy.x * cos(-player->mov->rotate_speed)
-            - plane_cpy.y * sin(-player->mov->rotate_speed);
-        player->camera.plane.y = plane_cpy.x * sin(-player->mov->rotate_speed)
-            + plane_cpy.y * cos(-player->mov->rotate_speed);
+        player->camera.dir = (sfVector2f){
+            player->camera.dir.x * cos(-player->mov->rotate_speed)
+            - player->camera.dir.y * sin(-player->mov->rotate_speed),
+            dir_cpy.x * sin(-player->mov->rotate_speed)
+            + player->camera.dir.y * cos(-player->mov->rotate_speed)
+        };
+        player->camera.plane = (sfVector2f){
+            player->camera.plane.x * cos(-player->mov->rotate_speed)
+            - player->camera.plane.y * sin(-player->mov->rotate_speed),
+            plane_cpy.x * sin(-player->mov->rotate_speed)
+            + player->camera.plane.y * cos(-player->mov->rotate_speed)
+        };
     }
 }
 
 static void crab_left(player_t *player, map_t map)
 {
-    sfVector2f crab_mov = (sfVector2f){-player->camera.dir.y,
-        player->camera.dir.x};
+    sfVector2f crab_mov = {-1 * player->camera.dir.y, player->camera.dir.x};
 
     if (sfKeyboard_isKeyPressed(sfKeyQ)) {
         crab_mov.x = -player->camera.dir.y;

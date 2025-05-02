@@ -72,7 +72,7 @@ int init_game(game_t *game, const char *_Nullable map_path,
     sfRenderWindow *win)
 {
     sfVector2u win_size = sfRenderWindow_getSize(win);
-    
+
     game->raycast_data = malloc(win_size.x * sizeof(float) + 1);
     if (game->raycast_data == NULL)
         return FAILURE;

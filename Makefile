@@ -113,7 +113,7 @@ all: mklib $(NAME)
 CSFMLFLAGS		=	-lcsfml-system -lcsfml-window	\
 					-lcsfml-graphics -lcsfml-audio
 CPPFLAGS		+=	-iquote include
-CFLAGS			+=	-Wall -Wextra -g3
+CFLAGS			+=	-Wall -Wextra
 LDFLAGS			+=	-L ./lib/
 LDLIBS			+=	-lmy -lm $(CSFMLFLAGS)
 

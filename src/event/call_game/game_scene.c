@@ -18,7 +18,6 @@ int game_scene(game_t *game, sys_data_t *sys)
     sfRenderWindow_clear(sys->window, sfBlack);
     update_player(&(game->player), sys->time);
     game_events(sys);
-
     if (draw_in_game(game, *(game->current_map), sys->window) == FAILURE)
         return FAILURE;
     draw_hud_overlay(game, &(game->player));

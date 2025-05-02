@@ -8,9 +8,7 @@
 #include "wolfengine.h"
 #include <math.h>
 
-static int draw_enemy(sfVector2f enemy_coords, float *raycast_data,
-    sfRenderWindow *win, player_t player)
-{
+/*
     sfVector2f player_monster_vec = (sfVector2f){
         enemy_coords.x - player.pos.x,
         enemy_coords.y - player.pos.y
@@ -21,6 +19,10 @@ static int draw_enemy(sfVector2f enemy_coords, float *raycast_data,
     double angle_monster_view = acos();
     dprintf(2, "angle_monster_view : %lf\n", angle_monster_view);
 
+*/
+static int draw_enemy(sfVector2f enemy_coords, float *raycast_data,
+    sfRenderWindow *win, player_t player)
+{
     return SUCCESS;
 }
 

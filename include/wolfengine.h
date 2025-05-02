@@ -71,14 +71,14 @@
     #define SUCCESS 0
 
     /* vector calculations */
-    enum vector_step {
-        POSITIVE_STEP = 1,
-        NEGATIVE_STEP = -1
-    };
-    enum ray_hit_type {
-        VERTICAL_WALL = 0,
-        HORIZONTAL_WALL = 1
-    };
+enum vector_step {
+    POSITIVE_STEP = 1,
+    NEGATIVE_STEP = -1
+};
+enum ray_hit_type {
+    VERTICAL_WALL = 0,
+    HORIZONTAL_WALL = 1
+};
 
 typedef struct ray_s {
     sfVector2f dir;
@@ -282,7 +282,8 @@ void draw_background(sfRenderWindow *win,
     sfRectangleShape *background_dsp_rect);
 
 /* raycast */
-void raycasting(camera_t camera, map_t map, sfSprite **wall_sprites, sfRenderWindow *win);
+void raycasting(camera_t camera, map_t map,
+    sfSprite **wall_sprites, sfRenderWindow *win);
 
 /* destroy */
 void destroy_sys(sys_data_t sys);
