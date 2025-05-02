@@ -92,39 +92,35 @@ static double len_ray(ray_t ray, int side)
         return ray.sidedist.y - ray.delta_dist.y;
 }
 
+static void draw_raycast_band(ray_hit_data_t ray_data,
+    sfSprite *wall_sprite, size_t band_x, sfRenderWindow *win)
+{
+    sfVector2u win_size = sfRenderWindow_getSize(win);
+    double wall_height = (double)win_size.y / ray_data.walldist;
+    int top_band = (double)((-1 * wall_height + (double)win_size.y) / 2);
+    sfIntRect wall_texture_rect = sfSprite_getTextureRect(wall_sprite);
+    double band_width = (double)wall_texture_rect.width / ((double)win_size.x / ray_data.walldist);
+    sfIntRect band_texture_rect = {
+        round(ray_data.wall_tex_abscissa * (double)wall_texture_rect.width),
+        0, ceil(band_width), wall_texture_rect.height};
+    sfVector2f sprite_scale = {(double)1.0 / (double)band_texture_rect.width,
+        (double)wall_height / (double)wall_texture_rect.height};
+
+    sfSprite_setTextureRect(wall_sprite, band_texture_rect);
+    sfSprite_setScale(wall_sprite, sprite_scale);
+    sfSprite_setPosition(wall_sprite, (sfVector2f){band_x, top_band});
+    sfRenderWindow_drawSprite(win, wall_sprite, NULL);
+    sfSprite_setTextureRect(wall_sprite, wall_texture_rect);
+    sfSprite_setScale(wall_sprite, (sfVector2f){0, 0});
+    sfSprite_setPosition(wall_sprite, (sfVector2f){0, 0});
+}
+
 // wall_type gets +1 because texture 0 doesnt exis (0 is air)
 static void dsp_raycast_band(ray_hit_data_t ray_data,
     sfSprite **wall_sprites, size_t band_x, sfRenderWindow *win)
 {
-    sfVector2u win_size = sfRenderWindow_getSize(win);
-    int wall_height = (int)(win_size.y / ray_data.walldist);
-    int top_band = (-1 * wall_height + win_size.y) / 2;
-    double band_width = win_size.x / ray_data.walldist;
-    sfIntRect wall_texture_rect =
-        sfSprite_getTextureRect(wall_sprites[ray_data.wall_type - 1]);
-    sfIntRect band_texture_rect = {
-        (int)(ray_data.wall_tex_abscissa * wall_texture_rect.width),
-        0,
-        band_width,
-        wall_texture_rect.height
-    };
-    sfVector2f sprite_scale = {
-        1 / band_width,
-        wall_height / wall_texture_rect.height
-    };
-
-    sfSprite_setTextureRect(wall_sprites[ray_data.wall_type - 1],
-        band_texture_rect);
-    sfSprite_setScale(wall_sprites[ray_data.wall_type - 1], sprite_scale);
-    sfSprite_setPosition(wall_sprites[ray_data.wall_type - 1],
-        (sfVector2f){band_x, top_band});
-    sfRenderWindow_drawSprite(win, wall_sprites[ray_data.wall_type - 1], NULL);
-    sfSprite_setTextureRect(wall_sprites[ray_data.wall_type - 1],
-        wall_texture_rect);
-    sfSprite_setScale(wall_sprites[ray_data.wall_type - 1],
-        (sfVector2f){0, 0});
-    sfSprite_setPosition(wall_sprites[ray_data.wall_type - 1],
-        (sfVector2f){0, 0});
+    draw_raycast_band(ray_data, wall_sprites[ray_data.wall_type - 1],
+        band_x, win);
 }
 
 double get_wall_tex_abscissa(sfVector2f dir, int side,
@@ -136,6 +132,7 @@ double get_wall_tex_abscissa(sfVector2f dir, int side,
         wall_tex_abscissa = camera_pos.y + wall_dist * dir.y;
     else
         wall_tex_abscissa = camera_pos.x + wall_dist * dir.x;
+    wall_tex_abscissa = wall_tex_abscissa - floor(wall_tex_abscissa);
     return wall_tex_abscissa;
 }
 
