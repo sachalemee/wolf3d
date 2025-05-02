@@ -13,91 +13,131 @@
 static void is_up(player_t *player, map_t map)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)) {
-        if (GET_TIL(map, (int)(player->pos.x + player->dir.x
+        if (GET_TIL(map, (int)(player->camera.pos.x + player->camera.dir.x
             * player->mov->mov_speed * PLAYER_BORDER_MAP),
-            (int)player->pos.y) == 0)
-            player->pos.x += player->dir.x * player->mov->mov_speed;
-        if (GET_TIL(map, (int)player->pos.x,
-            (int)(player->pos.y + player->dir.y * player->mov->mov_speed
+            (int)player->camera.pos.y) == 0)
+            player->camera.pos.x += player->camera.dir.x
+                * player->mov->mov_speed;
+        if (GET_TIL(map, (int)player->camera.pos.x,
+            (int)(player->camera.pos.y + player->camera.dir.y
+                * player->mov->mov_speed
             * PLAYER_BORDER_MAP)) == 0)
-            player->pos.y += player->dir.y * player->mov->mov_speed;
+            player->camera.pos.y += player->camera.dir.y
+                * player->mov->mov_speed;
     }
 }
 
 static void is_down(player_t *player, map_t map)
 {
     if (sfKeyboard_isKeyPressed(sfKeyS)) {
-        if (GET_TIL(map, (int)(player->pos.x - player->dir.x
+        if (GET_TIL(map, (int)(player->camera.pos.x - player->camera.dir.x
             * player->mov->mov_speed * PLAYER_BORDER_MAP),
-            (int)player->pos.y) == 0)
-            player->pos.x -= player->dir.x * player->mov->mov_speed;
-        if (GET_TIL(map, (int)player->pos.x,
-            (int)(player->pos.y - player->dir.y * player->mov->mov_speed
+            (int)player->camera.pos.y) == 0)
+            player->camera.pos.x -= player->camera.dir.x
+                * player->mov->mov_speed;
+        if (GET_TIL(map, (int)player->camera.pos.x,
+            (int)(player->camera.pos.y - player->camera.dir.y
+                * player->mov->mov_speed
             * PLAYER_BORDER_MAP)) == 0)
-            player->pos.y -= player->dir.y * player->mov->mov_speed;
+            player->camera.pos.y -= player->camera.dir.y
+                * player->mov->mov_speed;
     }
 }
 
 static void is_left(player_t *player)
 {
-    sfVector2f dir_cpy = player->dir;
-    sfVector2f plane_cpy = player->plane;
+    sfVector2f dir_cpy = player->camera.dir;
+    sfVector2f plane_cpy = player->camera.plane;
 
     if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
-        player->dir.x = dir_cpy.x * cos(player->mov->rotate_speed)
+        player->camera.dir.x = player->camera.dir.x
+            * cos(player->mov->rotate_speed)
+            - player->camera.dir.y * sin(player->mov->rotate_speed);
+        player->camera.dir.y = dir_cpy.x * sin(player->mov->rotate_speed)
+            + player->camera.dir.y * cos(player->mov->rotate_speed);
+        player->camera.plane.x = player->camera.plane.x
+            * cos(player->mov->rotate_speed)
+            - player->camera.plane.y * sin(player->mov->rotate_speed);
+        player->camera.plane.y = plane_cpy.x * sin(player->mov->rotate_speed)
+            + player->camera.plane.y * cos(player->mov->rotate_speed);
+        player->camera.dir.x = dir_cpy.x * cos(player->mov->rotate_speed)
             - dir_cpy.y * sin(player->mov->rotate_speed);
-        player->dir.y = dir_cpy.x * sin(player->mov->rotate_speed)
+        player->camera.dir.y = dir_cpy.x * sin(player->mov->rotate_speed)
             + dir_cpy.y * cos(player->mov->rotate_speed);
-        
-        player->plane.x = plane_cpy.x * cos(player->mov->rotate_speed)
+        player->camera.plane.x = plane_cpy.x * cos(player->mov->rotate_speed)
             - plane_cpy.y * sin(player->mov->rotate_speed);
-        player->plane.y = plane_cpy.x * sin(player->mov->rotate_speed)
+        player->camera.plane.y = plane_cpy.x * sin(player->mov->rotate_speed)
             + plane_cpy.y * cos(player->mov->rotate_speed);
     }
 }
 
 static void is_right(player_t *player)
 {
-    sfVector2f dir_cpy = player->dir;
-    sfVector2f plane_cpy = player->plane;
+    sfVector2f dir_cpy = player->camera.dir;
+    sfVector2f plane_cpy = player->camera.plane;
 
     if (sfKeyboard_isKeyPressed(sfKeyRight)) {
-        player->dir.x = dir_cpy.x * cos(-player->mov->rotate_speed)
+        player->camera.dir.x = player->camera.dir.x
+            * cos(-player->mov->rotate_speed) - player->camera.dir.y
+            * sin(-player->mov->rotate_speed);
+        player->camera.dir.y = dir_cpy.x * sin(-player->mov->rotate_speed)
+            + player->camera.dir.y * cos(-player->mov->rotate_speed);
+        player->camera.plane.x = player->camera.plane.x
+            * cos(-player->mov->rotate_speed)
+            - player->camera.plane.y * sin(-player->mov->rotate_speed);
+        player->camera.plane.y = plane_cpy.x * sin(-player->mov->rotate_speed)
+            + player->camera.plane.y * cos(-player->mov->rotate_speed);
+        player->camera.dir.x = dir_cpy.x * cos(-player->mov->rotate_speed)
             - dir_cpy.y * sin(-player->mov->rotate_speed);
-        player->dir.y = dir_cpy.x * sin(-player->mov->rotate_speed)
+        player->camera.dir.y = dir_cpy.x * sin(-player->mov->rotate_speed)
             + dir_cpy.y * cos(-player->mov->rotate_speed);
-        player->plane.x = plane_cpy.x * cos(-player->mov->rotate_speed)
+        player->camera.plane.x = plane_cpy.x * cos(-player->mov->rotate_speed)
             - plane_cpy.y * sin(-player->mov->rotate_speed);
-        player->plane.y = plane_cpy.x * sin(-player->mov->rotate_speed)
+        player->camera.plane.y = plane_cpy.x * sin(-player->mov->rotate_speed)
             + plane_cpy.y * cos(-player->mov->rotate_speed);
     }
 }
 
 static void crab_left(player_t *player, map_t map)
 {
-    sfVector2f crab_mov = (sfVector2f){-player->dir.y, player->dir.x};
+    sfVector2f crab_mov = (sfVector2f){-player->camera.dir.y,
+        player->camera.dir.x};
 
     if (sfKeyboard_isKeyPressed(sfKeyQ)) {
-        if (GET_TIL(map, (int)(player->pos.x + crab_mov.x
-            * player->mov->mov_speed), (int)player->pos.y) == 0)
-            player->pos.x += crab_mov.x * player->mov->mov_speed;
-        if (GET_TIL(map, (int)player->pos.x, (int)(player->pos.y + crab_mov.y
-            * player->mov->mov_speed)) == 0)
-            player->pos.y += crab_mov.y * player->mov->mov_speed;
+        crab_mov.x = -player->camera.dir.y;
+        crab_mov.y = player->camera.dir.x;
+        if (GET_TIL(map, (int)(player->camera.pos.x + crab_mov.x
+            * player->mov->mov_speed), (int)player->camera.pos.y) == 0)
+            player->camera.pos.x += crab_mov.x * player->mov->mov_speed;
+        if (GET_TIL(map, (int)player->camera.pos.x, (int)(player->camera.pos.y
+            + crab_mov.y * player->mov->mov_speed)) == 0)
+            player->camera.pos.y += crab_mov.y * player->mov->mov_speed;
+        if (GET_TIL(map, (int)(player->camera.pos.x + crab_mov.x
+            * player->mov->mov_speed), (int)player->camera.pos.y) == 0)
+            player->camera.pos.x += crab_mov.x * player->mov->mov_speed;
+        if (GET_TIL(map, (int)player->camera.pos.x, (int)(player->camera.pos.y
+            + crab_mov.y * player->mov->mov_speed)) == 0)
+            player->camera.pos.y += crab_mov.y * player->mov->mov_speed;
     }
 }
 
 static void crab_right(player_t *player, map_t map)
 {
-    sfVector2f crab_mov = (sfVector2f){player->dir.y, -player->dir.x};
+    sfVector2f crab_mov = (sfVector2f){player->camera.dir.y,
+        -player->camera.dir.x};
 
     if (sfKeyboard_isKeyPressed(sfKeyD)) {
-        if (GET_TIL(map, (int)(player->pos.x + crab_mov.x
-            * player->mov->mov_speed), (int)player->pos.y) == 0)
-            player->pos.x += crab_mov.x * player->mov->mov_speed;
-        if (GET_TIL(map, (int)player->pos.x, (int)(player->pos.y
+        crab_mov.x = player->camera.dir.y;
+        crab_mov.y = -player->camera.dir.x;
+        if (GET_TIL(map, (int)(player->camera.pos.x + crab_mov.x
+            * player->mov->mov_speed), (int)player->camera.pos.y) == 0)
+            player->camera.pos.x += crab_mov.x * player->mov->mov_speed;
+        if (GET_TIL(map, (int)(player->camera.pos.x + crab_mov.x
+            * player->mov->mov_speed), (int)player->camera.pos.y) == 0)
+            player->camera.pos.x += crab_mov.x * player->mov->mov_speed;
+        if (GET_TIL(map, (int)player->camera.pos.x, (int)(player->camera.pos.y
             + crab_mov.y * player->mov->mov_speed)) == 0)
-            player->pos.y += crab_mov.y * player->mov->mov_speed;
+            player->camera.pos.y += crab_mov.y * player->mov->mov_speed;
     }
 }
 
@@ -109,8 +149,6 @@ static void up_down(player_t *player, map_t map)
 
 static void left_right(player_t *player)
 {
-    double prev_plane_x = 0;
-
     is_left(player);
     is_right(player);
 }

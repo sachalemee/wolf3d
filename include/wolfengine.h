@@ -57,8 +57,7 @@
     #define DEFAULT_DIFFICULTY 0.5
 
     /* wall info */
-    #define WALL_HEIGHT_MULTI 0
-    #define NUM_RAYS 1000
+    // #define WALL_HEIGHT_MULTI 0
     #define ROOF_RGB 90, 231, 223
     #define FLOOR_RGB 223, 231, 90
     #define END_SIZE 2.5
@@ -71,35 +70,50 @@
     #define FAILURE -1
     #define SUCCESS 0
 
-    /* map define */
-    #define IS_WALL 1
-    #define IS_VOID 0
+    /* vector calculations */
+    enum vector_step {
+        POSITIVE_STEP = 1,
+        NEGATIVE_STEP = -1
+    };
+    enum ray_hit_type {
+        VERTICAL_WALL = 0,
+        HORIZONTAL_WALL = 1
+    };
 
-typedef struct rays_s {
-    sfVertexArray *vertex;
-    sfRenderStates wall_states;
-    sfVector2f raydir;
-    double camera_x;
+typedef struct ray_s {
+    sfVector2f dir;
     sfVector2f delta_dist;
     sfVector2f sidedist;
+    sfVector2f origin;
     sfVector2i step;
-    double perpwalldist;
+} ray_t;
+
+typedef struct ray_hit_data_s {
+    int wall_type;
+    double walldist;
+    double wall_tex_abscissa;
     int side;
-    double pixel_texture;
-} rays_t;
+} ray_hit_data_t;
+
 
 typedef struct player_settings_s {
     double mov_speed;
     double rotate_speed;
+    size_t *render_dist;
 } player_settings_t;
 
-typedef struct player_s {
+typedef struct camera_s {
     sfVector2f dir;
     sfVector2f plane;
-    rays_t rays;
+    sfVector2f pos;
+    size_t *render_dist;
+} camera_t;
+
+typedef struct player_s {
+    camera_t camera;
+    ray_t ray;
     player_settings_t *mov;
     sfVector2i map;
-    sfVector2f pos;
 } player_t;
 
 typedef struct set_texture_and_sprite_s {
@@ -147,15 +161,16 @@ typedef struct menu_s {
 } menu_t;
 
 typedef struct game_s {
+    sfSprite **wall_sprites;
     sfRectangleShape *background_dsp_rect;
     sprites_t sprites;
     ssize_t level;
     map_t *current_map;
     player_t player;
+    float *raycast_data;
 } game_t;
 
 typedef struct settings_s {
-    size_t render_dist;
     float difficulty;
     player_settings_t *player_settings;
 } settings_t;
@@ -188,6 +203,36 @@ typedef struct sys_data_s {
     time_info_t time;
 } sys_data_t;
 
+/* wall textures */
+    #define WALL_TEXTURES_PATH "ressources/Wolf3D_IMG/wall_textures/"
+
+// wall types are in the same order as wall textures (with an offset of 1
+// because air has no texture)
+enum wall_types {
+    AIR = 0,
+    SIMPLE_WALL = 1,
+    SPECIAL_WALL = 2,
+    WALL_1 = 3,
+    WALL_2 = 4,
+    WALL_3 = 5,
+    WALL_4 = 6,
+    WALL_5 = 7,
+    WALL_6 = 8,
+    WALL_7 = 9
+};
+static char const *const wall_textures[] = {
+    "wall_bamboo.png",
+    "joff.png",
+    "wall_bamboo.png",
+    "wall_bamboo.png",
+    "wall_bamboo.png",
+    "wall_bamboo.png",
+    "wall_bamboo.png",
+    "wall_bamboo.png",
+    "wall_bamboo.png",
+    NULL
+};
+
 /* init */
 void destroy_menu(menu_t menu);
 int init_menu(menu_t *menu);
@@ -195,10 +240,9 @@ void destroy_settings(settings_t settings);
 int init_settings(settings_t *settings, player_settings_t *player_settings);
 void close_menu(sys_data_t *sys);
 void destroy_game(game_t game);
-int init_game(game_t *game, const char *_Nullable map_path);
+int init_game(game_t *game, const char *_Nullable map_path,
+    sfRenderWindow *win);
 int init_sys_data(sys_data_t *sys, const char *_Nullable map_path);
-int init_rays(rays_t *rays);
-void destroy_rays(rays_t rays);
 void destroy_player(player_t player);
 int init_player(sfVector2f coords, player_t *dest);
 int init_scene(scene_t *scene, const char *_Nullable map_path,
@@ -212,9 +256,12 @@ void destroy_entity(entity_t *entity);
 
 /* init function relative to a struct */
 int init_window(sfRenderWindow **window);
+int init_wall_sprites(sfSprite ***wall_sprites);
+void destroy_wall_sprites(sfSprite **wall_sprites);
 
 /* time */
 void update_time(time_info_t *time);
+int main_loop(sys_data_t *sys_data);
 int init_time(time_info_t *time);
 void destroy_time(time_info_t time);
 
@@ -230,14 +277,12 @@ int game_loop(sys_data_t *sys_data);
 int start(const char *_Nullable map_path);
 
 /* in game */
-void draw_in_game(game_t *game, map_t map, settings_t *settings,
-    sfRenderWindow *win);
+int draw_in_game(game_t *game, map_t map, sfRenderWindow *win);
 void draw_background(sfRenderWindow *win,
     sfRectangleShape *background_dsp_rect);
 
 /* raycast */
-void raycasting(game_t *game, map_t map, settings_t *settings,
-    sfRenderWindow *win);
+void raycasting(camera_t camera, map_t map, sfSprite **wall_sprites, sfRenderWindow *win);
 
 /* destroy */
 void destroy_sys(sys_data_t sys);
@@ -245,9 +290,6 @@ void destroy_sys(sys_data_t sys);
 
 /* error handling */
 int error_handling(game_t *game, player_t *player);
-
-/* map */
-int browse_map(game_t *game, map_t map);
 
 /* hud */
 int draw_hud_overlay(game_t *game, player_t *player);

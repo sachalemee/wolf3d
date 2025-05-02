@@ -9,7 +9,7 @@
 
 static void enter_next_level(game_t *game, sfEvent event, bool *is_running)
 {
-    sfVector2f player_pos = game->player.pos;
+    sfVector2f player_pos = game->player.camera.pos;
     sfVector2f end_pos = game->current_map->end;
     float approx_dist_end = ABS(player_pos.x - end_pos.x)
         + ABS(player_pos.y - end_pos.y);
@@ -22,7 +22,7 @@ static void enter_next_level(game_t *game, sfEvent event, bool *is_running)
         game->current_map = get_level(game->level);
         if (game->current_map == NULL)
             *is_running = sfFalse;
-        game->player.pos = game->current_map->start;
+        game->player.camera.pos = game->current_map->start;
     }
 }
 

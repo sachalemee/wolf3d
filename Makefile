@@ -80,6 +80,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					init_map.c \
 					init_player.c \
 					init_window.c \
+					init_wall_sprites.c	\
 				)\
 				$(addprefix  $(RAYCAST_PATH), \
 					raycasting.c \
@@ -94,7 +95,6 @@ SRC =		$(addprefix $(SRC_PATH), \
 				)\
 				$(addprefix $(TEST_PATH), \
 					$(addprefix $(MAP_PATH), \
-						browse_map.c \
 						map.c \
 					)\
 				)\
@@ -113,7 +113,7 @@ all: mklib $(NAME)
 CSFMLFLAGS		=	-lcsfml-system -lcsfml-window	\
 					-lcsfml-graphics -lcsfml-audio
 CPPFLAGS		+=	-iquote include
-CFLAGS			+=	-Wall -Wextra
+CFLAGS			+=	-Wall -Wextra -g3
 LDFLAGS			+=	-L ./lib/
 LDLIBS			+=	-lmy -lm $(CSFMLFLAGS)
 

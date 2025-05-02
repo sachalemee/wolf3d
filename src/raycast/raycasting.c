@@ -10,134 +10,162 @@
 #include "wolfengine.h"
 #include "hmap.h"
 
-static void ray_posdir(player_t *player, int x, sfRenderWindow *win)
+static sfVector2f get_ray_orientation(camera_t camera, int x)
 {
-    sfVector2u win_size = sfRenderWindow_getSize(win);
+    double camera_x = 2 * x / (double)WIN_WIDTH - 1;
+    sfVector2f ray_direction = {
+        camera.dir.x + camera.plane.x * camera_x,
+        camera.dir.y + camera.plane.y * camera_x
+    };
 
-    player->rays.camera_x = 2 * x / (double)win_size.x - 1;
-    player->rays.raydir.x =
-        player->dir.x + player->plane.x * player->rays.camera_x;
-    player->rays.raydir.y =
-        player->dir.y + player->plane.y * player->rays.camera_x;
+    return ray_direction;
 }
 
-static void dist_ray_travel_sidexy(player_t *player, int x,
-    sfRenderWindow *win)
+static void get_sidedist(sfVector2f camera_pos, ray_t *ray)
 {
-    ray_posdir(player, x, win);
-    if (player->rays.raydir.x == 0) {
-        player->rays.delta_dist.x = INFINITY;
-    } else {
-        if (player->rays.raydir.x < 0)
-            player->rays.delta_dist.x = -1 / player->rays.raydir.x;
-        else
-            player->rays.delta_dist.x = 1 / player->rays.raydir.x;
-    }
-    if (player->rays.raydir.y == 0) {
-        player->rays.delta_dist.y = INFINITY;
-    } else {
-        if (player->rays.raydir.y < 0)
-            player->rays.delta_dist.y = -1 / player->rays.raydir.y;
-        else
-            player->rays.delta_dist.y = 1 / player->rays.raydir.y;
-    }
+    int nearest_left_wall = (int)(camera_pos.x);
+    int nearest_right_wall = (int)(camera_pos.x) + 1;
+    int nearest_top_wall = (int)(camera_pos.y);
+    int nearest_bottom_wall = (int)(camera_pos.y) + 1;
+
+    if (ray->step.x == NEGATIVE_STEP) {
+        ray->sidedist.x = (camera_pos.x - nearest_left_wall);
+    } else
+        ray->sidedist.x = (nearest_right_wall - camera_pos.x);
+    if (ray->step.y == NEGATIVE_STEP) {
+        ray->sidedist.y = (camera_pos.y - nearest_top_wall);
+    } else
+        ray->sidedist.y = (nearest_bottom_wall - camera_pos.y);
+    ray->sidedist = (sfVector2f){
+        ray->sidedist.x * ray->delta_dist.x,
+        ray->sidedist.y * ray->delta_dist.y
+    };
 }
 
-static void dist_ray_travel(player_t *player)
+static void get_dda_values(sfVector2f camera_pos, ray_t *ray)
 {
-    player->map.x = (int)(player->pos.x);
-    player->map.y = (int)(player->pos.y);
-    if (player->rays.raydir.x < 0) {
-        player->rays.step.x = -1;
-        player->rays.sidedist.x = (player->pos.x
-            - player->map.x) * player->rays.delta_dist.x;
-    } else {
-        player->rays.step.x = 1;
-        player->rays.sidedist.x = (player->map.x + 1.0
-            - player->pos.x) * player->rays.delta_dist.x;
-    }
-    if (player->rays.raydir.y < 0) {
-        player->rays.step.y = -1;
-        player->rays.sidedist.y = (player->pos.y
-            - player->map.y) * player->rays.delta_dist.y;
-    } else {
-        player->rays.step.y = 1;
-        player->rays.sidedist.y = (player->map.y
-            + 1.0 - player->pos.y) * player->rays.delta_dist.y;
-    }
+    ray->step = (sfVector2i){
+        (ray->dir.x < 0) ?
+            NEGATIVE_STEP :
+            POSITIVE_STEP,
+        (ray->dir.y < 0) ?
+            NEGATIVE_STEP :
+            POSITIVE_STEP
+    };
+    ray->delta_dist = (sfVector2f){
+        fabs(1 / ray->dir.x),
+        fabs(1 / ray->dir.y)
+    };
+    get_sidedist(camera_pos, ray);
 }
 
-static void dda_algo(player_t *player, map_t map, settings_t *settings)
+// returns the type of wall that was hit
+static int get_first_intersecting_wall(ray_t *ray, map_t map,
+    size_t max_ray_len, int *wall_side)
 {
     int hit_wall = 0;
+    sfVector2i wall_coords = {ray->origin.x, ray->origin.y};
+    int current_tile = 0;
 
-    for (size_t i = 0; hit_wall == 0 && i < settings->render_dist; i++) {
-        if (player->rays.sidedist.x < player->rays.sidedist.y) {
-            player->rays.sidedist.x += player->rays.delta_dist.x;
-            player->map.x += player->rays.step.x;
-            player->rays.side = 0;
+    for (size_t i = 0; hit_wall == 0 && i < max_ray_len; i++) {
+        if (ray->sidedist.x < ray->sidedist.y) {
+            ray->sidedist.x += ray->delta_dist.x;
+            wall_coords.x += ray->step.x;
+            *wall_side = VERTICAL_WALL;
         } else {
-            player->rays.sidedist.y += player->rays.delta_dist.y;
-            player->map.y += player->rays.step.y;
-            player->rays.side = 1;
+            ray->sidedist.y += ray->delta_dist.y;
+            wall_coords.y += ray->step.y;
+            *wall_side = HORIZONTAL_WALL;
         }
-        if (GET_TIL(map, player->map.x, player->map.y) > 0)
-            hit_wall = 1;
+        current_tile = GET_TIL(map, wall_coords.x, wall_coords.y);
+        if (current_tile > 0)
+            return current_tile;
     }
+    return current_tile;
 }
 
-static void len_ray(player_t *player)
+static double len_ray(ray_t ray, int side)
 {
-    if (player->rays.side == 0)
-        player->rays.perpwalldist =
-        player->rays.sidedist.x - player->rays.delta_dist.x;
+    if (side == VERTICAL_WALL)
+        return ray.sidedist.x - ray.delta_dist.x;
     else
-        player->rays.perpwalldist =
-        player->rays.sidedist.y - player->rays.delta_dist.y;
+        return ray.sidedist.y - ray.delta_dist.y;
 }
 
-static void set_vertex(player_t *player,
-    int beg_draw, int end_draw, int x)
-{
-    sfColor color_vertex = sfColor_fromRGB(100, 240, 220);
-    sfVertex vertex = {0};
-
-    vertex = (sfVertex){{(float)x, (float)beg_draw}, sfWhite, {491, 0}};
-    sfVertexArray_append(player->rays.vertex, vertex);
-    color_vertex = sfColor_fromRGB(232, 240, 100);
-    vertex = (sfVertex){{(float)x, (float)end_draw}, color_vertex,
-        {491, player->rays.pixel_texture}};
-    sfVertexArray_append(player->rays.vertex, vertex);
-}
-
-static void draw_vertex_lines(player_t *player, int x, sfRenderWindow* window)
-{
-    int beg_draw = 0;
-    int end_draw = 0;
-    int wall_size = 0;
-    sfVector2u win_size = sfRenderWindow_getSize(window);
-
-    wall_size = (int)(win_size.y / player->rays.perpwalldist)
-        + WALL_HEIGHT_MULTI;
-    beg_draw = (-wall_size / 2) + (win_size.y / 2);
-    end_draw = (wall_size / 2) + (win_size.y / 2);
-    set_vertex(player, beg_draw, end_draw, x);
-    sfRenderWindow_drawVertexArray(window,
-        player->rays.vertex, &player->rays.wall_states);
-}
-
-void raycasting(game_t *game, settings_t *settings,
-    sfRenderWindow *win, float *raycast_data)
+// wall_type gets +1 because texture 0 doesnt exis (0 is air)
+static void dsp_raycast_band(ray_hit_data_t ray_data,
+    sfSprite **wall_sprites, size_t band_x, sfRenderWindow *win)
 {
     sfVector2u win_size = sfRenderWindow_getSize(win);
+    int wall_height = (int)(win_size.y / ray_data.walldist);
+    int top_band = (-1 * wall_height + win_size.y) / 2;
+    double band_width = win_size.x / ray_data.walldist;
+    sfIntRect wall_texture_rect =
+        sfSprite_getTextureRect(wall_sprites[ray_data.wall_type - 1]);
+    sfIntRect band_texture_rect = {
+        (int)(ray_data.wall_tex_abscissa * wall_texture_rect.width),
+        0,
+        band_width,
+        wall_texture_rect.height
+    };
+    sfVector2f sprite_scale = {
+        1 / band_width,
+        wall_height / wall_texture_rect.height
+    };
 
-    for (int i = 0; i < win_size.x; i++) {
-        dist_ray_travel_sidexy(&(game->player), i, win);
-        dist_ray_travel(&(game->player));
-        dda_algo(&(game->player), *(game->current_map), settings);
-        len_ray(&(game->player));
-        draw_vertex_lines(&(game->player), i, win);
-        raycast_data[i] = game->player.rays.perpwalldist;
-        sfVertexArray_clear(game->player.rays.vertex);
+    sfSprite_setTextureRect(wall_sprites[ray_data.wall_type - 1],
+        band_texture_rect);
+    sfSprite_setScale(wall_sprites[ray_data.wall_type - 1], sprite_scale);
+    sfSprite_setPosition(wall_sprites[ray_data.wall_type - 1],
+        (sfVector2f){band_x, top_band});
+    sfRenderWindow_drawSprite(win, wall_sprites[ray_data.wall_type - 1], NULL);
+    sfSprite_setTextureRect(wall_sprites[ray_data.wall_type - 1],
+        wall_texture_rect);
+    sfSprite_setScale(wall_sprites[ray_data.wall_type - 1],
+        (sfVector2f){0, 0});
+    sfSprite_setPosition(wall_sprites[ray_data.wall_type - 1],
+        (sfVector2f){0, 0});
+}
+
+double get_wall_tex_abscissa(sfVector2f dir, int side,
+    sfVector2f camera_pos, double wall_dist)
+{
+    double wall_tex_abscissa = 0;
+
+    if (side == 0)
+        wall_tex_abscissa = camera_pos.y + wall_dist * dir.y;
+    else
+        wall_tex_abscissa = camera_pos.x + wall_dist * dir.x;
+    return wall_tex_abscissa;
+}
+
+ray_hit_data_t cast_ray(map_t map, sfVector2f origin,
+    sfVector2f direction, size_t maxlen)
+{
+    ray_hit_data_t hit_data = {0};
+    ray_t ray = {0};
+
+    ray.dir = direction;
+    ray.origin = origin;
+    get_dda_values(origin, &ray);
+    hit_data.wall_type = get_first_intersecting_wall(&ray, map,
+        maxlen, &(hit_data.side));
+    hit_data.walldist = len_ray(ray, hit_data.side);
+    hit_data.wall_tex_abscissa = get_wall_tex_abscissa(ray.dir, hit_data.side,
+        ray.origin, hit_data.walldist);
+    return hit_data;
+}
+
+void raycasting(camera_t camera, map_t map,
+    sfSprite **wall_sprites, sfRenderWindow *win)
+{
+    sfVector2f ray_direction = {0};
+    ray_hit_data_t ray_data = {0};
+
+    for (size_t x = 0; x < WIN_WIDTH; x++) {
+        ray_direction = get_ray_orientation(camera, x);
+        ray_data = cast_ray(map, camera.pos,
+            ray_direction, *(camera.render_dist));
+        dsp_raycast_band(ray_data, wall_sprites, x, win);
     }
 }
