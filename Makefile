@@ -23,6 +23,7 @@ CALL_MENU_PATH = call_menu/
 CALL_GAME_PATH = call_game/
 MUSIC_PATH = music/
 HUD_PATH = hud_overlay/
+THINGS_PATH = things/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(BUTTON_PATH), \
@@ -100,6 +101,9 @@ SRC =		$(addprefix $(SRC_PATH), \
 				)\
 				$(addprefix $(HUD_PATH), \
 					hud_overlay.c	\
+				)\
+				$(addprefix $(THINGS_PATH), \
+					init_things.c	\
 				)\
 				main.c \
 			)

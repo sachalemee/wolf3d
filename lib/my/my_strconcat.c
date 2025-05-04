@@ -11,7 +11,7 @@
 
 char **va_list_to_word_array(va_list to_concat)
 {
-    linked_list_t *word_buff = NEW_LIST;
+    linked_list_t word_buff[] = {0};
     char *current_word = UNINIT;
     char **result = NULL;
 

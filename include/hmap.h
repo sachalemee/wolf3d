@@ -12,6 +12,7 @@
     // #define MAP_S (MAP_W * MAP_H)
     #define MAPS_DIR "./ressources/Wolf3D_LVLS/"
     #include "my.h"
+    #include "linked_lists.h"
     #include <SFML/Graphics.h>
     #define MCTAINS(m, x, y) (x >= 0 && y >= 0 && x < (int)m.w && y < (int)m.h)
     #define GET_TIL(m, x, y) (MCTAINS(m, x, y) ? m.map[x][y] : 0)
@@ -21,6 +22,40 @@
 //     1S00e...
 //     ...
 // top left is (x, y) = (0, 0)
+
+/*~~~~~~~~~~~~~~~~~~~~THINGS~~~~~~~~~~~~~~~~~~~~*/
+typedef struct thing_s {
+    void (*destroyer)(struct thing_s *self);
+    int (*updater)(struct thing_s *self, sys_data_t *sys_data);
+    sfSprite *sprite;
+    sfVector3f coords;
+    void *data;
+} thing_t;
+
+enum monster_types {
+    GARCIA = 0,
+    BIG_BEN = 1,
+    SIGNAL = 2
+};
+
+typedef struct monster_data_s {
+    int type;
+    size_t health;
+    size_t damage;
+    size_t speed;
+} monster_data_t;
+
+enum damage_team {
+    NO_TEAM = 0,
+    PLAYER_TEAM = 1,
+    MONSTER_TEAM = 2
+};
+
+typedef struct projectile_s {
+    sfVector3f trajectory;
+    int team;
+} projectile_t;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 enum tile_types {
     VOID = 0,
@@ -33,12 +68,13 @@ enum tile_types {
     WALL_TYPE_7 = 7,
     WALL_TYPE_8 = 8,
     START = 9,
-    ENEMY = 10,
-    EXIT = 11
+    GARCIA_TILE = 10,
+    BIG_BEN_TILE = 11,
+    SIGNAL_TILE = 12,
+    EXIT = 13
 };
 
 typedef struct game_tile_s {
-    int id;
     char config_value;
     bool istangible;
 } game_tile_t;
@@ -49,19 +85,21 @@ typedef struct game_tile_s {
 // enemy
 // exit
 static const game_tile_t game_tiles[] = {
-    {0, '0', false},
-    {1, '1', true},
-    {1, '2', true},
-    {1, '3', true},
-    {1, '4', true},
-    {1, '5', true},
-    {1, '6', true},
-    {1, '7', true},
-    {1, '8', true},
-    {2, 'S', false},
-    {3, 'e', false},
-    {4, 'E', false},
-    {-1, '\0', false}
+    {'0', false},
+    {'1', true},
+    {'2', true},
+    {'3', true},
+    {'4', true},
+    {'5', true},
+    {'6', true},
+    {'7', true},
+    {'8', true},
+    {'S', false},
+    {'G', false},
+    {'B', false},
+    {'S', false},
+    {'E', false},
+    {'\0', false}
 };
 
 static const char *const levels[] = {
@@ -72,13 +110,16 @@ static const char *const levels[] = {
     NULL
 };
 
+typedef struct map_tile_s {
+    linked_list_t things;
+    char type;
+} map_tile_t;
+
 typedef struct map_s {
-    char **map;
-    size_t w;
-    size_t h;
+    map_tile_t **map;
+    sfVector2u size;
     sfVector2f start;
     sfVector2f end;
-    sfVector2f *enemy_coords;
 } map_t;
 
 void destroy_map(map_t *map);

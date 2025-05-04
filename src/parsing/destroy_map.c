@@ -8,15 +8,27 @@
 #include "hmap.h"
 #include "my.h"
 
+static void destroy_map_line(map_tile_t *map_line, size_t len)
+{
+    if (map_line == NULL)
+        return FAILURE;
+    for (size_t i = 0; i < len; i++)
+        burn_list(&(map_line[i].things));
+    free(map_line);
+}
+
 void destroy_map(map_t *map)
 {
+    sfVector2i free_coords = {0, 0};
+
     if (map == NULL)
         return;
-    if (map->map) {
-        for (size_t i = 0; i < map->w; i++)
-            free(map->map[i]);
+    if (map->map == NULL) {
+        free(map);
+        return;
     }
+    for (size_t i = 0; map->map[i] != NULL && i < map->w; i++)
+        destroy_map_line(map->map[i], map->h);
     free(map->map);
-    free(map->enemy_coords);
     free(map);
 }

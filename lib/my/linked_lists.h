@@ -32,7 +32,6 @@ typedef struct linked_list_s {
     bool is_burnt;
 } linked_list_t;
 
-    #define NEW_LIST ((linked_list_t [])NA({{)0, NULL, NULL, false NA(}}))
     #define LINKED_LIST_TYP(type) linked_list_t
 
 void *pop_list(linked_list_t *list);
