@@ -120,8 +120,9 @@ static void draw_raycast_band(ray_hit_data_t ray_data,
 static void dsp_raycast_band(ray_hit_data_t ray_data,
     sfSprite **wall_sprites, size_t band_x, sfRenderWindow *win)
 {
-    draw_raycast_band(ray_data, wall_sprites[ray_data.wall_type - 1],
-        band_x, win);
+    if (ray_data.wall_type != AIR)
+        draw_raycast_band(ray_data, wall_sprites[ray_data.wall_type - 1],
+            band_x, win);
 }
 
 double get_wall_tex_abscissa(sfVector2f dir, int side,

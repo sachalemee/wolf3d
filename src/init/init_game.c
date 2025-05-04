@@ -38,6 +38,7 @@ void destroy_game(game_t game)
     destroy_player(game.player);
     sfRectangleShape_destroy(game.background_dsp_rect);
     destroy_sprites(game.sprites);
+    free(game.raycast_data);
 }
 
 int init_background_disp_rect(sfRectangleShape **background_disp_rect)
@@ -73,10 +74,9 @@ int init_game(game_t *game, const char *_Nullable map_path,
 {
     sfVector2u win_size = sfRenderWindow_getSize(win);
 
-    game->raycast_data = malloc(win_size.x * sizeof(float) + 1);
+    game->raycast_data = malloc(win_size.x * sizeof(float));
     if (game->raycast_data == NULL)
         return FAILURE;
-    game->raycast_data[win_size.x] = '\0';
     if (get_param_map(map_path, &(game->level), &(game->current_map))
             == FAILURE
         || init_wall_sprites(&(game->wall_sprites)) == FAILURE

@@ -40,6 +40,16 @@ static void mov_sprint(player_t *player, time_info_t info)
         (info.delta_time * PLAYER_MOV_SPEED) * PLAYER_SPRINT_SPEED;
 }
 
+static bool player_is_out_of_map(player_t *player, map_t map)
+{
+    return (
+        player->camera.pos.x < 0 ||
+        player->camera.pos.y < 0 ||
+        player->camera.pos.x >= map.w ||
+        player->camera.pos.y >= map.h
+    );
+}
+
 int game_events(sys_data_t *sys)
 {
     sfEvent event;
@@ -50,6 +60,9 @@ int game_events(sys_data_t *sys)
 
     mov_sprint(player, info);
     mov_player(player, map);
+    if (player_is_out_of_map(player, map))
+        player->camera.pos = (sfVector2f){map.start.x + 0.5,
+            map.start.y + 0.5};
     while (sfRenderWindow_pollEvent(sys->window, &event)) {
         close_window(sys, event);
         if (set_fullscreen(sys, event) == EXIT_F)

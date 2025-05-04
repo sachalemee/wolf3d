@@ -11,6 +11,7 @@
 void destroy_player(player_t player)
 {
     free(player.mov);
+    free(player.camera.render_dist);
 }
 
 int init_player(sfVector2f coords, player_t *dest)
