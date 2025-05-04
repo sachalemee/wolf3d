@@ -80,6 +80,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					init_map.c \
 					init_player.c \
 					init_window.c \
+					init_wall_sprites.c	\
 				)\
 				$(addprefix  $(RAYCAST_PATH), \
 					raycasting.c \
@@ -94,7 +95,6 @@ SRC =		$(addprefix $(SRC_PATH), \
 				)\
 				$(addprefix $(TEST_PATH), \
 					$(addprefix $(MAP_PATH), \
-						browse_map.c \
 						map.c \
 					)\
 				)\
