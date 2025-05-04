@@ -25,7 +25,7 @@ int init_scene(scene_t *scene, const char *_Nullable map_path,
     if (init_error_screen(&(scene->error_scene), win) == FAILURE
         || init_menu(&(scene->menu)) == FAILURE
         || init_musics(&(scene->musics)) == FAILURE
-        || init_game(&(scene->game), map_path) == FAILURE) {
+        || init_game(&(scene->game), map_path, win) == FAILURE) {
         destroy_scene(*scene);
         return FAILURE;
     }

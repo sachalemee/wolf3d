@@ -71,7 +71,7 @@ static int update_scenes(sys_data_t *sys_data)
     return SUCCESS;
 }
 
-int game_loop(sys_data_t *sys_data)
+int main_loop(sys_data_t *sys_data)
 {
     while (sfRenderWindow_isOpen(sys_data->window) == sfTrue
         && sys_data->is_running) {
