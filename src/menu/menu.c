@@ -7,17 +7,20 @@
 
 #include "wolfengine.h"
 #include "buttons.h"
+#include "my.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
 
 void play_game(sys_data_t *sys)
 {
+    sfMusic_pause(sys->scene.musics.menu_music);
+    sfMusic_play(sys->scene.musics.game_music);
     sys->scene.state = STATE_GAME;
 }
 
-int update_menu(sys_data_t *sys)
+int update_menu(game_t *game ,sys_data_t *sys)
 {
+    UNUSED(game);
     events_menu(sys);
     sfRenderWindow_clear(sys->window, sfWhite);
     animated_bg(sys->scene.menu.entity, &(sys->time));

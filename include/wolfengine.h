@@ -34,12 +34,16 @@
     #define MUSIC_GAP 5.0
 
     /* ressources */
+    #define PLAY_BUTTON_PATH "ressources/sprite-sheet/buttons/play_button.png"
+    #define SETTING_BUTTON_PATH "ressources/sprite-sheet/buttons/setting_button.png"
+    #define EXIT_BUTTON_PATH "ressources/sprite-sheet/buttons/exit_button.png"
     #define SONGS_PATH "ressources/Wolf3D_OGG/"
     #define MUSIC_PATH_GAME SONGS_PATH"game_music/URAHERO.ogg"
     #define MUSIC_PATH_MENU SONGS_PATH"game_music/Tropical_music_bg.ogg"
     #define TEXTURE_OVERLAY_SPRINT "ressources/Wolf3D_IMG/sprint-overlay.png"
     #define TEXTURE_WALL "ressources/Wolf3D_IMG/wall_bamboo.png"
-    #define BG_MENU SONGS_PATH"game_background/background_menu.png"
+    #define BG_MENU SONGS_PATH "game_background/background_menu.png"
+    #define BG_SETTING "ressources/Wolf3D_OGG/game_background/bg_setting.png"
     #define BACKGROUND_MENU_DEF 0, 0, 1791, 1000
     #define BG_RECT 1791.75
     #define BG_MAX_FRAME 8
@@ -145,7 +149,8 @@ typedef struct entity_s {
 
 typedef enum state_s {
     STATE_MENU,
-    STATE_GAME
+    STATE_GAME,
+    STATE_SETTING
 } state_t;
     #define DEFAULT_SCENE STATE_MENU
 
@@ -170,6 +175,12 @@ typedef struct menu_s {
     buttons_t **buttons;
     entity_t *entity;
 } menu_t;
+
+typedef struct setting_screen_s {
+    sfTexture *setting_texture;
+    sfSprite *setting_sprite;
+    buttons_t **buttons;
+} setting_screen_t;
 
 typedef struct weapon_s {
     sfTexture *ttr_main;
@@ -211,6 +222,7 @@ typedef struct scene_s {
     game_t game;
     state_t state;
     musics_t musics;
+    setting_screen_t setting_screen;
 } scene_t;
 
 // int scene; corresponds to the above enum (user location)
@@ -254,6 +266,7 @@ static char const *const wall_textures[] = {
 
 /* init */
 void destroy_menu(menu_t menu);
+int init_setting_screen(setting_screen_t *setting);
 int init_menu(menu_t *menu);
 void destroy_settings(settings_t settings);
 int init_settings(settings_t *settings, player_settings_t *player_settings);
@@ -322,11 +335,15 @@ sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
 
 /* call menu */
     #define MENU_SCALE 1.25, 1.2
-int update_menu(sys_data_t *sys);
+int update_menu(game_t *game, sys_data_t *sys);
 int events_menu(sys_data_t *sys);
 void animated_bg(entity_t *entity, time_info_t *time);
 void draw_bg_menu(menu_t *menu, sfRenderWindow *win);
 void play_game(sys_data_t *sys);
+
+/* call setting */
+int update_setting(game_t *game, sys_data_t *sys);
+void into_setting(sys_data_t *sys);
 
 /* call game */
 int game_scene(game_t *game, sys_data_t *sys);
@@ -336,5 +353,19 @@ void destroy_error_screen(error_screen_t error_screen);
 int init_error_screen(error_screen_t *error_screen, sfRenderWindow *win);
 int update_error_screen(error_screen_t *error_screen, sfRenderWindow *win,
     time_info_t *time);
+
+typedef int (*function_t)(game_t *game, sys_data_t *sys);
+
+typedef struct {
+    state_t state;
+    function_t func;
+} operator_t;
+
+static const operator_t STATEMENT[] = {
+    {STATE_GAME, &game_scene},
+    {STATE_MENU, &update_menu},
+    {STATE_SETTING, &update_setting},
+    {0, NULL}
+};
 
 #endif /* WOLFENGINE_H */

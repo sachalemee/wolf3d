@@ -23,6 +23,7 @@ CALL_MENU_PATH = call_menu/
 CALL_GAME_PATH = call_game/
 MUSIC_PATH = music/
 HUD_PATH = hud_overlay/
+SETTING_PATH = setting/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(BUTTON_PATH), \
@@ -37,6 +38,9 @@ SRC =		$(addprefix $(SRC_PATH), \
 					draw_all_buttons.c	\
 					free_everything_button.c	\
 				)\
+				$(addprefix $(SETTING_PATH), \
+						setting_screen.c	\
+					)\
 				$(addprefix $(MENU_PATH), \
 					bg_menu_anim.c	\
 					menu.c	\
@@ -80,6 +84,9 @@ SRC =		$(addprefix $(SRC_PATH), \
 					init_scene.c	\
 					init_settings.c	\
 					init_sys_data.c \
+					init_map.c \
+					init_setting_screen.c	\
+					init_player.c \
 					init_weapon.c \
 					init_window.c \
 					init_wall_sprites.c	\

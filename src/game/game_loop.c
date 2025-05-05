@@ -8,71 +8,33 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "wolfengine.h"
 #include "buttons.h"
 #include "hmap.h"
+#include "my.h"
 
-static void get_music_data(scene_t *scenes,
-    sfSoundStatus *game_music_status, sfSoundStatus *menu_music_status)
+int update_scenes(sys_data_t *sys_data)
 {
-    *game_music_status =
-        sfMusic_getStatus(scenes->musics.game_music);
-    *menu_music_status =
-        sfMusic_getStatus(scenes->musics.menu_music);
-    if (*game_music_status == sfPlaying && *menu_music_status == sfPlaying) {
-        sfMusic_pause(scenes->musics.game_music);
-        sfMusic_pause(scenes->musics.menu_music);
-        *game_music_status = sfPaused;
-        *menu_music_status = sfPaused;
+    int i = 0;
+
+    //update_music(&(sys_data->scene));
+    while (STATEMENT[i].state != 0) {
+        if (sys_data->scene.state == STATEMENT[i].state) {
+            return STATEMENT[i].func(&(sys_data->scene.game), sys_data);
+        }
+        i++;
     }
+    sys_data->scene.state = STATE_MENU;
+    if (update_menu(&(sys_data->scene.game), sys_data) == EXIT_F)
+        return EXIT_F;
+    return EXIT_S;
 }
 
-static void update_music(scene_t *scenes)
-{
-    sfSoundStatus game_music_status = 0;
-    sfSoundStatus menu_music_status = 0;
-
-    get_music_data(scenes, &game_music_status, &menu_music_status);
-    switch (scenes->state) {
-        case STATE_GAME:
-            if (game_music_status != sfPlaying) {
-                sfMusic_play(scenes->musics.game_music);
-                sfMusic_pause(scenes->musics.menu_music);
-            }
-            break;
-        case STATE_MENU:
-            if (menu_music_status != sfPlaying) {
-                sfMusic_play(scenes->musics.menu_music);
-                sfMusic_pause(scenes->musics.game_music);
-            }
-            break;
-    }
-}
-
-static int update_scenes(sys_data_t *sys_data)
-{
-    int failure_catch = SUCCESS;
-
-    update_music(&(sys_data->scene));
-    switch (sys_data->scene.state) {
-        case STATE_MENU:
-            failure_catch = update_menu(sys_data);
-            break;
-        case STATE_GAME:
-            failure_catch = game_scene(&(sys_data->scene.game), sys_data);
-            break;
-        default:
-            failure_catch = update_error_screen(&(sys_data->scene.error_scene),
-                sys_data->window, &(sys_data->time));
-            break;
-    }
-    if (failure_catch == FAILURE)
-        return FAILURE;
-    return SUCCESS;
-}
 
 int main_loop(sys_data_t *sys_data)
 {
+    sfMusic_play(sys_data->scene.musics.menu_music);
     while (sfRenderWindow_isOpen(sys_data->window) == sfTrue
         && sys_data->is_running) {
         update_time(&(sys_data->time));
