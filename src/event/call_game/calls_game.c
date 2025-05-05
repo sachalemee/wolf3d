@@ -32,6 +32,19 @@ void close_window(sys_data_t *sys, sfEvent event)
         sys->is_running = sfFalse;
 }
 
+void footstep_sound(player_sound_t *sound, sfKeyCode key)
+{
+    if (sfMusic_getStatus(sound->sound_footstep) != sfPlaying
+        && sfKeyboard_isKeyPressed(key) == sfTrue)
+        sfMusic_play(sound->sound_footstep);
+    if (sfMusic_getStatus(sound->sound_footstep) == sfPlaying
+        && (sfKeyboard_isKeyPressed(sfKeyZ) == sfFalse
+        && sfKeyboard_isKeyPressed(sfKeyS) == sfFalse
+        && sfKeyboard_isKeyPressed(sfKeyD) == sfFalse
+        && sfKeyboard_isKeyPressed(sfKeyQ) == sfFalse))
+        sfMusic_stop(sound->sound_footstep);
+}
+
 static void mov_sprint(player_t *player, time_info_t info)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)

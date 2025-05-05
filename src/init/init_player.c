@@ -12,6 +12,17 @@ void destroy_player(player_t player)
 {
     free(player.mov);
     free(player.camera.render_dist);
+    free(player.sound);
+}
+
+static player_sound_t *init_player_sound(void)
+{
+    player_sound_t *player_sound = malloc(sizeof(player_sound_t));
+
+    if (player_sound == NULL)
+        return NULL;
+    player_sound->sound_footstep = sfMusic_createFromFile(MUSIC_PATH_FOOTSTEP);
+    return player_sound;
 }
 
 int init_player(sfVector2f coords, player_t *dest)
@@ -26,5 +37,6 @@ int init_player(sfVector2f coords, player_t *dest)
     *(dest->camera.render_dist) = DEFAULT_RENDER_DIST;
     dest->map = (sfVector2i){(int)coords.x, (int)coords.y};
     dest->mov->render_dist = dest->camera.render_dist;
+    dest->sound = init_player_sound();
     return SUCCESS;
 }

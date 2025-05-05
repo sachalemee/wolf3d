@@ -18,7 +18,6 @@ int update_scenes(sys_data_t *sys_data)
 {
     int i = 0;
 
-    //update_music(&(sys_data->scene));
     while (STATEMENT[i].state != 0) {
         if (sys_data->scene.state == STATEMENT[i].state) {
             return STATEMENT[i].func(&(sys_data->scene.game), sys_data);
