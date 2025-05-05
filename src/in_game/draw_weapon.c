@@ -21,7 +21,8 @@ static void procceed_shooting_anim(time_info_t *time,
     }
 }
 
-static void weapon_shooting(time_info_t *time, weapon_t *weapon, int *current_frame)
+static void weapon_shooting(time_info_t *time,
+    weapon_t *weapon, int *current_frame)
 {
     static sfBool is_shooting = sfFalse;
     static double shoot_speed = 0.0;

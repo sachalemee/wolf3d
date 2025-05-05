@@ -34,9 +34,11 @@
     #define MUSIC_GAP 5.0
 
     /* ressources */
-    #define PLAY_BUTTON_PATH "ressources/sprite-sheet/buttons/play_button.png"
-    #define SETTING_BUTTON_PATH "ressources/sprite-sheet/buttons/setting_button.png"
-    #define EXIT_BUTTON_PATH "ressources/sprite-sheet/buttons/exit_button.png"
+    #define RESSOURCES_SPRITE "ressources/sprite-sheet/"
+    #define PLAY_BUTTON_PATH RESSOURCES_SPRITE"buttons/play_button.png"
+    #define SETTING_BUTTON_PATH RESSOURCES_SPRITE"buttons/setting_button.png"
+    #define EXIT_BUTTON_PATH RESSOURCES_SPRITE"buttons/exit_button.png"
+    #define WEAPON_RESSOURCES RESSOURCES_SPRITE"weapon/"
     #define SONGS_PATH "ressources/Wolf3D_OGG/"
     #define MUSIC_PATH_GAME SONGS_PATH"game_music/URAHERO.ogg"
     #define MUSIC_PATH_MENU SONGS_PATH"game_music/Tropical_music_bg.ogg"
@@ -50,7 +52,6 @@
     #define BG_SPEED_FRAME 5
 
     /* weapon sprite sheet */
-    #define WEAPON_RESSOURCES "ressources/sprite-sheet/weapon/"
     #define TTR_MAIN_WEAPON "main-weapon-sprite.png"
     #define SONG_SHOOT_GAME WEAPON_RESSOURCES "water-shot-trimmer.wav"
     #define RES_MAIN_WEAPON WEAPON_RESSOURCES TTR_MAIN_WEAPON

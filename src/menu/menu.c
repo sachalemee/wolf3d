@@ -18,7 +18,7 @@ void play_game(sys_data_t *sys)
     sys->scene.state = STATE_GAME;
 }
 
-int update_menu(game_t *game ,sys_data_t *sys)
+int update_menu(game_t *game, sys_data_t *sys)
 {
     UNUSED(game);
     events_menu(sys);

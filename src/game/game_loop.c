@@ -31,7 +31,6 @@ int update_scenes(sys_data_t *sys_data)
     return EXIT_S;
 }
 
-
 int main_loop(sys_data_t *sys_data)
 {
     sfMusic_play(sys_data->scene.musics.menu_music);
