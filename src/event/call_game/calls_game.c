@@ -48,9 +48,14 @@ void footstep_sound(player_sound_t *sound, sfKeyCode key)
 static void mov_sprint(player_t *player, time_info_t info)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)
-        && sfKeyboard_isKeyPressed(sfKeyLShift))
-        player->mov->mov_speed =
-        (info.delta_time * PLAYER_MOV_SPEED) * PLAYER_SPRINT_SPEED;
+        && sfKeyboard_isKeyPressed(sfKeyLShift)) {
+        sfMusic_setPitch(player->sound->sound_footstep, 2.5f);
+        player->mov->mov_speed = (info.delta_time * PLAYER_MOV_SPEED)
+            * PLAYER_SPRINT_SPEED;
+        }
+    if (sfKeyboard_isKeyPressed(sfKeyZ) == sfFalse
+        || sfKeyboard_isKeyPressed(sfKeyLShift) == sfFalse)
+            sfMusic_setPitch(player->sound->sound_footstep, 1.0f);
 }
 
 static bool player_is_out_of_map(player_t *player, map_t map)
