@@ -86,7 +86,6 @@ SRC =		$(addprefix $(SRC_PATH), \
 					init_sys_data.c \
 					init_map.c \
 					init_setting_screen.c	\
-					init_player.c \
 					init_weapon.c \
 					init_window.c \
 					init_wall_sprites.c	\
