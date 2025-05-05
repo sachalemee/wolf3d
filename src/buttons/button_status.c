@@ -13,7 +13,7 @@ static void button_pressed(buttons_t *button,
 {
     if (sfFloatRect_contains(&hitbox, mouse_pos.x, mouse_pos.y)) {
         sfRectangleShape_setFillColor(button->rect,
-            button->color[B_PRESSED]);
+            sfTransparent);
         button->function(sys);
         if (button->title)
             sfText_setColor(button->title, button->color[B_BLACK]);
@@ -24,11 +24,11 @@ static void set_status(buttons_t *button,
     sfVector2i mouse_pos, sfFloatRect hitbox)
 {
     if (sfFloatRect_contains(&hitbox, mouse_pos.x, mouse_pos.y)) {
-        sfRectangleShape_setFillColor(button->rect, button->color[B_HOVER]);
+        sfRectangleShape_setFillColor(button->rect, sfTransparent);
         if (button->title != NULL)
             sfText_setColor(button->title, button->color[B_DEFAULT]);
     } else {
-        sfRectangleShape_setFillColor(button->rect, button->color[B_DEFAULT]);
+        sfRectangleShape_setFillColor(button->rect, sfTransparent);
         if (button->title != NULL)
             sfText_setColor(button->title,
                 sfColor_fromRGBA(248, 226, 126, 175));

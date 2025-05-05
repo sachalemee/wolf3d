@@ -25,11 +25,11 @@ int init_buttons(buttons_t ***buttons)
     if (buttons == NULL)
         return FAILURE;
     (*buttons)[0] = create_button((sfVector2f){1400, 200},
-        (sfVector2f){250, 50}, "PLAY", NULL);
+        (sfVector2f){250, 50}, "PLAY", PLAY_BUTTON_PATH);
     (*buttons)[1] = create_button((sfVector2f){1400, 400},
-        (sfVector2f){250, 50}, "SETTINGS", NULL);
+        (sfVector2f){250, 50}, "SETTINGS", SETTING_BUTTON_PATH);
     (*buttons)[2] = create_button((sfVector2f){1400, 600},
-        (sfVector2f){250, 50}, "QUIT", NULL);
+        (sfVector2f){250, 50}, "QUIT", EXIT_BUTTON_PATH);
     if (!(*buttons)[0] || !(*buttons)[1] || !(*buttons)[2]) {
         destroy_buttons(*buttons);
         return FAILURE;

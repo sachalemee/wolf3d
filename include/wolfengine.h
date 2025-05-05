@@ -34,6 +34,9 @@
     #define MUSIC_GAP 5.0
 
     /* ressources */
+    #define PLAY_BUTTON_PATH "ressources/sprite-sheet/buttons/play_button.png"
+    #define SETTING_BUTTON_PATH "ressources/sprite-sheet/buttons/setting_button.png"
+    #define EXIT_BUTTON_PATH "ressources/sprite-sheet/buttons/exit_button.png"
     #define SONGS_PATH "ressources/Wolf3D_OGG/"
     #define MUSIC_PATH_GAME SONGS_PATH"game_music/URAHERO.ogg"
     #define MUSIC_PATH_MENU SONGS_PATH"game_music/Tropical_music_bg.ogg"
