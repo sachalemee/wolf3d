@@ -29,8 +29,7 @@ static int init_main_weapon(weapon_t *weapon)
 
 static int init_music_weapon(weapon_t *weapon)
 {
-    weapon->shooting_sound = sfMusic_createFromFile("ressources/"
-        "sprite-sheet/weapon/water-shot-trimmer.wav");
+    weapon->shooting_sound = sfMusic_createFromFile(SONG_SHOOT_GAME);
     if (weapon->shooting_sound == NULL)
         return FAILURE;
     return EXIT_SUCCESS;

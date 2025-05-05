@@ -48,6 +48,7 @@
     /* weapon sprite sheet */
     #define WEAPON_RESSOURCES "ressources/sprite-sheet/weapon/"
     #define TTR_MAIN_WEAPON "main-weapon-sprite.png"
+    #define SONG_SHOOT_GAME WEAPON_RESSOURCES "water-shot-trimmer.wav"
     #define RES_MAIN_WEAPON WEAPON_RESSOURCES TTR_MAIN_WEAPON
     #define TTR_MAIN_RECT_SIZE 0, 0, 91, 127
     #define WIN_WEAPON_POS 325
