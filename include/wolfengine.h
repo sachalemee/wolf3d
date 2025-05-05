@@ -344,6 +344,7 @@ void play_game(sys_data_t *sys);
 
 /* call setting */
 int update_setting(game_t *game, sys_data_t *sys);
+int events_setting(sys_data_t *sys);
 void into_setting(sys_data_t *sys);
 
 /* call game */

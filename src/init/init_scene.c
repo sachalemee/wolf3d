@@ -8,6 +8,7 @@
 #include "wolfengine.h"
 #include "buttons.h"
 #include <stdlib.h>
+#include "stdio.h"
 
 void destroy_scene(scene_t scene)
 {
@@ -30,5 +31,7 @@ int init_scene(scene_t *scene, const char *_Nullable map_path,
         destroy_scene(*scene);
         return FAILURE;
     }
+    if (scene->setting_screen.setting_sprite == NULL)
+        printf("[ IS NULL ]\n");
     return SUCCESS;
 }

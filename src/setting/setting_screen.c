@@ -8,28 +8,25 @@
 #include "wolfengine.h"
 #include "buttons.h"
 #include "my.h"
+#include <stdio.h>
 
 void into_setting(sys_data_t *sys)
 {
-    sfMusic_pause(sys->scene.musics.game_music);
-    sfMusic_play(sys->scene.musics.menu_music);
     sys->scene.state = STATE_SETTING;
 }
 
-void draw_bg_setting(menu_t *menu, sfRenderWindow *win)
+void draw_bg_setting(setting_screen_t *setting, sfRenderWindow *win)
 {
-    sfSprite_setScale(menu->entity->sprite.sprite_bg,
-        (sfVector2f){MENU_SCALE});
-    sfRenderWindow_drawSprite(win, menu->entity->sprite.sprite_bg, NULL);
-    draw_all_buttons(menu, win);
+    sfSprite_setScale(setting->setting_sprite, (sfVector2f){MENU_SCALE});
+    sfRenderWindow_drawSprite(win, setting->setting_sprite, NULL);
 }
 
 int update_setting(game_t *game, sys_data_t *sys)
 {
     UNUSED(game);
-    events_menu(sys);
     sfRenderWindow_clear(sys->window, sfWhite);
-    draw_bg_setting(&(sys->scene.menu), sys->window);
+    events_setting(sys);
+    draw_bg_setting(&(sys->scene.setting_screen), sys->window);
     sfRenderWindow_display(sys->window);
     return EXIT_S;
 }
