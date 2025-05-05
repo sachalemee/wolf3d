@@ -65,8 +65,7 @@ static void is_up(player_t *player, map_t map)
                 * player->mov->mov_speed;
         if (GET_TIL(map, (int)player->camera.pos.x,
             (int)(player->camera.pos.y + player->camera.dir.y
-                * player->mov->mov_speed
-            * PLAYER_BORDER_MAP)) == 0)
+                * player->mov->mov_speed * PLAYER_BORDER_MAP)) == 0)
             player->camera.pos.y += player->camera.dir.y
                 * player->mov->mov_speed;
     }
@@ -84,8 +83,7 @@ static void is_down(player_t *player, map_t map)
                 * player->mov->mov_speed;
         if (GET_TIL(map, (int)player->camera.pos.x,
             (int)(player->camera.pos.y - player->camera.dir.y
-                * player->mov->mov_speed
-            * PLAYER_BORDER_MAP)) == 0)
+                * player->mov->mov_speed * PLAYER_BORDER_MAP)) == 0)
             player->camera.pos.y -= player->camera.dir.y
                 * player->mov->mov_speed;
     }
