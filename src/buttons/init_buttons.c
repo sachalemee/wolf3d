@@ -35,7 +35,7 @@ int init_buttons(buttons_t ***buttons)
         return FAILURE;
     }
     (*buttons)[0]->function = play_game;
-    (*buttons)[1]->function = play_game;
+    (*buttons)[1]->function = into_setting;
     (*buttons)[2]->function = close_menu;
     return SUCCESS;
 }

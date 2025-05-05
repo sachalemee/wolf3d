@@ -15,6 +15,7 @@
     #define NB_COLOR 5
     #define B_TEXTURE "ressources/Wolf3D_OGG/texture/texture_bouton.png"
     #define FONT "ressources/Wolf3D_OGG/font/font.ttf"
+    #define UNUSED(var) (void)(var)
 
 /* enum button color */
 typedef enum stat_button_s {
