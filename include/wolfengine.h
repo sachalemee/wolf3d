@@ -41,6 +41,7 @@
     #define WEAPON_RESSOURCES RESSOURCES_SPRITE"weapon/"
     #define SONGS_PATH "ressources/Wolf3D_OGG/"
     #define MUSIC_PATH_GAME SONGS_PATH"game_music/URAHERO.ogg"
+    #define MUSIC_PATH_FOOTSTEP SONGS_PATH"game_music/footstep-sand-move.wav"
     #define MUSIC_PATH_MENU SONGS_PATH"game_music/Tropical_music_bg.ogg"
     #define TEXTURE_OVERLAY_SPRINT "ressources/Wolf3D_IMG/sprint-overlay.png"
     #define TEXTURE_WALL "ressources/Wolf3D_IMG/wall_bamboo.png"
@@ -125,11 +126,16 @@ typedef struct camera_s {
     size_t *render_dist;
 } camera_t;
 
+typedef struct player_sound_s {
+    sfMusic *sound_footstep;
+} player_sound_t;
+
 typedef struct player_s {
     camera_t camera;
     ray_t ray;
     player_settings_t *mov;
     sfVector2i map;
+    player_sound_t *sound;
 } player_t;
 
 typedef struct set_texture_and_sprite_s {
@@ -304,11 +310,10 @@ void destroy_time(time_info_t time);
 int game_events(sys_data_t *sys);
 void close_window(sys_data_t *sys, sfEvent event);
 int set_fullscreen(sys_data_t *sys, sfEvent event);
-
+void footstep_sound(player_sound_t *sound, sfKeyCode key);
 void mov_player(player_t *player, map_t map);
 
 /* game */
-int game_loop(sys_data_t *sys_data);
 int start(const char *_Nullable map_path);
 
 /* in game */
