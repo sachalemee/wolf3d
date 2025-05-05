@@ -192,6 +192,7 @@ typedef struct scene_s {
     game_t game;
     state_t state;
     musics_t musics;
+    sfSprite *monster_animations;
 } scene_t;
 
 // int scene; corresponds to the above enum (user location)

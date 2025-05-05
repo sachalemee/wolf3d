@@ -19,6 +19,7 @@ void destroy_sys(sys_data_t sys)
 
 int init_sys_data(sys_data_t *sys, const char *_Nullable map_path)
 {
+    srand(time(NULL));
     sys->is_running = sfTrue;
     if (init_window(&(sys->window)) == FAILURE
         || init_time(&(sys->time)) == FAILURE

@@ -38,11 +38,18 @@ enum monster_types {
     SIGNAL = 2
 };
 
+enum monster_states {
+    IDLE = 0,
+    WALKING = 1,
+    SHOOTING = 2
+};
+
 typedef struct monster_data_s {
     int type;
     size_t health;
     size_t damage;
-    size_t speed;
+    float speed;
+    int state;
 } monster_data_t;
 
 enum damage_team {

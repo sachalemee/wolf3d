@@ -60,17 +60,17 @@ static int get_thing(int tile_code, thing_t **dest)
     if (tile_is_thing(tile_code) == false)
         return SUCCESS;
     if (tile_code == GARCIA_TILE)
-        *dest = garcia_init();
+        *dest = init_garcia();
     if (tile_code == SIGNAL_TILE)
-        *dest = signal_init();
+        *dest = init_signal();
     if (tile_code == BIG_BEN_TILE)
-        *dest = big_ben_init();
+        *dest = init_big_ben();
     if (*dest == NULL)
         return FAILURE;
     return SUCCESS;
 }
 
-int add_thing(int tile_code, sfVector2u coords, map_t *dest)
+static int add_thing(int tile_code, sfVector2u coords, map_t *dest)
 {
     thing_t *new_thing = NULL;
 
