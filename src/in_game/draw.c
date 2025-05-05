@@ -15,10 +15,10 @@ static void draw_sprint_overlay(game_t *game, sfRenderWindow *win)
     }
 }
 
-void draw_in_game(game_t *game, map_t map, settings_t *settings,
-    sfRenderWindow *win)
+void draw_in_game(sys_data_t *sys, game_t *game, map_t map)
 {
-    draw_background(win, game->background_dsp_rect);
-    raycasting(game, map, settings, win);
-    draw_sprint_overlay(game, win);
+    draw_background(sys->window, game->background_dsp_rect);
+    raycasting(game->player.camera, map, game->wall_sprites, sys->window);
+    draw_sprint_overlay(game, sys->window);
+    draw_weapon(game, sys->window, &sys->time);
 }

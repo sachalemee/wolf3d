@@ -32,7 +32,7 @@ int update_scenes(sys_data_t *sys_data)
 }
 
 
-int game_loop(sys_data_t *sys_data)
+int main_loop(sys_data_t *sys_data)
 {
     sfMusic_play(sys_data->scene.musics.menu_music);
     while (sfRenderWindow_isOpen(sys_data->window) == sfTrue

@@ -70,21 +70,26 @@ SRC =		$(addprefix $(SRC_PATH), \
 				)\
 				$(addprefix $(IN_GAME_PATH), \
 					draw_background.c \
+					draw_weapon.c \
 					draw.c \
 				)\
 				$(addprefix $(INIT_PATH), \
-					init_error_screen.c	\
-					init_music.c	\
-					init_scene.c	\
 					init_entity.c	\
-					init_settings.c	\
-					init_menu.c	\
+					init_error_screen.c	\
 					init_game.c \
+					init_map.c \
+					init_menu.c	\
+					init_music.c	\
+					init_player.c \
+					init_scene.c	\
+					init_settings.c	\
 					init_sys_data.c \
 					init_map.c \
 					init_setting_screen.c	\
 					init_player.c \
+					init_weapon.c \
 					init_window.c \
+					init_wall_sprites.c	\
 				)\
 				$(addprefix  $(RAYCAST_PATH), \
 					raycasting.c \
@@ -99,7 +104,6 @@ SRC =		$(addprefix $(SRC_PATH), \
 				)\
 				$(addprefix $(TEST_PATH), \
 					$(addprefix $(MAP_PATH), \
-						browse_map.c \
 						map.c \
 					)\
 				)\

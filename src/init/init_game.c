@@ -33,10 +33,12 @@ static void destroy_sprites(sprites_t sprites)
 
 void destroy_game(game_t game)
 {
+    destroy_wall_sprites(game.wall_sprites);
     destroy_map(game.current_map);
     destroy_player(game.player);
     sfRectangleShape_destroy(game.background_dsp_rect);
     destroy_sprites(game.sprites);
+    free(game.raycast_data);
 }
 
 int init_background_disp_rect(sfRectangleShape **background_disp_rect)
@@ -67,13 +69,21 @@ int init_sprites(sprites_t *sprites)
     return SUCCESS;
 }
 
-int init_game(game_t *game, const char *_Nullable map_path)
+int init_game(game_t *game, const char *_Nullable map_path,
+    sfRenderWindow *win)
 {
-    get_param_map(map_path, &(game->level), &(game->current_map));
-    if (game->current_map == NULL
+    sfVector2u win_size = sfRenderWindow_getSize(win);
+
+    game->raycast_data = malloc(win_size.x * sizeof(float));
+    if (game->raycast_data == NULL)
+        return FAILURE;
+    if (get_param_map(map_path, &(game->level), &(game->current_map))
+            == FAILURE
+        || init_wall_sprites(&(game->wall_sprites)) == FAILURE
         || init_player(game->current_map->start, &(game->player)) == FAILURE
         || init_background_disp_rect(&(game->background_dsp_rect)) == FAILURE
-        || init_sprites(&(game->sprites)) == FAILURE) {
+        || init_sprites(&(game->sprites)) == FAILURE
+        || init_weapon(&(game->weapon))) {
         destroy_game(*game);
         return FAILURE;
     }
