@@ -40,7 +40,7 @@ int main_loop(sys_data_t *sys_data)
         && sys_data->is_running) {
         update_time(&(sys_data->time));
         return_tmp_value = update_scenes(sys_data);
-        if (return_tmp_value == FAILURE)
+        if (return_tmp_value == (size_t)FAILURE)
             return FAILURE;
         if (return_tmp_value == EXIT_FAIL)
             return EXIT_FAIL;
