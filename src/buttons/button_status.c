@@ -16,7 +16,7 @@ static void button_pressed(buttons_t *button,
             sfTransparent);
         button->function(sys);
         if (button->title)
-            sfText_setColor(button->title, button->color[B_BLACK]);
+            sfText_setColor(button->title, sfColor_fromRGB(218, 165, 32));
     }
 }
 
@@ -26,12 +26,11 @@ static void set_status(buttons_t *button,
     if (sfFloatRect_contains(&hitbox, mouse_pos.x, mouse_pos.y)) {
         sfRectangleShape_setFillColor(button->rect, sfTransparent);
         if (button->title != NULL)
-            sfText_setColor(button->title, button->color[B_DEFAULT]);
+            sfText_setColor(button->title, sfColor_fromRGB(205, 133, 63));
     } else {
         sfRectangleShape_setFillColor(button->rect, sfTransparent);
         if (button->title != NULL)
-            sfText_setColor(button->title,
-                sfColor_fromRGBA(248, 226, 126, 175));
+            sfText_setColor(button->title, sfColor_fromRGB(139, 69, 19));
     }
 }
 
