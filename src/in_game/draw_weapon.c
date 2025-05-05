@@ -25,12 +25,13 @@ static void weapon_shooting(time_info_t *time, int *current_frame)
 {
     static sfBool is_shooting = sfFalse;
     static double shoot_speed = 0.0;
-    sfMusic *shooting = sfMusic_createFromFile("ressources/"
-        "sprite-sheet/weapon/water-shot-trimmer.wav");
+    sfMusic *shooting = NULL;
 
     if (sfKeyboard_isKeyPressed(sfKeyE) && is_shooting == sfFalse) {
         is_shooting = sfTrue;
         *current_frame = 1;
+        shooting = sfMusic_createFromFile("ressources/"
+            "sprite-sheet/weapon/water-shot-trimmer.wav");
         sfMusic_play(shooting);
     }
     if (is_shooting == sfTrue)
