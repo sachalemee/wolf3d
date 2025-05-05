@@ -9,6 +9,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stddef.h>
 #include "wolfengine.h"
 #include "buttons.h"
 #include "hmap.h"
@@ -16,7 +17,7 @@
 
 int update_scenes(sys_data_t *sys_data)
 {
-    int i = 0;
+    size_t i = 0;
 
     while (STATEMENT[i].state != 0) {
         if (sys_data->scene.state == STATEMENT[i].state) {
@@ -32,7 +33,7 @@ int update_scenes(sys_data_t *sys_data)
 
 int main_loop(sys_data_t *sys_data)
 {
-    int return_tmp_value = 0;
+    size_t return_tmp_value = 0;
 
     sfMusic_play(sys_data->scene.musics.menu_music);
     while (sfRenderWindow_isOpen(sys_data->window) == sfTrue
