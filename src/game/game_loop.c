@@ -25,19 +25,24 @@ int update_scenes(sys_data_t *sys_data)
         i++;
     }
     sys_data->scene.state = STATE_MENU;
-    if (update_menu(&(sys_data->scene.game), sys_data) == EXIT_F)
-        return EXIT_F;
-    return EXIT_S;
+    if (update_menu(&(sys_data->scene.game), sys_data) == EXIT_FAIL)
+        return EXIT_FAIL;
+    return EXIT_SUCCESS;
 }
 
 int main_loop(sys_data_t *sys_data)
 {
+    int return_tmp_value = 0;
+
     sfMusic_play(sys_data->scene.musics.menu_music);
     while (sfRenderWindow_isOpen(sys_data->window) == sfTrue
         && sys_data->is_running) {
         update_time(&(sys_data->time));
-        if (update_scenes(sys_data) == FAILURE)
+        return_tmp_value = update_scenes(sys_data);
+        if (return_tmp_value == FAILURE)
             return FAILURE;
+        if (return_tmp_value == EXIT_FAIL)
+            return EXIT_FAIL;
     }
     if (sfRenderWindow_isOpen(sys_data->window) == sfTrue)
         sfRenderWindow_close(sys_data->window);

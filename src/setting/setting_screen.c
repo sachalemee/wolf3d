@@ -31,5 +31,5 @@ int update_setting(game_t *game, sys_data_t *sys)
     sfRenderWindow_clear(sys->window, sfWhite);
     draw_bg_setting(&(sys->scene.menu), sys->window);
     sfRenderWindow_display(sys->window);
-    return EXIT_S;
+    return EXIT_SUCCESS;
 }

@@ -27,5 +27,5 @@ int update_menu(game_t *game, sys_data_t *sys)
     animated_bg(sys->scene.menu.entity, &(sys->time));
     draw_bg_menu(&(sys->scene.menu), sys->window);
     sfRenderWindow_display(sys->window);
-    return EXIT_S;
+    return EXIT_SUCCESS;
 }

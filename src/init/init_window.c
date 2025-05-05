@@ -22,7 +22,7 @@ int init_window(sfRenderWindow **window)
         *window = sfRenderWindow_create(videomode, WIN_TITLE,
             sfResize, NULL);
     if (*window == NULL)
-        return EXIT_F;
+        return EXIT_FAIL;
     sfRenderWindow_setFramerateLimit(*window, WIN_FRAME);
     ++mode;
     return SUCCESS;

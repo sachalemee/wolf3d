@@ -27,9 +27,9 @@ int events_menu(sys_data_t *sys)
 
     while (sfRenderWindow_pollEvent(sys->window, &event)) {
         close_window(sys, event);
-        if (set_fullscreen(sys, event) == EXIT_F)
-            return EXIT_F;
+        if (set_fullscreen(sys, event) == EXIT_FAIL)
+            return EXIT_FAIL;
         buttons_event(sys, event);
     }
-    return EXIT_S;
+    return EXIT_SUCCESS;
 }
