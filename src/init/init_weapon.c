@@ -27,15 +27,27 @@ static int init_main_weapon(weapon_t *weapon)
     return SUCCESS;
 }
 
+static int init_music_weapon(weapon_t *weapon)
+{
+    weapon->shooting_sound = sfMusic_createFromFile("ressources/"
+        "sprite-sheet/weapon/water-shot-trimmer.wav");
+    if (weapon->shooting_sound == NULL)
+        return FAILURE;
+    return EXIT_SUCCESS;
+}
+
 void destroy_weapon(weapon_t weapon)
 {
     sfTexture_destroy(weapon.ttr_main);
     sfSprite_destroy(weapon.spr_main);
+    sfMusic_destroy(weapon.shooting_sound);
 }
 
 int init_weapon(weapon_t *weapon)
 {
     if (init_main_weapon(weapon) == FAILURE)
+        return FAILURE;
+    if (init_music_weapon(weapon) == FAILURE)
         return FAILURE;
     return SUCCESS;
 }

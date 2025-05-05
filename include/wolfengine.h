@@ -174,6 +174,7 @@ typedef struct weapon_s {
     sfTexture *ttr_main;
     sfSprite *spr_main;
     sfIntRect ttr_main_rect;
+    sfMusic *shooting_sound;
 } weapon_t;
 
 typedef struct game_s {

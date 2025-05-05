@@ -21,18 +21,15 @@ static void procceed_shooting_anim(time_info_t *time,
     }
 }
 
-static void weapon_shooting(time_info_t *time, int *current_frame)
+static void weapon_shooting(time_info_t *time, weapon_t *weapon, int *current_frame)
 {
     static sfBool is_shooting = sfFalse;
     static double shoot_speed = 0.0;
-    sfMusic *shooting = NULL;
 
     if (sfKeyboard_isKeyPressed(sfKeyE) && is_shooting == sfFalse) {
         is_shooting = sfTrue;
         *current_frame = 1;
-        shooting = sfMusic_createFromFile("ressources/"
-            "sprite-sheet/weapon/water-shot-trimmer.wav");
-        sfMusic_play(shooting);
+        sfMusic_play(weapon->shooting_sound);
     }
     if (is_shooting == sfTrue)
         procceed_shooting_anim(time, current_frame,
@@ -46,7 +43,7 @@ void draw_weapon(game_t *game, sfRenderWindow *win, time_info_t *time)
 
     if (current_frame == 0)
         game->weapon.ttr_main_rect = (sfIntRect){0, 0, WEAPON_RECT, 127};
-    weapon_shooting(time, &current_frame);
+    weapon_shooting(time, &game->weapon, &current_frame);
     game->weapon.ttr_main_rect.left = current_frame * WEAPON_RECT;
     sfSprite_setTextureRect(current_part, game->weapon.ttr_main_rect);
     sfRenderWindow_drawSprite(win, current_part, NULL);
