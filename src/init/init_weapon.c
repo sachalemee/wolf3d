@@ -12,11 +12,11 @@ static int init_main_weapon(weapon_t *weapon)
     sfVector2u ttr_main_size = {0};
 
     weapon->ttr_main_rect = (sfIntRect){TTR_MAIN_RECT_SIZE};
-    weapon->ttr_main = sfTexture_createFromFile(TTR_MAIN_WEAPON, NULL); 
+    weapon->ttr_main = sfTexture_createFromFile(RES_MAIN_WEAPON, NULL);
     if (weapon->ttr_main == NULL)
         return FAILURE;
     weapon->spr_main = sfSprite_create();
-    sfSprite_setTexture(weapon->spr_main,  weapon->ttr_main, sfFalse);
+    sfSprite_setTexture(weapon->spr_main, weapon->ttr_main, sfFalse);
     ttr_main_size = sfTexture_getSize(weapon->ttr_main);
     sfSprite_setOrigin(weapon->spr_main,
         (sfVector2f){ttr_main_size.x / 6, ttr_main_size.y});

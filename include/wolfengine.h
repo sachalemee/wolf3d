@@ -46,9 +46,11 @@
     #define BG_SPEED_FRAME 5
 
     /* weapon sprite sheet */
-    #define TTR_MAIN_WEAPON "ressources/sprite-sheet/weapon/main-weapon-sprite.png"
-    #define TTR_MAIN_RECT_SIZE 0, 0, 91 , 127
-    #define WIN_WEAPON_POS 160
+    #define WEAPON_RESSOURCES "ressources/sprite-sheet/weapon/"
+    #define TTR_MAIN_WEAPON "main-weapon-sprite.png"
+    #define RES_MAIN_WEAPON WEAPON_RESSOURCES TTR_MAIN_WEAPON
+    #define TTR_MAIN_RECT_SIZE 0, 0, 91, 127
+    #define WIN_WEAPON_POS 325
     #define WEAPON_POS_PADDING 8
     #define MAIN_WEAPON_SPEED_FRAME 1.1
     #define WEAPON_RECT 275 / 3
