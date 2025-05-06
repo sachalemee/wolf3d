@@ -49,7 +49,7 @@ static void mov_sprint(player_t *player, time_info_t info)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)
         && sfKeyboard_isKeyPressed(sfKeyLShift)) {
-        sfMusic_setPitch(player->sound->sound_footstep, 2.5f);
+        sfMusic_setPitch(player->sound->sound_footstep, 2.0f);
         player->mov->mov_speed = (info.delta_time * PLAYER_MOV_SPEED)
             * PLAYER_SPRINT_SPEED;
         }

@@ -14,7 +14,7 @@
 void play_game(sys_data_t *sys)
 {
     sfMusic_pause(sys->scene.musics.menu_music);
-    sfMusic_play(sys->scene.musics.game_music);
+    // sfMusic_play(sys->scene.musics.game_music);
     sfMusic_setVolume(sys->scene.musics.game_music, 15);
     sys->scene.state = STATE_GAME;
 }
@@ -22,7 +22,8 @@ void play_game(sys_data_t *sys)
 int update_menu(game_t *game, sys_data_t *sys)
 {
     UNUSED(game);
-    events_menu(sys);
+    if (events_menu(sys) == EXIT_FAIL)
+        return EXIT_FAIL;
     sfRenderWindow_clear(sys->window, sfWhite);
     animated_bg(sys->scene.menu.entity, &(sys->time));
     draw_bg_menu(&(sys->scene.menu), sys->window);
