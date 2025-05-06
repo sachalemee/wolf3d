@@ -12,23 +12,16 @@
 
 void destroy_setting_screen(setting_screen_t *setting)
 {
-    if (setting != NULL) {
         if (setting->setting_sprite != NULL)
             sfTexture_destroy(setting->setting_texture);
-    }
     free(setting);
 }
 
 int init_setting_screen(setting_screen_t *setting)
 {
-    setting = calloc(1, sizeof(setting_screen_t));
-    if (setting != NULL) {
-        (setting)->setting_texture =
-            sfTexture_createFromFile(BG_SETTING, sfFalse);
-        (setting)->setting_sprite = sfSprite_create();
-    }
-    if (setting == NULL
-        || (setting)->setting_sprite == NULL
+    (setting)->setting_texture = sfTexture_createFromFile(BG_SETTING, sfFalse);
+    (setting)->setting_sprite = sfSprite_create();
+    if ((setting)->setting_sprite == NULL
         || (setting)->setting_sprite == NULL) {
         destroy_setting_screen(setting);
         return FAILURE;
