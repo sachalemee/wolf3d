@@ -23,6 +23,7 @@ CALL_MENU_PATH = call_menu/
 CALL_GAME_PATH = call_game/
 MUSIC_PATH = music/
 HUD_PATH = hud_overlay/
+LOADING_SCREEN_PATH = loading_screen/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(BUTTON_PATH), \
@@ -86,6 +87,9 @@ SRC =		$(addprefix $(SRC_PATH), \
 				)\
 				$(addprefix  $(RAYCAST_PATH), \
 					raycasting.c \
+				)\
+				$(addprefix  $(LOADING_SCREEN_PATH), \
+					loading_screen.c \
 				)\
 				$(addprefix $(PARSING_PATH), \
 					destroy_map.c	\

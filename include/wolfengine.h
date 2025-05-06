@@ -28,26 +28,6 @@
     /* window title */
     #define WIN_TITLE "wolfengine"
 
-    /* loading_screen */
-    #define LOADING_IMG_PATH "ressources/Wolf3D_IMG/wall_textures/"
-    #define LOADING_SCREEN_SPRITE_COUNT 4
-
-enum loading_screen_imgs {
-    LOADING_BAR_FRAME = 0,
-    LOADING_BAR_BACKGROUND = 1,
-    LOADING_BAR_INSIDE = 2,
-    COCOPALM_LOADING = 3
-};
-
-static char const *loading_screen_img_paths[LOADING_SCREEN_SPRITE_COUNT] = {
-    LOADING_IMG_PATH"loading_bar_frame.jpg",
-    LOADING_IMG_PATH"loading_bar_background.jpg",
-    LOADING_IMG_PATH"loading_bar_inside.jpg",
-    LOADING_IMG_PATH"cocopalm_loading.jpg"
-};
-    #define LOADING_WAYPOINT_COUNT 10
-
-
     /* music volume */
     #define MUSIC_MAX 100.0
     #define MUSIC_MIN 0.0
