@@ -40,7 +40,7 @@
     #define EXIT_BUTTON_PATH RESSOURCES_SPRITE"buttons/exit_button.png"
     #define WEAPON_RESSOURCES RESSOURCES_SPRITE"weapon/"
     #define SONGS_PATH "ressources/Wolf3D_OGG/"
-    #define MUSIC_PATH_GAME SONGS_PATH"game_music/URAHERO.ogg"
+    #define MUSIC_PATH_GAME SONGS_PATH"game_music/Hotline-Miami-Soundtrack.wav"
     #define MUSIC_PATH_FOOTSTEP SONGS_PATH"game_music/footstep-sand-move.wav"
     #define MUSIC_PATH_MENU SONGS_PATH"game_music/Tropical_music_bg.ogg"
     #define TEXTURE_OVERLAY_SPRINT "ressources/Wolf3D_IMG/sprint-overlay.png"
@@ -178,9 +178,21 @@ typedef struct musics_s {
     sfMusic *game_music;
 } musics_t;
 
+typedef struct crosshair_s {
+    sfTexture *ttr;
+    sfSprite *spr;
+    sfVector2f pos;
+    sfVector2f scale;
+} crosshair_t;
+
+typedef struct custom_settings_s {
+    crosshair_t *crosshair;
+} custom_settings_t;
+
 typedef struct menu_s {
     buttons_t **buttons;
     entity_t *entity;
+    custom_settings_t *custom_set;
 } menu_t;
 
 typedef struct setting_screen_s {
