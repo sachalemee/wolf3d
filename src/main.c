@@ -19,6 +19,6 @@ int main(int ac, char **av, char **)
     if (ac == 2)
         map_path = av[1];
     if (start(map_path) == FAILURE)
-        return EXIT_FAIL;
+        return FAILURE;
     return EXIT_SUCCESS;
 }
