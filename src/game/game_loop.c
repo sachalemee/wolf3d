@@ -19,7 +19,7 @@ int update_scenes(sys_data_t *sys_data)
 {
     size_t i = 0;
 
-    while (STATEMENT[i].state != 0) {
+    while (STATEMENT[i].state != 3) {
         if (sys_data->scene.state == STATEMENT[i].state) {
             return STATEMENT[i].func(&(sys_data->scene.game), sys_data);
         }

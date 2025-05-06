@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include "wolfengine.h"
 #include "buttons.h"
+#include "stdio.h"
 
 int start(const char *_Nullable map_path)
 {
