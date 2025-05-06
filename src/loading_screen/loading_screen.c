@@ -83,8 +83,9 @@ void loading_screen_waypoint(sfBool destroy, sfRenderWindow *init_win)
     static sfRenderWindow *win = NULL;
     static loading_screen_t *loading_screen = NULL;
 
-    if (destroy)
+    if (destroy) {
         destr
+    }
     if (win == NULL || loading_screen == NULL) {
         win = init_win;
         if (init_loading_screen(&loading_screen, win) == FAILURE)
