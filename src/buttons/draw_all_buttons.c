@@ -8,10 +8,16 @@
 #include "buttons.h"
 #include "wolfengine.h"
 
-void draw_all_buttons(menu_t *menu, sfRenderWindow *window)
+void draw_menu_buttons(menu_t *menu, sfRenderWindow *window)
 {
     draw_button(window, menu->buttons[0]);
     draw_button(window, menu->buttons[1]);
     draw_button(window, menu->buttons[2]);
+    return;
+}
+
+void draw_setting_buttons(setting_screen_t *setting, sfRenderWindow *window)
+{
+    draw_button(window, setting->buttons[0]);
     return;
 }

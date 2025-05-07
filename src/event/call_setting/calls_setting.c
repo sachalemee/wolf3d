@@ -17,7 +17,7 @@ void close_setting(sys_data_t *sys)
 
 static void buttons_event_setting(sys_data_t *sys, sfEvent event)
 {
-    for (int i = 0; i < NB_BUTTONS; i++)
+    for (int i = 2; i < NB_BUTTONS_SETTINGS; i++)
         buttons_status(sys->window,
             sys->scene.setting_screen.buttons[i], event, sys);
 }

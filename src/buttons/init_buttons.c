@@ -15,13 +15,14 @@ void destroy_buttons(buttons_t **buttons)
         free_button(buttons[0]);
         free_button(buttons[1]);
         free_button(buttons[2]);
+        free_button(buttons[3]);
     }
     free(buttons);
 }
 
 int init_buttons(buttons_t ***buttons)
 {
-    *buttons = calloc(3, sizeof(buttons_t *));
+    *buttons = calloc(NB_BUTTONS_MENU, sizeof(buttons_t *));
     if (buttons == NULL)
         return FAILURE;
     (*buttons)[0] = create_button((sfVector2f){1400, 200},
@@ -30,6 +31,8 @@ int init_buttons(buttons_t ***buttons)
         (sfVector2f){350, 100}, "SETTINGS", SETTING_BUTTON_PATH);
     (*buttons)[2] = create_button((sfVector2f){1400, 785},
         (sfVector2f){350, 100}, "QUIT", EXIT_BUTTON_PATH);
+    (*buttons)[3] = create_button((sfVector2f){WIN_WIDTH / 2, WIN_HEIGHT / 2},
+        (sfVector2f){350, 100}, "SOUND", SOUND_BUTTON_PATH);
     if (!(*buttons)[0] || !(*buttons)[1] || !(*buttons)[2]) {
         destroy_buttons(*buttons);
         return FAILURE;
@@ -37,5 +40,6 @@ int init_buttons(buttons_t ***buttons)
     (*buttons)[0]->function = play_game;
     (*buttons)[1]->function = into_setting;
     (*buttons)[2]->function = close_menu;
+    (*buttons)[3]->function = close_setting;
     return SUCCESS;
 }

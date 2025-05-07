@@ -38,6 +38,7 @@
     #define PLAY_BUTTON_PATH RESSOURCES_SPRITE"buttons/play_button.png"
     #define SETTING_BUTTON_PATH RESSOURCES_SPRITE"buttons/setting_button.png"
     #define EXIT_BUTTON_PATH RESSOURCES_SPRITE"buttons/exit_button.png"
+    #define SOUND_BUTTON_PATH "ressources/sprite-sheet/buttons/sound_button.png"
     #define WEAPON_RESSOURCES RESSOURCES_SPRITE"weapon/"
     #define SONGS_PATH "ressources/Wolf3D_OGG/"
     #define MUSIC_PATH_GAME SONGS_PATH"game_music/URAHERO.ogg"
@@ -271,7 +272,6 @@ int init_setting_screen(setting_screen_t *setting);
 int init_menu(menu_t *menu);
 void destroy_settings(settings_t settings);
 int init_settings(settings_t *settings, player_settings_t *player_settings);
-void close_menu(sys_data_t *sys);
 void destroy_game(game_t game);
 int init_game(game_t *game, const char *_Nullable map_path,
     sfRenderWindow *win);
@@ -304,7 +304,8 @@ void destroy_time(time_info_t time);
 int game_events(sys_data_t *sys);
 void close_window(sys_data_t *sys, sfEvent event);
 int set_fullscreen(sys_data_t *sys, sfEvent event);
-
+void close_setting(sys_data_t *sys);
+void close_menu(sys_data_t *sys);
 void mov_player(player_t *player, map_t map);
 
 /* game */

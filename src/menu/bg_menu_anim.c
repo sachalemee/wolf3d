@@ -21,5 +21,5 @@ void draw_bg_menu(menu_t *menu, sfRenderWindow *win)
     sfSprite_setScale(menu->entity->sprite.sprite_bg,
         (sfVector2f){MENU_SCALE});
     sfRenderWindow_drawSprite(win, menu->entity->sprite.sprite_bg, NULL);
-    draw_all_buttons(menu, win);
+    draw_menu_buttons(menu, win);
 }
