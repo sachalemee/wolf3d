@@ -35,7 +35,7 @@ custom_settings_t *init_custom_settings(void)
     custom_settings_t *custom_setting = malloc(sizeof(custom_settings_t));
 
     if (custom_setting == NULL)
-        return NULL;    
+        return NULL;
     custom_setting->crosshair = init_crosshair();
     return custom_setting;
 }
