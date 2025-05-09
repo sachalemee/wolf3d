@@ -36,18 +36,32 @@ void destroy_game(game_t game)
     destroy_wall_sprites(game.wall_sprites);
     destroy_map(game.current_map);
     destroy_player(game.player);
-    sfRectangleShape_destroy(game.background_dsp_rect);
+    sfRectangleShape_destroy(game.ground_sky->background_dsp_rect);
     destroy_sprites(game.sprites);
     free(game.raycast_data);
 }
 
-int init_background_disp_rect(sfRectangleShape **background_disp_rect)
+void free_ground_sky(ground_sky_t *ground_sky)
 {
-    *background_disp_rect = sfRectangleShape_create();
-    if (*background_disp_rect == NULL)
+    if (!ground_sky)
+        return;
+    if (ground_sky->background_dsp_rect)
+        sfRectangleShape_destroy(ground_sky->background_dsp_rect);
+    free(ground_sky);
+}
+
+int init_background_disp_rect(ground_sky_t **ground_sky)
+{
+    *ground_sky = malloc(sizeof(ground_sky_t));
+    if (*ground_sky == NULL)
         return FAILURE;
+    (*ground_sky)->background_dsp_rect = sfRectangleShape_create();
+    if ((*ground_sky)->background_dsp_rect == NULL) {
+        free_ground_sky(*ground_sky);
+        return FAILURE;
+    }
     sfRectangleShape_setSize(
-        *background_disp_rect, (sfVector2f){WIN_WIDTH, WIN_HEIGHT / 2});
+        (*ground_sky)->background_dsp_rect, (sfVector2f){WIN_WIDTH, WIN_HEIGHT / 2});
     return SUCCESS;
 }
 
@@ -81,7 +95,7 @@ int init_game(game_t *game, const char *_Nullable map_path,
             == FAILURE
         || init_wall_sprites(&(game->wall_sprites)) == FAILURE
         || init_player(game->current_map->start, &(game->player)) == FAILURE
-        || init_background_disp_rect(&(game->background_dsp_rect)) == FAILURE
+        || init_background_disp_rect(&(game->ground_sky)) == FAILURE
         || init_sprites(&(game->sprites)) == FAILURE
         || init_weapon(&(game->weapon))) {
         destroy_game(*game);

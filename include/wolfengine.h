@@ -47,6 +47,7 @@
     #define TEXTURE_WALL "ressources/Wolf3D_IMG/wall_bamboo.png"
     #define BG_MENU SONGS_PATH "game_background/background_menu.png"
     #define BG_SETTING "ressources/Wolf3D_OGG/game_background/bg_setting.png"
+    #define GROUND_TEXTURE "ressources/Wolf3D_IMG/ground_texture/ground_texture.png"
     #define BACKGROUND_MENU_DEF 0, 0, 1791, 1000
     #define BG_RECT 1791.75
     #define BG_MAX_FRAME 8
@@ -196,9 +197,17 @@ typedef struct weapon_s {
     sfMusic *shooting_sound;
 } weapon_t;
 
-typedef struct game_s {
-    sfSprite **wall_sprites;
+typedef struct ground_sky_s {
     sfRectangleShape *background_dsp_rect;
+    sfTexture *ground_texture;
+    sfSprite *ground_sprite;
+    sfTexture *sky_texure;
+    sfSprite *sky_sprite;
+} ground_sky_t;
+
+typedef struct game_s {
+    ground_sky_t *ground_sky;
+    sfSprite **wall_sprites;
     sprites_t sprites;
     ssize_t level;
     map_t *current_map;
