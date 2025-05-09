@@ -203,8 +203,8 @@ typedef struct setting_screen_s {
 
 typedef struct weapon_s {
     sfTexture *ttr_main;
-    sfSprite *spr_main;
     sfIntRect ttr_main_rect;
+    sfSprite *weapon_sprite;
     sfMusic *shooting_sound;
 } weapon_t;
 
@@ -332,7 +332,7 @@ int start(const char *_Nullable map_path);
 void draw_in_game(sys_data_t *sys_data, game_t *game, map_t map);
 void draw_background(sfRenderWindow *win,
     sfRectangleShape *background_dsp_rect);
-void draw_weapon(game_t *game, sfRenderWindow *win, time_info_t *time);
+void draw_weapon(weapon_t *weapon, sfRenderWindow *win, time_info_t *time);
 
 /* raycast */
 void raycasting(camera_t camera, map_t map,

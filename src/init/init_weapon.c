@@ -15,13 +15,13 @@ static int init_main_weapon(weapon_t *weapon)
     weapon->ttr_main = sfTexture_createFromFile(RES_MAIN_WEAPON, NULL);
     if (weapon->ttr_main == NULL)
         return FAILURE;
-    weapon->spr_main = sfSprite_create();
-    sfSprite_setTexture(weapon->spr_main, weapon->ttr_main, sfFalse);
+    weapon->weapon_sprite = sfSprite_create();
+    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_main, sfFalse);
     ttr_main_size = sfTexture_getSize(weapon->ttr_main);
-    sfSprite_setOrigin(weapon->spr_main,
+    sfSprite_setOrigin(weapon->weapon_sprite,
         (sfVector2f){ttr_main_size.x / 6, ttr_main_size.y});
-    sfSprite_setScale(weapon->spr_main, (sfVector2f){4, 4});
-    sfSprite_setPosition(weapon->spr_main,
+    sfSprite_setScale(weapon->weapon_sprite, (sfVector2f){4, 4});
+    sfSprite_setPosition(weapon->weapon_sprite,
         (sfVector2f){(WIN_WIDTH / 2) + WIN_WEAPON_POS,
         WIN_HEIGHT + WEAPON_POS_PADDING});
     return SUCCESS;
@@ -38,7 +38,7 @@ static int init_music_weapon(weapon_t *weapon)
 void destroy_weapon(weapon_t weapon)
 {
     sfTexture_destroy(weapon.ttr_main);
-    sfSprite_destroy(weapon.spr_main);
+    sfSprite_destroy(weapon.weapon_sprite);
     sfMusic_destroy(weapon.shooting_sound);
 }
 

@@ -37,15 +37,15 @@ static void weapon_shooting(time_info_t *time,
             &shoot_speed, &is_shooting);
 }
 
-void draw_weapon(game_t *game, sfRenderWindow *win, time_info_t *time)
+void draw_weapon(weapon_t *weapon, sfRenderWindow *win, time_info_t *time)
 {
     static int current_frame = 0;
-    sfSprite *current_part = game->weapon.spr_main;
+    sfSprite *current_part = weapon->weapon_sprite;
 
     if (current_frame == 0)
-        game->weapon.ttr_main_rect = (sfIntRect){0, 0, WEAPON_RECT, 127};
-    weapon_shooting(time, &game->weapon, &current_frame);
-    game->weapon.ttr_main_rect.left = current_frame * WEAPON_RECT;
-    sfSprite_setTextureRect(current_part, game->weapon.ttr_main_rect);
+        weapon->ttr_main_rect = (sfIntRect){0, 0, WEAPON_RECT, 127};
+    weapon_shooting(time, weapon, &current_frame);
+    weapon->ttr_main_rect.left = current_frame * WEAPON_RECT;
+    sfSprite_setTextureRect(current_part, weapon->ttr_main_rect);
     sfRenderWindow_drawSprite(win, current_part, NULL);
 }
