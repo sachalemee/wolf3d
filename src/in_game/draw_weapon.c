@@ -30,7 +30,7 @@ static void weapon_shooting(time_info_t *time,
 
     if (sfKeyboard_isKeyPressed(sfKeyE) && is_shooting == sfFalse) {
         is_shooting = sfTrue;
-        *current_frame = 1;
+        *current_frame = weapon->max_frame - 1;
         sfMusic_play(weapon->shooting_sound);
     }
     if (is_shooting == sfTrue)

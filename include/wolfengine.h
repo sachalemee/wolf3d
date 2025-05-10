@@ -70,7 +70,7 @@
     #define SECONDARY_WEAPON_RECT 318 / SECONDARY_WEAPON_MAX_FRAME
     #define TTR_SECONDARY_RECT_SIZE SECONDARY_WEAPON_RECT, 148
     //           |           |
-    #define MAIN_WEAPON_SPEED_FRAME 1.1
+    #define MAIN_WEAPON_SPEED_FRAME 1.0
     //           |           |
     #define WIN_WEAPON_POS 325
     #define WEAPON_POS_PADDING 8
