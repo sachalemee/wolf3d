@@ -57,7 +57,8 @@
     #define TTR_SECONDARY_WEAPON "secondary-weapon-sprite.png"
     #define TTR_LEG_WEAPON "legs-sprite.png"
     //           |           |
-    #define SONG_SHOOT_GAME WEAPON_RESSOURCES"water-shot-trimmer.wav"
+    #define WATER_SONG_SHOOT WEAPON_RESSOURCES"water-shot-trimmer.wav"
+    #define FART_SONG_SHOOT WEAPON_RESSOURCES"fart-sound.ogg"
     //           |           |
     #define RES_MAIN_WEAPON WEAPON_RESSOURCES TTR_MAIN_WEAPON
     #define RES_SECONDARY_WEAPON WEAPON_RESSOURCES TTR_SECONDARY_WEAPON
@@ -229,7 +230,8 @@ typedef struct weapon_s {
     sfIntRect ttr_secondary_rect;
     sfIntRect ttr_leg_rect;
     sfSprite *weapon_sprite;
-    sfMusic *shooting_sound;
+    sfMusic *main_weapon_shoot_sound;
+    sfMusic *leg_weapon_shoot_sound;
     size_t max_frame;
 } weapon_t;
 

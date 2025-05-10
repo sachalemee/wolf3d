@@ -81,11 +81,16 @@ static int init_leg_weapon(weapon_t *weapon)
     return SUCCESS;
 }
 
-static int init_music_weapon(weapon_t *weapon)
+static int init_musics_weapon(weapon_t *weapon)
 {
-    weapon->shooting_sound = sfMusic_createFromFile(SONG_SHOOT_GAME);
-    if (weapon->shooting_sound == NULL)
+    weapon->main_weapon_shoot_sound = sfMusic_createFromFile(WATER_SONG_SHOOT);
+    sfMusic_setVolume(weapon->main_weapon_shoot_sound, 50);
+    if (weapon->main_weapon_shoot_sound == NULL)
         return FAILURE;
+    weapon->leg_weapon_shoot_sound = sfMusic_createFromFile(FART_SONG_SHOOT);
+    if (weapon->leg_weapon_shoot_sound == NULL)
+        return FAILURE;
+    sfMusic_setVolume(weapon->leg_weapon_shoot_sound, 50);
     return EXIT_SUCCESS;
 }
 
@@ -95,7 +100,8 @@ void destroy_weapon(weapon_t weapon)
     sfTexture_destroy(weapon.ttr_secondary);
     sfTexture_destroy(weapon.ttr_leg);
     sfSprite_destroy(weapon.weapon_sprite);
-    sfMusic_destroy(weapon.shooting_sound);
+    sfMusic_destroy(weapon.main_weapon_shoot_sound);
+    sfMusic_destroy(weapon.leg_weapon_shoot_sound);
 }
 
 int init_weapon(weapon_t *weapon)
@@ -106,7 +112,7 @@ int init_weapon(weapon_t *weapon)
         return FAILURE;
     if (init_leg_weapon(weapon) == FAILURE)
         return FAILURE;
-    if (init_music_weapon(weapon) == FAILURE)
+    if (init_musics_weapon(weapon) == FAILURE)
         return FAILURE;
     return SUCCESS;
 }
