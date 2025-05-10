@@ -49,17 +49,21 @@ static void change_weapon(weapon_t *weapon, size_t *current_weapon)
         weapon->max_frame = SECONDARY_WEAPON_MAX_FRAME - 1;
         set_secondary_weapon(weapon);
     }
+    if (sfKeyboard_isKeyPressed(sfKeyM)) {
+        *current_weapon = 1;
+        weapon->max_frame = LEG_WEAPON_MAX_FRAME - 1;
+        set_leg_weapon(weapon);
+    }
 }
 
 static void choose_weapon(weapon_t *weapon,
     size_t current_weapon)
 {
     if (current_weapon == 1)
-        weapon->ttr_secondary_rect = (sfIntRect){0, 0,
-        TTR_SECONDARY_RECT_SIZE};
+        weapon->ttr_secondary_rect = (sfIntRect){
+            TTR_SECONDARY_RECT_SIZE};
     else
-        weapon->ttr_main_rect = (sfIntRect){0, 0,
-        TTR_MAIN_RECT_SIZE};
+        weapon->ttr_main_rect = (sfIntRect){TTR_MAIN_RECT_SIZE};
 }
 
 static void set_weapon_texture_sprite(weapon_t *weapon,

@@ -55,24 +55,30 @@
     /* weapon sprite sheet */
     #define TTR_MAIN_WEAPON "main-weapon-sprite.png"
     #define TTR_SECONDARY_WEAPON "secondary-weapon-sprite.png"
+    #define TTR_LEG_WEAPON "legs-sprite.png"
     //           |           |
     #define SONG_SHOOT_GAME WEAPON_RESSOURCES"water-shot-trimmer.wav"
     //           |           |
     #define RES_MAIN_WEAPON WEAPON_RESSOURCES TTR_MAIN_WEAPON
     #define RES_SECONDARY_WEAPON WEAPON_RESSOURCES TTR_SECONDARY_WEAPON
+    #define RES_LEG_WEAPON WEAPON_RESSOURCES TTR_LEG_WEAPON
     //           |           |
     #define MAIN_WEAPON_MAX_FRAME 3
     #define SECONDARY_WEAPON_MAX_FRAME 2
+    #define LEG_WEAPON_MAX_FRAME 2
     //           |           |
     #define MAIN_WEAPON_RECT 275 / MAIN_WEAPON_MAX_FRAME
-    #define TTR_MAIN_RECT_SIZE MAIN_WEAPON_RECT, 127
-    //           |           |
     #define SECONDARY_WEAPON_RECT 318 / SECONDARY_WEAPON_MAX_FRAME
-    #define TTR_SECONDARY_RECT_SIZE SECONDARY_WEAPON_RECT, 148
+    #define LEG_WEAPON_RECT 315 / LEG_WEAPON_MAX_FRAME
+    //           |           |
+    #define TTR_MAIN_RECT_SIZE 0, 0, MAIN_WEAPON_RECT, 127
+    #define TTR_SECONDARY_RECT_SIZE 0, 0, SECONDARY_WEAPON_RECT, 148
+    #define TTR_LEG_RECT_SIZE 0, 0, LEG_WEAPON_RECT, 146
     //           |           |
     #define MAIN_WEAPON_SPEED_FRAME 1.0
     //           |           |
     #define WIN_WEAPON_POS 325
+    #define WIN_LEG_POS 200
     #define WEAPON_POS_PADDING 8
     /* ------------------- */
 
@@ -218,8 +224,10 @@ typedef struct setting_screen_s {
 typedef struct weapon_s {
     sfTexture *ttr_main;
     sfTexture *ttr_secondary;
+    sfTexture *ttr_leg;
     sfIntRect ttr_main_rect;
     sfIntRect ttr_secondary_rect;
+    sfIntRect ttr_leg_rect;
     sfSprite *weapon_sprite;
     sfMusic *shooting_sound;
     size_t max_frame;
@@ -352,6 +360,7 @@ void draw_background(sfRenderWindow *win,
 void draw_weapon(weapon_t *weapon, sfRenderWindow *win, time_info_t *time);
 void set_secondary_weapon(weapon_t *weapon);
 void set_primary_weapon(weapon_t *weapon);
+void set_leg_weapon(weapon_t *weapon);
 
 /* raycast */
 void raycasting(camera_t camera, map_t map,
