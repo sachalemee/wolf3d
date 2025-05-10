@@ -76,6 +76,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					draw_background.c \
 					draw_weapon.c \
 					draw.c \
+					draw_sprint_overlay.c \
 				)\
 				$(addprefix $(INIT_PATH), \
 					init_entity.c	\

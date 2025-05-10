@@ -43,7 +43,13 @@
     #define MUSIC_PATH_GAME SONGS_PATH"game_music/Hotline-Miami-Soundtrack.wav"
     #define MUSIC_PATH_FOOTSTEP SONGS_PATH"game_music/footstep-sand-move.wav"
     #define MUSIC_PATH_MENU SONGS_PATH"game_music/Tropical_music_bg.ogg"
-    #define TEXTURE_OVERLAY_SPRINT "ressources/Wolf3D_IMG/sprint-overlay.png"
+    //           |           |
+    #define SPRINT_MAX_FRAME 5
+    #define SPRINT_SPEED_FRAME 1.5
+    #define SPRINT_RECT 4000 / SPRINT_MAX_FRAME
+    #define TEXTURE_OVERLAY_SPRINT "ressources/Wolf3D_IMG/sprint-overlay-9.png"
+    #define TEXTURE_SPRINT_RECT_SIZE 0, 0, SPRINT_RECT, 452
+    //           |           |
     #define TEXTURE_WALL "ressources/Wolf3D_IMG/wall_bamboo.png"
     #define BG_MENU SONGS_PATH "game_background/background_menu.png"
     #define BG_SETTING "ressources/Wolf3D_OGG/game_background/bg_setting.png"
@@ -76,7 +82,7 @@
     #define TTR_SECONDARY_RECT_SIZE 0, 0, SECONDARY_WEAPON_RECT, 148
     #define TTR_LEG_RECT_SIZE 0, 0, LEG_WEAPON_RECT, 146
     //           |           |
-    #define MAIN_WEAPON_SPEED_FRAME 1.0
+    #define WEAPON_SPEED_FRAME 1.0
     //           |           |
     #define WIN_WEAPON_POS 325
     #define WIN_LEG_POS 200
@@ -192,6 +198,7 @@ typedef struct time_info_s {
 typedef struct sprites_s {
     sfTexture *sprint_overlay_tex;
     sfSprite *sprint_overlay;
+    sfIntRect sprint_overlay_rect;
 } sprites_t;
 
 typedef struct musics_s {
@@ -360,6 +367,8 @@ void draw_in_game(sys_data_t *sys_data, game_t *game, map_t map);
 void draw_background(sfRenderWindow *win,
     sfRectangleShape *background_dsp_rect);
 void draw_weapon(weapon_t *weapon, sfRenderWindow *win, time_info_t *time);
+void draw_sprint_overlay(game_t *game, sfRenderWindow *win,
+    time_info_t *time);
 void set_secondary_weapon(weapon_t *weapon);
 void set_primary_weapon(weapon_t *weapon);
 void set_leg_weapon(weapon_t *weapon);

@@ -12,7 +12,7 @@ static void procceed_shooting_anim(time_info_t *time,
 {
     static double shoot_speed = 0.0;
 
-    shoot_speed += (time->delta_time * MAIN_WEAPON_SPEED_FRAME);
+    shoot_speed += (time->delta_time * WEAPON_SPEED_FRAME);
     if (shoot_speed >= 0.1) {
         shoot_speed = 0.0;
         (*current_frame)++;
