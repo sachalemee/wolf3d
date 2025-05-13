@@ -9,13 +9,21 @@
     #define BUTTONS_H_
     #include <SFML/Graphics.h>
     #include <SFML/System.h>
-    #include "wolfengine.h"
     #define SUCCESS 0
     #define NB_BUTTONS 3
     #define NB_COLOR 5
     #define B_TEXTURE "ressources/Wolf3D_OGG/texture/texture_bouton.png"
     #define FONT "ressources/Wolf3D_OGG/font/font.ttf"
     #define UNUSED(var) (void)(var)
+
+typedef struct buttons_s buttons_t;
+typedef struct entity_s entity_t;
+typedef struct custom_settings_s custom_settings_t;
+typedef struct sys_data_s sys_data_t;
+typedef struct musics_s musics_t;
+typedef struct game_s game_t;
+typedef struct menu_s menu_t;
+typedef struct time_info_s time_info_t;
 
 /* enum button color */
 typedef enum stat_button_s {
@@ -25,8 +33,6 @@ typedef enum stat_button_s {
     B_DISABLE,
     B_BLACK
 } stat_button_t;
-
-typedef struct game_s game_t;
 
 typedef struct buttons_s {
     sfRectangleShape *rect;
@@ -39,7 +45,6 @@ typedef struct buttons_s {
     sfColor color[NB_COLOR];
     void (*function)(sys_data_t *);
 } buttons_t;
-
 
 /* buttons functions */
 void set_button_text(buttons_t *button,
