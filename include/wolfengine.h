@@ -47,7 +47,7 @@
     #define SPRINT_MAX_FRAME 5
     #define SPRINT_SPEED_FRAME 1.5
     #define SPRINT_RECT 4000 / SPRINT_MAX_FRAME
-    #define TEXTURE_OVERLAY_SPRINT "ressources/Wolf3D_IMG/sprint-overlay-9.png"
+    #define TEXTURE_OVERLAY_SPRINT "ressources/Wolf3D_IMG/sprint-overlay.png"
     #define TEXTURE_SPRINT_RECT_SIZE 0, 0, SPRINT_RECT, 452
     //           |           |
     #define TEXTURE_WALL "ressources/Wolf3D_IMG/wall_bamboo.png"
