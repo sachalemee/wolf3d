@@ -34,6 +34,7 @@ void close_window(sys_data_t *sys, sfEvent event)
 
 void footstep_sound(player_sound_t *sound, sfKeyCode key)
 {
+    sfMusic_setVolume(sound->sound_footstep, 25);
     if (sfMusic_getStatus(sound->sound_footstep) != sfPlaying
         && sfKeyboard_isKeyPressed(key) == sfTrue)
         sfMusic_play(sound->sound_footstep);

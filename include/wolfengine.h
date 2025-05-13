@@ -40,10 +40,16 @@
     #define EXIT_BUTTON_PATH RESSOURCES_SPRITE"buttons/exit_button.png"
     #define WEAPON_RESSOURCES RESSOURCES_SPRITE"weapon/"
     #define SONGS_PATH "ressources/Wolf3D_OGG/"
-    #define MUSIC_PATH_GAME SONGS_PATH"game_music/URAHERO.ogg"
+    #define MUSIC_PATH_GAME SONGS_PATH"game_music/Hotline-Miami-Soundtrack.wav"
     #define MUSIC_PATH_FOOTSTEP SONGS_PATH"game_music/footstep-sand-move.wav"
     #define MUSIC_PATH_MENU SONGS_PATH"game_music/Tropical_music_bg.ogg"
-    #define TEXTURE_OVERLAY_SPRINT "ressources/Wolf3D_IMG/sprint-overlay.png"
+    //           |           |
+    #define SPRINT_MAX_FRAME 5
+    #define SPRINT_SPEED_FRAME 1.5
+    #define SPRINT_RECT 4000 / SPRINT_MAX_FRAME
+    #define TEXTURE_OVERLAY_SPRINT "ressources/Wolf3D_IMG/sprint-overlay-9.png"
+    #define TEXTURE_SPRINT_RECT_SIZE 0, 0, SPRINT_RECT, 452
+    //           |           |
     #define TEXTURE_WALL "ressources/Wolf3D_IMG/wall_bamboo.png"
     #define BG_MENU SONGS_PATH "game_background/background_menu.png"
     #define BG_SETTING "ressources/Wolf3D_OGG/game_background/bg_setting.png"
@@ -55,13 +61,34 @@
 
     /* weapon sprite sheet */
     #define TTR_MAIN_WEAPON "main-weapon-sprite.png"
-    #define SONG_SHOOT_GAME WEAPON_RESSOURCES "water-shot-trimmer.wav"
+    #define TTR_SECONDARY_WEAPON "secondary-weapon-sprite.png"
+    #define TTR_LEG_WEAPON "legs-sprite.png"
+    //           |           |
+    #define WATER_SONG_SHOOT WEAPON_RESSOURCES"water-shot-trimmer.wav"
+    #define FART_SONG_SHOOT WEAPON_RESSOURCES"fart-sound.ogg"
+    //           |           |
     #define RES_MAIN_WEAPON WEAPON_RESSOURCES TTR_MAIN_WEAPON
-    #define TTR_MAIN_RECT_SIZE 0, 0, 91, 127
+    #define RES_SECONDARY_WEAPON WEAPON_RESSOURCES TTR_SECONDARY_WEAPON
+    #define RES_LEG_WEAPON WEAPON_RESSOURCES TTR_LEG_WEAPON
+    //           |           |
+    #define MAIN_WEAPON_MAX_FRAME 3
+    #define SECONDARY_WEAPON_MAX_FRAME 2
+    #define LEG_WEAPON_MAX_FRAME 2
+    //           |           |
+    #define MAIN_WEAPON_RECT 275 / MAIN_WEAPON_MAX_FRAME
+    #define SECONDARY_WEAPON_RECT 318 / SECONDARY_WEAPON_MAX_FRAME
+    #define LEG_WEAPON_RECT 315 / LEG_WEAPON_MAX_FRAME
+    //           |           |
+    #define TTR_MAIN_RECT_SIZE 0, 0, MAIN_WEAPON_RECT, 127
+    #define TTR_SECONDARY_RECT_SIZE 0, 0, SECONDARY_WEAPON_RECT, 148
+    #define TTR_LEG_RECT_SIZE 0, 0, LEG_WEAPON_RECT, 146
+    //           |           |
+    #define WEAPON_SPEED_FRAME 1.0
+    //           |           |
     #define WIN_WEAPON_POS 325
+    #define WIN_LEG_POS 200
     #define WEAPON_POS_PADDING 8
-    #define MAIN_WEAPON_SPEED_FRAME 1.1
-    #define WEAPON_RECT 275 / 3
+    /* ------------------- */
 
     /* color of the player */
     #define PLAYER_START_POS_X 22.0
@@ -172,6 +199,7 @@ typedef struct time_info_s {
 typedef struct sprites_s {
     sfTexture *sprint_overlay_tex;
     sfSprite *sprint_overlay;
+    sfIntRect sprint_overlay_rect;
 } sprites_t;
 
 typedef struct musics_s {
@@ -179,9 +207,21 @@ typedef struct musics_s {
     sfMusic *game_music;
 } musics_t;
 
+typedef struct crosshair_s {
+    sfTexture *ttr;
+    sfSprite *spr;
+    sfVector2f pos;
+    sfVector2f scale;
+} crosshair_t;
+
+typedef struct custom_settings_s {
+    crosshair_t *crosshair;
+} custom_settings_t;
+
 typedef struct menu_s {
     buttons_t **buttons;
     entity_t *entity;
+    custom_settings_t *custom_set;
 } menu_t;
 
 typedef struct setting_screen_s {
@@ -192,9 +232,15 @@ typedef struct setting_screen_s {
 
 typedef struct weapon_s {
     sfTexture *ttr_main;
-    sfSprite *spr_main;
+    sfTexture *ttr_secondary;
+    sfTexture *ttr_leg;
     sfIntRect ttr_main_rect;
-    sfMusic *shooting_sound;
+    sfIntRect ttr_secondary_rect;
+    sfIntRect ttr_leg_rect;
+    sfSprite *weapon_sprite;
+    sfMusic *main_weapon_shoot_sound;
+    sfMusic *leg_weapon_shoot_sound;
+    size_t max_frame;
 } weapon_t;
 
 typedef struct ground_sky_s {
@@ -329,7 +375,12 @@ int start(const char *_Nullable map_path);
 void draw_in_game(sys_data_t *sys_data, game_t *game, map_t map);
 void draw_background(sfRenderWindow *win,
     sfRectangleShape *background_dsp_rect);
-void draw_weapon(game_t *game, sfRenderWindow *win, time_info_t *time);
+void draw_weapon(weapon_t *weapon, sfRenderWindow *win, time_info_t *time);
+void draw_sprint_overlay(game_t *game, sfRenderWindow *win,
+    time_info_t *time);
+void set_secondary_weapon(weapon_t *weapon);
+void set_primary_weapon(weapon_t *weapon);
+void set_leg_weapon(weapon_t *weapon);
 
 /* raycast */
 void raycasting(camera_t camera, map_t map,
@@ -358,6 +409,7 @@ void play_game(sys_data_t *sys);
 
 /* call setting */
 int update_setting(game_t *game, sys_data_t *sys);
+int events_setting(sys_data_t *sys);
 void into_setting(sys_data_t *sys);
 
 /* call game */

@@ -19,7 +19,7 @@ int update_scenes(sys_data_t *sys_data)
 {
     size_t i = 0;
 
-    while (STATEMENT[i].state != 0) {
+    while (STATEMENT[i].state != 3) {
         if (sys_data->scene.state == STATEMENT[i].state) {
             return STATEMENT[i].func(&(sys_data->scene.game), sys_data);
         }
@@ -35,7 +35,7 @@ int main_loop(sys_data_t *sys_data)
 {
     size_t return_tmp_value = 0;
 
-    sfMusic_setVolume(sys_data->scene.musics.menu_music, 20);
+    sfMusic_setVolume(sys_data->scene.musics.menu_music, 0);
     sfMusic_play(sys_data->scene.musics.menu_music);
     while (sfRenderWindow_isOpen(sys_data->window) == sfTrue
         && sys_data->is_running) {

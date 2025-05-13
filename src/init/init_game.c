@@ -72,14 +72,16 @@ int init_sprites(sprites_t *sprites)
     sfSprite *sprite = sfSprite_create();
 
     if (texture == NULL || sprite == NULL) {
-        destroy_sprites((sprites_t){texture, sprite});
+        destroy_sprites((sprites_t){texture, sprite, {0}});
         return FAILURE;
     }
     sfSprite_setTexture(sprite, texture, sfTrue);
-    sfSprite_setColor(sprite, sfColor_fromRGBA(100, 240, 220, 75));
-    sfSprite_setScale(sprite, (sfVector2f){3, 3});
+    sfSprite_setColor(sprite, sfColor_fromRGB(255, 255, 102));
+    sfSprite_setScale(sprite, (sfVector2f){2.5, 3});
     sprites->sprint_overlay_tex = texture;
     sprites->sprint_overlay = sprite;
+    sprites->sprint_overlay_rect = (sfIntRect){
+        TEXTURE_SPRINT_RECT_SIZE};
     return SUCCESS;
 }
 
