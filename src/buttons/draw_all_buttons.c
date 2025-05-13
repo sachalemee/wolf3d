@@ -19,5 +19,8 @@ void draw_menu_buttons(menu_t *menu, sfRenderWindow *window)
 void draw_setting_buttons(setting_screen_t *setting, sfRenderWindow *window)
 {
     draw_button(window, setting->buttons[0]);
+    draw_button(window, setting->buttons[1]);
+    draw_button(window, setting->buttons[2]);
+    draw_button(window, setting->buttons[3]);
     return;
 }

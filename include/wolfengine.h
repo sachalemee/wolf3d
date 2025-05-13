@@ -270,7 +270,7 @@ static char const *const wall_textures[] = {
 void destroy_menu(menu_t menu);
 int init_setting_screen(setting_screen_t *setting);
 int init_menu(menu_t *menu);
-void destroy_settings(settings_t settings);
+void destroy_settings(setting_screen_t settings);
 int init_settings(settings_t *settings, player_settings_t *player_settings);
 void destroy_game(game_t game);
 int init_game(game_t *game, const char *_Nullable map_path,
@@ -281,6 +281,8 @@ void destroy_weapon(weapon_t weapon);
 int init_player(sfVector2f coords, player_t *dest);
 int init_scene(scene_t *scene, const char *_Nullable map_path,
     sfRenderWindow *win);
+void destroy_buttons_setting(buttons_t **buttons);
+void destroy_setting_screen(setting_screen_t *setting);
 void destroy_scene(scene_t scene);
 int init_musics(musics_t *musics);
 void destroy_musics(musics_t musics);
