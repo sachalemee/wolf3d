@@ -38,16 +38,20 @@ static int init_buttons_settings(buttons_t ***buttons)
     *buttons = calloc(NB_BUTTONS_SETTINGS, sizeof(buttons_t *));
     if (buttons == NULL)
         return FAILURE;
-    (*buttons)[0] = create_button((sfVector2f){960, 540},
-        (sfVector2f){350, 100}, "SOUND", SOUND_BUTTON_PATH);
-    (*buttons)[1] = create_button((sfVector2f){960, 640},
-        (sfVector2f){350, 100}, "DIFICULTY", NULL);
-    (*buttons)[2] = create_button((sfVector2f){960, 740},
-        (sfVector2f){350, 100}, "FOV", NULL);
-    (*buttons)[3] = create_button((sfVector2f){960, 840},
-        (sfVector2f){350, 100}, "RETURN TO MENU", NULL);
+    (*buttons)[0] = create_button((sfVector2f){760, 160},
+        (sfVector2f){350, 100}, " ", SOUND_BUTTON);
+    (*buttons)[1] = create_button((sfVector2f){760, 360},
+        (sfVector2f){350, 100}, " ", FOV_BUTTON);
+    (*buttons)[2] = create_button((sfVector2f){760, 560},
+        (sfVector2f){350, 100}, " ", DIFFICULTY_BUTTON);
+    (*buttons)[3] = create_button((sfVector2f){760, 760},
+        (sfVector2f){350, 100}, " ", TO_MENU_BUTTON);
     if (!(*buttons)[0] || !(*buttons)[1] || !(*buttons)[2] || !(*buttons[3]))
         destroy_buttons_setting(*buttons);
+    (*buttons)[0]->function = play_game;
+    (*buttons)[1]->function = close_menu;
+    (*buttons)[2]->function = close_menu;
+    (*buttons)[3]->function = return_to_menu;
     return EXIT_SUCCESS;
 }
 

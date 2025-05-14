@@ -10,9 +10,9 @@
 #include "buttons.h"
 #include <stdio.h>
 
-void close_setting(sys_data_t *sys)
+void return_to_menu(sys_data_t *sys)
 {
-    sys->is_running = false;
+    sys->scene.state = STATE_MENU;
 }
 
 static void buttons_event_setting(sys_data_t *sys, sfEvent event)

@@ -38,7 +38,10 @@
     #define PLAY_BUTTON_PATH RESSOURCES_SPRITE"buttons/play_button.png"
     #define SETTING_BUTTON_PATH RESSOURCES_SPRITE"buttons/setting_button.png"
     #define EXIT_BUTTON_PATH RESSOURCES_SPRITE"buttons/exit_button.png"
-    #define SOUND_BUTTON_PATH "ressources/sprite-sheet/buttons/sound_button.png"
+    #define SOUND_BUTTON "ressources/sprite-sheet/buttons/sound_button.png"
+    #define FOV_BUTTON "ressources/sprite-sheet/buttons/fov_button.png"
+    #define DIFFICULTY_BUTTON "ressources/sprite-sheet/buttons/difficulty_button.png"
+    #define TO_MENU_BUTTON "ressources/sprite-sheet/buttons/to_menu_button.png"
     #define WEAPON_RESSOURCES RESSOURCES_SPRITE"weapon/"
     #define SONGS_PATH "ressources/Wolf3D_OGG/"
     #define MUSIC_PATH_GAME SONGS_PATH"game_music/URAHERO.ogg"
@@ -348,6 +351,7 @@ void play_game(sys_data_t *sys);
 /* call setting */
 int update_setting(game_t *game, sys_data_t *sys);
 int events_setting(sys_data_t *sys);
+void return_to_menu(sys_data_t *sys);
 void into_setting(sys_data_t *sys);
 
 /* call game */
