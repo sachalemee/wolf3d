@@ -36,18 +36,35 @@ void destroy_game(game_t game)
     destroy_wall_sprites(game.wall_sprites);
     destroy_map(game.current_map);
     destroy_player(game.player);
-    sfRectangleShape_destroy(game.background_dsp_rect);
+    sfRectangleShape_destroy(game.ground_sky->background_dsp_rect);
     destroy_sprites(game.sprites);
     free(game.raycast_data);
 }
 
-int init_background_disp_rect(sfRectangleShape **background_disp_rect)
+void free_ground_sky(ground_sky_t *ground_sky)
 {
-    *background_disp_rect = sfRectangleShape_create();
-    if (*background_disp_rect == NULL)
+    if (!ground_sky)
+        return;
+    if (ground_sky->background_dsp_rect)
+        sfRectangleShape_destroy(ground_sky->background_dsp_rect);
+    free(ground_sky);
+}
+
+int init_background_disp_rect(ground_sky_t **ground_sky)
+{
+    (*ground_sky) = malloc(sizeof(ground_sky_t));
+    if ((*ground_sky) == NULL)
         return FAILURE;
-    sfRectangleShape_setSize(
-        *background_disp_rect, (sfVector2f){WIN_WIDTH, WIN_HEIGHT / 2});
+    (*ground_sky)->background_dsp_rect = sfRectangleShape_create();
+    if ((*ground_sky)->background_dsp_rect == NULL) {
+        free_ground_sky((*ground_sky));
+        return FAILURE;
+    }
+    (*ground_sky)->ground_texture = sfTexture_createFromFile("ressources/"
+        "Wolf3D_IMG/wood-floor.png", NULL);
+    (*ground_sky)->ground_sprite = sfSprite_create();
+    sfRectangleShape_setSize((*ground_sky)->background_dsp_rect,
+        (sfVector2f){WIN_WIDTH, WIN_HEIGHT / 2});
     return SUCCESS;
 }
 
@@ -58,14 +75,17 @@ int init_sprites(sprites_t *sprites)
     sfSprite *sprite = sfSprite_create();
 
     if (texture == NULL || sprite == NULL) {
-        destroy_sprites((sprites_t){texture, sprite});
+        destroy_sprites((sprites_t){texture, sprite, {0}});
         return FAILURE;
     }
     sfSprite_setTexture(sprite, texture, sfTrue);
-    sfSprite_setColor(sprite, sfColor_fromRGBA(100, 240, 220, 75));
-    sfSprite_setScale(sprite, (sfVector2f){3, 3});
+    sfSprite_setPosition(sprite, (sfVector2f){-1000, -750});
+    sfSprite_setColor(sprite, sfColor_fromRGBA(255, 255, 102, 75));
+    sfSprite_setScale(sprite, (sfVector2f){2.5 * 2, 3 * 2});
     sprites->sprint_overlay_tex = texture;
     sprites->sprint_overlay = sprite;
+    sprites->sprint_overlay_rect = (sfIntRect){
+        TEXTURE_SPRINT_RECT_SIZE};
     return SUCCESS;
 }
 
@@ -81,9 +101,10 @@ int init_game(game_t *game, const char *_Nullable map_path,
             == FAILURE
         || init_wall_sprites(&(game->wall_sprites)) == FAILURE
         || init_player(game->current_map->start, &(game->player)) == FAILURE
-        || init_background_disp_rect(&(game->background_dsp_rect)) == FAILURE
+        || init_background_disp_rect(&(game->ground_sky)) == FAILURE
         || init_sprites(&(game->sprites)) == FAILURE
-        || init_weapon(&(game->weapon))) {
+        || init_weapon(&(game->weapon)) == FAILURE
+        || init_hud(&(game->hud)) == FAILURE) {
         destroy_game(*game);
         return FAILURE;
     }

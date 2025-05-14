@@ -34,4 +34,3 @@ int events_setting(sys_data_t *sys)
     }
     return EXIT_SUCCESS;
 }
-

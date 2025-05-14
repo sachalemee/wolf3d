@@ -76,6 +76,8 @@ SRC =		$(addprefix $(SRC_PATH), \
 					draw_background.c \
 					draw_weapon.c \
 					draw.c \
+					draw_sprint_overlay.c \
+					draw_hud.c	\
 				)\
 				$(addprefix $(INIT_PATH), \
 					init_entity.c	\
@@ -93,6 +95,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					init_weapon.c \
 					init_window.c \
 					init_wall_sprites.c	\
+					init_hud.c	\
 				)\
 				$(addprefix  $(RAYCAST_PATH), \
 					raycasting.c \

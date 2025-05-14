@@ -35,7 +35,7 @@ int main_loop(sys_data_t *sys_data)
 {
     size_t return_tmp_value = 0;
 
-    sfMusic_setVolume(sys_data->scene.musics.menu_music, 100);
+    sfMusic_setVolume(sys_data->scene.musics.menu_music, 0);
     sfMusic_play(sys_data->scene.musics.menu_music);
     while (sfRenderWindow_isOpen(sys_data->window) == sfTrue
         && sys_data->is_running) {

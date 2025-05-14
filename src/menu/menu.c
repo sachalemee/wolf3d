@@ -15,7 +15,7 @@ void play_game(sys_data_t *sys)
 {
     sfMusic_pause(sys->scene.musics.menu_music);
     sfMusic_play(sys->scene.musics.game_music);
-    sfMusic_setVolume(sys->scene.musics.game_music, 50);
+    sfMusic_setVolume(sys->scene.musics.game_music, 0);
     sys->scene.state = STATE_GAME;
 }
 
