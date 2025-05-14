@@ -52,16 +52,19 @@ void free_ground_sky(ground_sky_t *ground_sky)
 
 int init_background_disp_rect(ground_sky_t **ground_sky)
 {
-    *ground_sky = malloc(sizeof(ground_sky_t));
-    if (*ground_sky == NULL)
+    (*ground_sky) = malloc(sizeof(ground_sky_t));
+    if ((*ground_sky) == NULL)
         return FAILURE;
     (*ground_sky)->background_dsp_rect = sfRectangleShape_create();
     if ((*ground_sky)->background_dsp_rect == NULL) {
-        free_ground_sky(*ground_sky);
+        free_ground_sky((*ground_sky));
         return FAILURE;
     }
-    sfRectangleShape_setSize(
-        (*ground_sky)->background_dsp_rect, (sfVector2f){WIN_WIDTH, WIN_HEIGHT / 2});
+    (*ground_sky)->ground_texture = sfTexture_createFromFile("ressources/"
+        "Wolf3D_IMG/wood-floor.png", NULL);
+    (*ground_sky)->ground_sprite = sfSprite_create();
+    sfRectangleShape_setSize((*ground_sky)->background_dsp_rect,
+        (sfVector2f){WIN_WIDTH, WIN_HEIGHT / 2});
     return SUCCESS;
 }
 
@@ -100,7 +103,8 @@ int init_game(game_t *game, const char *_Nullable map_path,
         || init_player(game->current_map->start, &(game->player)) == FAILURE
         || init_background_disp_rect(&(game->ground_sky)) == FAILURE
         || init_sprites(&(game->sprites)) == FAILURE
-        || init_weapon(&(game->weapon))) {
+        || init_weapon(&(game->weapon)) == FAILURE
+        || init_hud(&(game->hud)) == FAILURE) {
         destroy_game(*game);
         return FAILURE;
     }

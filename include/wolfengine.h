@@ -34,13 +34,12 @@
     #define SPRINT_MAX_FRAME 5
     #define SPRINT_SPEED_FRAME 1.5
     #define SPRINT_RECT 4000 / SPRINT_MAX_FRAME
-    #define TEXTURE_OVERLAY_SPRINT "ressources/Wolf3D_IMG/sprint-overlay-9.png"
     #define TEXTURE_SPRINT_RECT_SIZE 0, 0, SPRINT_RECT, 452
     //           |           |
-    #define TEXTURE_WALL "ressources/Wolf3D_IMG/wall_bamboo.png"
+    #define PATH_WOLF_RES "ressources/Wolf3D_IMG/"
     #define BG_MENU SONGS_PATH "game_background/background_menu.png"
     #define BG_SETTING "ressources/Wolf3D_OGG/game_background/bg_setting.png"
-    #define GROUND_TEXTURE "ressources/Wolf3D_IMG/ground_texture/ground_texture.png"
+    #define GROUND_TEXTURE PATH_WOLF_RES"ground_texture/ground_texture.png"
     #define BACKGROUND_MENU_DEF 0, 0, 1791, 1000
     #define BG_RECT 1791.75
     #define BG_MAX_FRAME 8
@@ -124,50 +123,6 @@ typedef struct custom_settings_s {
     crosshair_t *crosshair;
 } custom_settings_t;
 
-typedef struct menu_s {
-    buttons_t **buttons;
-    entity_t *entity;
-    custom_settings_t *custom_set;
-} menu_t;
-
-typedef struct setting_screen_s {
-    sfTexture *setting_texture;
-    sfSprite *setting_sprite;
-    buttons_t **buttons;
-} setting_screen_t;
-
-typedef struct weapon_s {
-    sfTexture *ttr_main;
-    sfTexture *ttr_secondary;
-    sfTexture *ttr_leg;
-    sfIntRect ttr_main_rect;
-    sfIntRect ttr_secondary_rect;
-    sfIntRect ttr_leg_rect;
-    sfSprite *weapon_sprite;
-    sfMusic *main_weapon_shoot_sound;
-    sfMusic *leg_weapon_shoot_sound;
-    size_t max_frame;
-} weapon_t;
-
-typedef struct ground_sky_s {
-    sfRectangleShape *background_dsp_rect;
-    sfTexture *ground_texture;
-    sfSprite *ground_sprite;
-    sfTexture *sky_texure;
-    sfSprite *sky_sprite;
-} ground_sky_t;
-
-typedef struct game_s {
-    ground_sky_t *ground_sky;
-    sfSprite **wall_sprites;
-    sprites_t sprites;
-    ssize_t level;
-    map_t *current_map;
-    player_t player;
-    weapon_t weapon;
-    float *raycast_data;
-} game_t;
-
 typedef struct settings_s {
     float difficulty;
     player_settings_t *player_settings;
@@ -188,6 +143,7 @@ int init_settings(settings_t *settings, player_settings_t *player_settings);
 int init_sys_data(sys_data_t *sys, const char *_Nullable map_path);
 int init_entity(entity_t **entity);
 void destroy_entity(entity_t *entity);
+int init_hud(hud_t *hud);
 
 /* init function relative to a struct */
 int init_window(sfRenderWindow **window);
@@ -204,6 +160,7 @@ int set_fullscreen(sys_data_t *sys, sfEvent event);
 int start(const char *_Nullable map_path);
 void draw_background(sfRenderWindow *win,
     sfRectangleShape *background_dsp_rect);
+void draw_hud(hud_t *hud, sfRenderWindow *win);
 
 void destroy_sys(sys_data_t sys);
 

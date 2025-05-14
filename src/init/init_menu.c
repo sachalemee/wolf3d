@@ -47,6 +47,5 @@ int init_menu(menu_t *menu)
         destroy_menu(*menu);
         return FAILURE;
     }
-    // menu->custom_set = init_custom_settings();
     return SUCCESS;
 }

@@ -45,7 +45,6 @@
 
 typedef struct time_info_s time_info_t;
 
-
 typedef struct weapon_s {
     sfTexture *ttr_main;
     sfTexture *ttr_secondary;

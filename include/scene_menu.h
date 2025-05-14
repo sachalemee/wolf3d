@@ -37,6 +37,7 @@
     #define PLAY_BUTTON_PATH RESSOURCES_SPRITE"buttons/play_button.png"
     #define SETTING_BUTTON_PATH RESSOURCES_SPRITE"buttons/setting_button.png"
     #define EXIT_BUTTON_PATH RESSOURCES_SPRITE"buttons/exit_button.png"
+    #define HUD_PATH "ressources/Wolf3D_OGG/hud/HUD.png"
     //           |           |
     #define MUSIC_PATH_GAME SONGS_PATH"game_music/Hotline-Miami-Soundtrack.wav"
     #define MUSIC_PATH_FOOTSTEP SONGS_PATH"game_music/footstep-sand-move.wav"
@@ -52,14 +53,28 @@ typedef struct custom_settings_s custom_settings_t;
 typedef struct sys_data_s sys_data_t;
 typedef struct musics_s musics_t;
 
+typedef struct ground_sky_s {
+    sfRectangleShape *background_dsp_rect;
+    sfTexture *ground_texture;
+    sfSprite *ground_sprite;
+    sfTexture *sky_texure;
+    sfSprite *sky_sprite;
+} ground_sky_t;
+
+typedef struct hud_s {
+    sfSprite *hud_sprite;
+    sfTexture *hud_texture;
+} hud_t;
+
 typedef struct game_s {
     sfSprite **wall_sprites;
-    sfRectangleShape *background_dsp_rect;
+    ground_sky_t *ground_sky;
     sprites_t sprites;
     ssize_t level;
     map_t *current_map;
     player_t player;
     weapon_t weapon;
+    hud_t hud;
     float *raycast_data;
 } game_t;
 
