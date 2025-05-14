@@ -76,8 +76,9 @@ int init_sprites(sprites_t *sprites)
         return FAILURE;
     }
     sfSprite_setTexture(sprite, texture, sfTrue);
-    sfSprite_setColor(sprite, sfColor_fromRGB(255, 255, 102));
-    sfSprite_setScale(sprite, (sfVector2f){2.5, 3});
+    sfSprite_setPosition(sprite, (sfVector2f){-1000, -750});
+    sfSprite_setColor(sprite, sfColor_fromRGBA(255, 255, 102, 75));
+    sfSprite_setScale(sprite, (sfVector2f){2.5 * 2, 3 * 2});
     sprites->sprint_overlay_tex = texture;
     sprites->sprint_overlay = sprite;
     sprites->sprint_overlay_rect = (sfIntRect){
