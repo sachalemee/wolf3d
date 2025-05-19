@@ -24,12 +24,12 @@ int init_buttons(buttons_t ***buttons)
     *buttons = calloc(3, sizeof(buttons_t *));
     if (buttons == NULL)
         return FAILURE;
-    (*buttons)[0] = create_button((sfVector2f){1400, 200},
-        (sfVector2f){350, 100}, "PLAY", PLAY_BUTTON_PATH);
-    (*buttons)[1] = create_button((sfVector2f){1400, 495},
-        (sfVector2f){350, 100}, "SETTINGS", SETTING_BUTTON_PATH);
-    (*buttons)[2] = create_button((sfVector2f){1400, 785},
-        (sfVector2f){350, 100}, "QUIT", EXIT_BUTTON_PATH);
+    (*buttons)[0] = create_button((sfVector2f){1400, 330},
+        (sfVector2f){350, 100}, " ", PLAY_BUTTON_PATH);
+    (*buttons)[1] = create_button((sfVector2f){1400, 530},
+        (sfVector2f){350, 100}, " ", SETTING_BUTTON_PATH);
+    (*buttons)[2] = create_button((sfVector2f){1400, 730},
+        (sfVector2f){350, 100}, " ", EXIT_BUTTON_PATH);
     if (!(*buttons)[0] || !(*buttons)[1] || !(*buttons)[2]) {
         destroy_buttons(*buttons);
         return FAILURE;

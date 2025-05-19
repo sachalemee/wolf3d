@@ -27,6 +27,7 @@
     #define WIN_TITLE "wolfengine"
     //          |           |
     #define SONGS_PATH "ressources/Wolf3D_OGG/"
+    #define BACKGROUND_PATH "ressources/Wolf3D_OGG/game_background/"
     #define MUSIC_PATH_GAME SONGS_PATH"game_music/Hotline-Miami-Soundtrack.wav"
     #define MUSIC_PATH_FOOTSTEP SONGS_PATH"game_music/footstep-sand-move.wav"
     #define MUSIC_PATH_MENU SONGS_PATH"game_music/Tropical_music_bg.ogg"
@@ -39,6 +40,7 @@
     #define PATH_WOLF_RES "ressources/Wolf3D_IMG/"
     #define BG_MENU SONGS_PATH "game_background/background_menu.png"
     #define BG_SETTING "ressources/Wolf3D_OGG/game_background/bg_setting.png"
+    #define PANEL_BUTTON_TEXTURE BACKGROUND_PATH "panel_button.png"
     #define GROUND_TEXTURE PATH_WOLF_RES"ground_texture/ground_texture.png"
     #define BACKGROUND_MENU_DEF 0, 0, 1791, 1000
     #define BG_RECT 1791.75

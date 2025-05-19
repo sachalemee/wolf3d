@@ -85,6 +85,8 @@ typedef struct menu_s {
     buttons_t **buttons;
     entity_t *entity;
     custom_settings_t *custom_set;
+    sfSprite *panel_sprite;
+    sfTexture *panel_text;
 } menu_t;
 
 int init_menu(menu_t *menu);
