@@ -31,7 +31,7 @@ void set_secondary_weapon(weapon_t *weapon)
         (sfVector2f){ttr_secondary_size.x / 6, ttr_secondary_size.y});
     sfSprite_setScale(weapon->weapon_sprite, (sfVector2f){4, 4});
     sfSprite_setPosition(weapon->weapon_sprite,
-        (sfVector2f){(WIN_WIDTH / 2) + WIN_WEAPON_POS,
+        (sfVector2f){(WIN_WIDTH / 2) + WIN_SECONDARY_WEAPON_POS,
         WIN_HEIGHT + WEAPON_POS_PADDING});
 }
 
@@ -45,7 +45,7 @@ void set_primary_weapon(weapon_t *weapon)
         (sfVector2f){ttr_main_size.x / 6, ttr_main_size.y});
     sfSprite_setScale(weapon->weapon_sprite, (sfVector2f){4, 4});
     sfSprite_setPosition(weapon->weapon_sprite,
-        (sfVector2f){(WIN_WIDTH / 2) + WIN_WEAPON_POS,
+        (sfVector2f){(WIN_WIDTH / 2) + WIN_MAIN_WEAPON_POS,
         WIN_HEIGHT + WEAPON_POS_PADDING});
 }
 

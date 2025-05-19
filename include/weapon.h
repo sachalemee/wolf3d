@@ -38,7 +38,8 @@
     //          |           |
     #define WEAPON_SPEED_FRAME 1.0
     //          |           |
-    #define WIN_WEAPON_POS 325
+    #define WIN_MAIN_WEAPON_POS 325
+    #define WIN_SECONDARY_WEAPON_POS 250
     #define WIN_LEG_POS 200
     #define WEAPON_POS_PADDING 8
     //          |           |
