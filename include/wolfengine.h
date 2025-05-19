@@ -43,6 +43,8 @@
     #define PANEL_BUTTON_TEXTURE BACKGROUND_PATH "panel_button.png"
     #define GROUND_TEXTURE PATH_WOLF_RES"ground_texture/ground_texture.png"
     #define BACKGROUND_MENU_DEF 0, 0, 1791, 1000
+    #define PANEL_SCALE 0.3, 0.35
+    #define POS_PANEL 1260, -250
     #define BG_RECT 1791.75
     #define BG_MAX_FRAME 8
     #define BG_SPEED_FRAME 5

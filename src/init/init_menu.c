@@ -52,8 +52,8 @@ int init_panel(menu_t *menu)
     }
     sfSprite_setTexture((menu)->panel_sprite,
         (menu)->panel_text, sfTrue);
-    sfSprite_setScale(menu->panel_sprite, (sfVector2f){0.3, 0.35});
-    sfSprite_setPosition(menu->panel_sprite, (sfVector2f){1260, -250});
+    sfSprite_setScale(menu->panel_sprite, (sfVector2f){PANEL_SCALE});
+    sfSprite_setPosition(menu->panel_sprite, (sfVector2f){POS_PANEL});
     return SUCCESS;
 }
 
