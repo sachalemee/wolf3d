@@ -91,6 +91,5 @@ typedef struct time_info_s time_info_t;
 
 void draw_sprint_overlay(game_t *game, sfRenderWindow *win,
     time_info_t *time);
-int draw_hud_overlay(game_t *game, player_t *player);
 
 #endif /* PLAYER_H */

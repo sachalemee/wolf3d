@@ -11,7 +11,7 @@ void set_icemaker_weapon(weapon_t *weapon)
 {
     sfVector2u ttr_icemaker = {0};
 
-    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_icemaker, sfFalse);
+    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_icemaker, sfTrue);
     ttr_icemaker = sfTexture_getSize(weapon->ttr_icemaker);
     sfSprite_setOrigin(weapon->weapon_sprite,
         (sfVector2f){ttr_icemaker.x / 6, ttr_icemaker.y});
@@ -25,7 +25,7 @@ void set_leg_weapon(weapon_t *weapon)
 {
     sfVector2u ttr_leg_size = {0};
 
-    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_leg, sfFalse);
+    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_leg, sfTrue);
     ttr_leg_size = sfTexture_getSize(weapon->ttr_leg);
     sfSprite_setOrigin(weapon->weapon_sprite,
         (sfVector2f){ttr_leg_size.x / 6, ttr_leg_size.y});
@@ -39,7 +39,7 @@ void set_secondary_weapon(weapon_t *weapon)
 {
     sfVector2u ttr_secondary_size = {0};
 
-    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_secondary, sfFalse);
+    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_secondary, sfTrue);
     ttr_secondary_size = sfTexture_getSize(weapon->ttr_secondary);
     sfSprite_setOrigin(weapon->weapon_sprite,
         (sfVector2f){ttr_secondary_size.x / 6, ttr_secondary_size.y});
@@ -53,7 +53,7 @@ void set_primary_weapon(weapon_t *weapon)
 {
     sfVector2u ttr_main_size = {0};
 
-    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_main, sfFalse);
+    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_main, sfTrue);
     ttr_main_size = sfTexture_getSize(weapon->ttr_main);
     sfSprite_setOrigin(weapon->weapon_sprite,
         (sfVector2f){ttr_main_size.x / 6, ttr_main_size.y});

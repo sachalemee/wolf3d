@@ -20,7 +20,6 @@ int game_scene(game_t *game, sys_data_t *sys)
     if (game_events(sys) == EXIT_FAIL)
         return EXIT_FAIL;
     draw_in_game(sys, game, *(game->current_map));
-    draw_hud_overlay(game, &(game->player));
     sfRenderWindow_display(sys->window);
     return EXIT_SUCCESS;
 }

@@ -74,12 +74,17 @@ void destroy_weapon(weapon_t weapon)
     sfTexture_destroy(weapon.ttr_leg);
     sfTexture_destroy(weapon.ttr_icemaker);
     sfSprite_destroy(weapon.weapon_sprite);
+    sfTexture_destroy(weapon.weapon_icon->ttr_main_icon);
+    sfTexture_destroy(weapon.weapon_icon->ttr_secondary_icon);
+    sfTexture_destroy(weapon.weapon_icon->ttr_leg_icon);
+    sfTexture_destroy(weapon.weapon_icon->ttr_icemaker_icon);
+    sfSprite_destroy(weapon.weapon_icon->weapon_icon_sprite);
     sfMusic_destroy(weapon.main_weapon_shoot_sound);
     sfMusic_destroy(weapon.leg_weapon_shoot_sound);
     sfMusic_destroy(weapon.icemaker_weapon_shoot_sound);
 }
 
-int init_weapon(weapon_t *weapon)
+int init_each_weapon(weapon_t *weapon)
 {
     if (init_main_weapon(weapon) == FAILURE)
         return FAILURE;
@@ -89,7 +94,32 @@ int init_weapon(weapon_t *weapon)
         return FAILURE;
     if (init_icemaker_weapon(weapon) == FAILURE)
         return FAILURE;
+    return EXIT_SUCCESS;
+}
+
+int init_each_weapon_icon(weapon_icon_t *weapon_icon)
+{
+    if (init_main_weapon_icon(weapon_icon) == FAILURE)
+        return FAILURE;
+    if (init_secondary_weapon_icon(weapon_icon) == FAILURE)
+        return FAILURE;
+    if (init_leg_weapon_icon(weapon_icon) == FAILURE)
+        return FAILURE;
+    if (init_icemaker_weapon_icon(weapon_icon) == FAILURE)
+        return FAILURE;
+    return EXIT_SUCCESS;
+}
+
+int init_weapon(weapon_t *weapon)
+{
+    if (init_each_weapon(weapon) == FAILURE)
+        return FAILURE;
     if (init_musics_weapon(weapon) == FAILURE)
+        return FAILURE;
+    weapon->weapon_icon = malloc(sizeof(weapon_icon_t));
+    if (weapon->weapon_icon == NULL)
+        return FAILURE;
+    if (init_each_weapon_icon(weapon->weapon_icon) == FAILURE)
         return FAILURE;
     return SUCCESS;
 }

@@ -57,5 +57,7 @@ void draw_weapon(weapon_t *weapon, sfRenderWindow *win, time_info_t *time)
     weapon_shooting(time, weapon, &current_frame, current_weapon);
     set_weapon_texture_sprite(weapon,
         current_part, current_weapon, current_frame);
+    sfRenderWindow_drawSprite(win,
+        weapon->weapon_icon->weapon_icon_sprite, NULL);
     sfRenderWindow_drawSprite(win, current_part, NULL);
 }
