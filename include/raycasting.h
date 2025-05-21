@@ -41,7 +41,7 @@ enum wall_types {
 };
 static char const *const wall_textures[] = {
     "wall_bamboo.png",
-    "joff.png",
+    "wall_bamboo.png",
     "wall_bamboo.png",
     "wall_bamboo.png",
     "wall_bamboo.png",

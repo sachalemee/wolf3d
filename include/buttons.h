@@ -25,6 +25,8 @@ typedef struct musics_s musics_t;
 typedef struct game_s game_t;
 typedef struct menu_s menu_t;
 typedef struct time_info_s time_info_t;
+typedef struct setting_screen_s setting_screen_t;
+
 
 /* enum button color */
 typedef enum stat_button_s {
@@ -44,6 +46,7 @@ typedef struct buttons_s {
     sfSprite *sprite;
     sfFont *font;
     sfColor color[NB_COLOR];
+    sfVector2f scale;
     void (*function)(sys_data_t *);
 } buttons_t;
 

@@ -5,16 +5,10 @@
 ** init_setting
 */
 
-#include "wolfengine.h"
-#include "buttons.h"
 #include <stdlib.h>
 #include <stddef.h>
-
-void destroy_settings(setting_screen_t setting)
-{
-    destroy_buttons_setting(setting.buttons);
-    destroy_setting_screen(&(setting));
-}
+#include "wolfengine.h"
+#include "buttons.h"
 
 void destroy_setting_screen(setting_screen_t *setting)
 {
@@ -61,7 +55,7 @@ static int init_buttons_settings(buttons_t ***buttons)
     (*buttons)[1] = create_button((sfVector2f){760, 360},
         (sfVector2f){350, 100}, " ", FOV_BUTTON);
     (*buttons)[2] = create_button((sfVector2f){760, 560},
-        (sfVector2f){350, 100}, " ", DIFFICULTY_BUTTON);
+        (sfVector2f){350, 100}, " ", DFTY_BUTTON);
     (*buttons)[3] = create_button((sfVector2f){760, 760},
         (sfVector2f){350, 100}, " ", TO_MENU_BUTTON);
     if (!(*buttons)[0] || !(*buttons)[1] || !(*buttons)[2] || !(*buttons[3]))
@@ -83,6 +77,12 @@ static int init_texture_setting(setting_screen_t *setting)
     sfSprite_setTexture((setting)->setting_sprite,
         (setting)->setting_texture, sfTrue);
     return SUCCESS;
+}
+
+void destroy_settings(setting_screen_t setting)
+{
+    destroy_buttons_setting(setting.buttons);
+    destroy_setting_screen(&(setting));
 }
 
 int init_setting_screen(setting_screen_t *setting)
