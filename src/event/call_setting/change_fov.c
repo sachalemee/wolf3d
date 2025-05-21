@@ -10,6 +10,4 @@
 
 void change_fov(sys_data_t *sys)
 {
-    sys->scene.game.player.camera.plane
 }
-

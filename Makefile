@@ -63,6 +63,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					)\
 					$(addprefix $(CALL_SETTING_PATH), \
 						calls_setting.c \
+						unused_button.c	\
 					)\
 					set_fullscreen.c \
 					is_keyboard_input.c \

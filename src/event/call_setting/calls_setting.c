@@ -5,7 +5,6 @@
 ** call_setting
 */
 
-
 #include "wolfengine.h"
 #include "buttons.h"
 #include <stdio.h>
@@ -22,6 +21,25 @@ static void buttons_event_setting(sys_data_t *sys, sfEvent event)
             sys->scene.setting_screen.buttons[i], event, sys);
 }
 
+void handle_slider_events(setting_screen_t *setting,
+    const sfEvent *event, sfRenderWindow *window)
+{
+    sfVector2i mousePos = {0, 0};
+    sfFloatRect bounds = {0.0f, 0.0f, 0.0f, 0.0f};
+
+    if (event->type == sfEvtMouseButtonPressed
+        && event->mouseButton.button == sfMouseLeft) {
+        mousePos = sfMouse_getPositionRenderWindow(window);
+        bounds = sfCircleShape_getGlobalBounds(setting->slider_cursor);
+        if (sfFloatRect_contains(&bounds, mousePos.x, mousePos.y)) {
+            setting->isDragging = 1;
+        }
+    }
+    if (event->type == sfEvtMouseButtonReleased
+        && event->mouseButton.button == sfMouseLeft)
+        setting->isDragging = 0;
+}
+
 int events_setting(sys_data_t *sys)
 {
     sfEvent event;
@@ -30,8 +48,9 @@ int events_setting(sys_data_t *sys)
         close_window(sys, event);
         if (set_fullscreen(sys, event) == EXIT_F)
             return EXIT_F;
+        handle_slider_events(&(sys->scene.setting_screen),
+            &event, sys->window);
         buttons_event_setting(sys, event);
     }
     return EXIT_S;
 }
-

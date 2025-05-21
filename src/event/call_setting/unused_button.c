@@ -8,7 +8,7 @@
 #include "wolfengine.h"
 #include "buttons.h"
 
-void change_sound(sys_data_t *sys)
+void unused_button(sys_data_t *sys)
 {
-    
+    UNUSED(sys);
 }

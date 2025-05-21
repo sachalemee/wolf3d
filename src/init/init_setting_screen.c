@@ -20,6 +20,10 @@ void destroy_setting_screen(setting_screen_t *setting)
 {
     if (setting->setting_sprite != NULL)
         sfTexture_destroy(setting->setting_texture);
+    if (setting->slider_cursor != NULL)
+        sfCircleShape_destroy(setting->slider_cursor);
+    if (setting->slider_texture != NULL)
+        sfTexture_destroy(setting->slider_texture);
 }
 
 void destroy_buttons_setting(buttons_t **buttons)
@@ -31,6 +35,20 @@ void destroy_buttons_setting(buttons_t **buttons)
         free_button(buttons[3]);
     }
     free(buttons);
+}
+
+static int init_slider(setting_screen_t *setting)
+{
+    setting->slider_texture = sfTexture_createFromFile(CURSOR_SETTING, NULL);
+    if (!setting->slider_texture)
+        return FAILURE;
+    setting->slider_cursor = sfCircleShape_create();
+    sfCircleShape_setRadius(setting->slider_cursor, 30);
+    sfCircleShape_setTexture(setting->slider_cursor,
+        setting->slider_texture, sfTrue);
+    sfCircleShape_setPosition(setting->slider_cursor, (sfVector2f){755, 175});
+    setting->isDragging = 0;
+    return SUCCESS;
 }
 
 static int init_buttons_settings(buttons_t ***buttons)
@@ -48,25 +66,32 @@ static int init_buttons_settings(buttons_t ***buttons)
         (sfVector2f){350, 100}, " ", TO_MENU_BUTTON);
     if (!(*buttons)[0] || !(*buttons)[1] || !(*buttons)[2] || !(*buttons[3]))
         destroy_buttons_setting(*buttons);
-    (*buttons)[0]->function = play_game;
+    (*buttons)[0]->function = unused_button;
     (*buttons)[1]->function = close_menu;
     (*buttons)[2]->function = close_menu;
     (*buttons)[3]->function = return_to_menu;
-    return EXIT_SUCCESS;
+    return SUCCESS;
+}
+
+static int init_texture_setting(setting_screen_t *setting)
+{
+    (setting)->setting_sprite = sfSprite_create();
+    (setting)->setting_texture = sfTexture_createFromFile(BG_SETTING, sfFalse);
+    if ((setting)->setting_sprite == NULL
+        || (setting)->setting_texture == NULL)
+            return FAILURE;
+    sfSprite_setTexture((setting)->setting_sprite,
+        (setting)->setting_texture, sfTrue);
+    return SUCCESS;
 }
 
 int init_setting_screen(setting_screen_t *setting)
 {
-    (setting)->setting_texture = sfTexture_createFromFile(BG_SETTING, sfFalse);
-    (setting)->setting_sprite = sfSprite_create();
-    if ((setting)->setting_sprite == NULL
-        || (setting)->setting_sprite == NULL) {
-        destroy_setting_screen(setting);
+    if (init_texture_setting(setting) == FAILURE
+    || init_buttons_settings(&(setting->buttons)) == FAILURE
+    || init_slider(setting) == FAILURE) {
+        destroy_settings(*setting);
         return FAILURE;
     }
-    if (init_buttons_settings(&(setting->buttons)) == FAILURE)
-        return FAILURE;
-    sfSprite_setTexture((setting)->setting_sprite,
-        (setting)->setting_texture, sfTrue);
     return SUCCESS;
 }

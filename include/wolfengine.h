@@ -50,6 +50,7 @@
     #define TEXTURE_WALL "ressources/Wolf3D_IMG/wall_bamboo.png"
     #define BG_MENU SONGS_PATH "game_background/background_menu.png"
     #define BG_SETTING "ressources/Wolf3D_OGG/game_background/bg_setting.png"
+    #define CURSOR_SETTING "ressources/Wolf3D_OGG/texture/cursor_text.png"
     #define BACKGROUND_MENU_DEF 0, 0, 1791, 1000
     #define BG_RECT 1791.75
     #define BG_MAX_FRAME 8
@@ -184,6 +185,9 @@ typedef struct menu_s {
 typedef struct setting_screen_s {
     sfTexture *setting_texture;
     sfSprite *setting_sprite;
+    sfTexture* slider_texture;
+    sfCircleShape* slider_cursor;
+    int isDragging;
     buttons_t **buttons;
 } setting_screen_t;
 
@@ -307,6 +311,7 @@ void destroy_time(time_info_t time);
 
 /* events */
 int game_events(sys_data_t *sys);
+void change_sound(sys_data_t *sys);
 void close_window(sys_data_t *sys, sfEvent event);
 int set_fullscreen(sys_data_t *sys, sfEvent event);
 void close_setting(sys_data_t *sys);
@@ -349,6 +354,7 @@ void draw_bg_menu(menu_t *menu, sfRenderWindow *win);
 void play_game(sys_data_t *sys);
 
 /* call setting */
+void unused_button(sys_data_t *sys);
 int update_setting(game_t *game, sys_data_t *sys);
 int events_setting(sys_data_t *sys);
 void return_to_menu(sys_data_t *sys);
