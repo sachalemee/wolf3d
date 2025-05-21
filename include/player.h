@@ -54,12 +54,18 @@ typedef struct ray_s {
     sfVector2i step;
 } ray_t;
 
+typedef bar_s {
+    size_t size;
+    
+} bar_t;
+
 typedef struct player_s {
     camera_t camera;
     ray_t ray;
     player_settings_t *mov;
     sfVector2i map;
     player_sound_t *sound;
+    bar_t *bar;
 } player_t;
 
 typedef struct map_s map_t;

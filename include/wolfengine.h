@@ -139,6 +139,7 @@ void destroy_sys(sys_data_t sys);
 
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
 void unused_button(sys_data_t *sys);
+void update_slider(setting_screen_t *setting, sys_data_t *sys);
 int events_setting(sys_data_t *sys);
 void return_to_menu(sys_data_t *sys);
 void into_setting(sys_data_t *sys);
