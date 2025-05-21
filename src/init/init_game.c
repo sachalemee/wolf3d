@@ -101,9 +101,12 @@ int init_sprites(sprites_t *sprites)
 
 static int init_bar(bar_t *bar)
 {
+    bar = malloc(sizeof(bar_t));
+    if (bar == NULL)
+        return FAILURE;    
     bar->hp_bar = sfRectangleShape_create();
     bar->shield_bar = sfRectangleShape_create();
-    if(bar->hp_bar == NULL|| bar->shield_bar == NULL)
+    if(bar->hp_bar == NULL || bar->shield_bar == NULL)
         return FAILURE;
     sfRectangleShape_setSize(bar->hp_bar, (sfVector2f){100.f, 20.f});
     sfRectangleShape_setSize(bar->shield_bar, (sfVector2f){200.f, 20.f});
