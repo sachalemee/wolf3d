@@ -61,6 +61,13 @@
     #define DEFAULT_RENDER_DIST 1000
     #define DEFAULT_DIFFICULTY 0.5
     //          |           |
+    #define MENU_VOL 50
+    #define GAME_VOL 50
+    #define FOOTSTEP_VOL 50
+    #define MAIN_SEC_VOL 50
+    #define LEG_VOL 50
+    #define ICEMAKER_VOL 50
+    //          |           |
     #define EXIT_SUCCESS 0
     #define EXIT_FAIL 84
     #define FAILURE -1

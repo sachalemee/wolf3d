@@ -55,9 +55,6 @@ SRC =		$(addprefix $(SRC_PATH), \
 						game_scene.c \
 						mov_player.c \
 					)\
-					$(addprefix $(MUSIC_PATH), \
-						music.c	\
-					)\
 					$(addprefix $(CALL_MENU_PATH), \
 						calls_menu.c \
 					)\
@@ -79,6 +76,8 @@ SRC =		$(addprefix $(SRC_PATH), \
 					draw.c \
 					draw_sprint_overlay.c \
 					draw_hud.c	\
+					set_weapons.c \
+					change_weapon_actions.c \
 				)\
 				$(addprefix $(INIT_PATH), \
 					init_entity.c	\

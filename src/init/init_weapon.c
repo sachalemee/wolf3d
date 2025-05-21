@@ -7,48 +7,6 @@
 
 #include "wolfengine.h"
 
-void set_leg_weapon(weapon_t *weapon)
-{
-    sfVector2u ttr_leg_size = {0};
-
-    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_leg, sfFalse);
-    ttr_leg_size = sfTexture_getSize(weapon->ttr_leg);
-    sfSprite_setOrigin(weapon->weapon_sprite,
-        (sfVector2f){ttr_leg_size.x / 6, ttr_leg_size.y});
-    sfSprite_setScale(weapon->weapon_sprite, (sfVector2f){4, 4});
-    sfSprite_setPosition(weapon->weapon_sprite,
-        (sfVector2f){(WIN_WIDTH / 2) - WIN_LEG_POS,
-        WIN_HEIGHT + WEAPON_POS_PADDING});
-}
-
-void set_secondary_weapon(weapon_t *weapon)
-{
-    sfVector2u ttr_secondary_size = {0};
-
-    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_secondary, sfFalse);
-    ttr_secondary_size = sfTexture_getSize(weapon->ttr_secondary);
-    sfSprite_setOrigin(weapon->weapon_sprite,
-        (sfVector2f){ttr_secondary_size.x / 6, ttr_secondary_size.y});
-    sfSprite_setScale(weapon->weapon_sprite, (sfVector2f){4, 4});
-    sfSprite_setPosition(weapon->weapon_sprite,
-        (sfVector2f){(WIN_WIDTH / 2) + WIN_SECONDARY_WEAPON_POS,
-        WIN_HEIGHT + WEAPON_POS_PADDING});
-}
-
-void set_primary_weapon(weapon_t *weapon)
-{
-    sfVector2u ttr_main_size = {0};
-
-    sfSprite_setTexture(weapon->weapon_sprite, weapon->ttr_main, sfFalse);
-    ttr_main_size = sfTexture_getSize(weapon->ttr_main);
-    sfSprite_setOrigin(weapon->weapon_sprite,
-        (sfVector2f){ttr_main_size.x / 6, ttr_main_size.y});
-    sfSprite_setScale(weapon->weapon_sprite, (sfVector2f){4, 4});
-    sfSprite_setPosition(weapon->weapon_sprite,
-        (sfVector2f){(WIN_WIDTH / 2) + WIN_MAIN_WEAPON_POS,
-        WIN_HEIGHT + WEAPON_POS_PADDING});
-}
-
 static int init_main_weapon(weapon_t *weapon)
 {
     weapon->ttr_main_rect = (sfIntRect){TTR_MAIN_RECT_SIZE};
@@ -81,16 +39,31 @@ static int init_leg_weapon(weapon_t *weapon)
     return SUCCESS;
 }
 
+static int init_icemaker_weapon(weapon_t *weapon)
+{
+    weapon->ttr_icemaker_rect = (sfIntRect){TTR_ICEMAKER_RECT_SIZE};
+    weapon->ttr_icemaker = sfTexture_createFromFile(RES_ICEMAKER_WEAPON,
+        NULL);
+    if (weapon->ttr_icemaker == NULL)
+        return FAILURE;
+    return SUCCESS;
+}
+
 static int init_musics_weapon(weapon_t *weapon)
 {
     weapon->main_weapon_shoot_sound = sfMusic_createFromFile(WATER_SONG_SHOOT);
-    sfMusic_setVolume(weapon->main_weapon_shoot_sound, 50);
     if (weapon->main_weapon_shoot_sound == NULL)
         return FAILURE;
+    sfMusic_setVolume(weapon->main_weapon_shoot_sound, MAIN_SEC_VOL);
     weapon->leg_weapon_shoot_sound = sfMusic_createFromFile(FART_SONG_SHOOT);
     if (weapon->leg_weapon_shoot_sound == NULL)
         return FAILURE;
-    sfMusic_setVolume(weapon->leg_weapon_shoot_sound, 50);
+    sfMusic_setVolume(weapon->leg_weapon_shoot_sound, LEG_VOL);
+    weapon->icemaker_weapon_shoot_sound =
+        sfMusic_createFromFile(ICEMAKER_SONG_SHOOT);
+    if (weapon->icemaker_weapon_shoot_sound == NULL)
+        return FAILURE;
+    sfMusic_setVolume(weapon->icemaker_weapon_shoot_sound, ICEMAKER_VOL);
     return EXIT_SUCCESS;
 }
 
@@ -99,9 +72,11 @@ void destroy_weapon(weapon_t weapon)
     sfTexture_destroy(weapon.ttr_main);
     sfTexture_destroy(weapon.ttr_secondary);
     sfTexture_destroy(weapon.ttr_leg);
+    sfTexture_destroy(weapon.ttr_icemaker);
     sfSprite_destroy(weapon.weapon_sprite);
     sfMusic_destroy(weapon.main_weapon_shoot_sound);
     sfMusic_destroy(weapon.leg_weapon_shoot_sound);
+    sfMusic_destroy(weapon.icemaker_weapon_shoot_sound);
 }
 
 int init_weapon(weapon_t *weapon)
@@ -111,6 +86,8 @@ int init_weapon(weapon_t *weapon)
     if (init_secondary_weapon(weapon) == FAILURE)
         return FAILURE;
     if (init_leg_weapon(weapon) == FAILURE)
+        return FAILURE;
+    if (init_icemaker_weapon(weapon) == FAILURE)
         return FAILURE;
     if (init_musics_weapon(weapon) == FAILURE)
         return FAILURE;

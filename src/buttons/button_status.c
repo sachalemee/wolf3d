@@ -21,7 +21,8 @@ static void set_status(buttons_t *button,
     sfVector2i mouse_pos, sfFloatRect hitbox)
 {
     if (sfFloatRect_contains(&hitbox, mouse_pos.x, mouse_pos.y)) {
-        sfSprite_setScale(button->sprite, (sfVector2f){button->scale.x + 0.025, button->scale.y + 0.025});
+        sfSprite_setScale(button->sprite, (sfVector2f){button->scale.x + 0.025,
+            button->scale.y + 0.025});
     } else {
         sfSprite_setScale(button->sprite, button->scale);
     }
