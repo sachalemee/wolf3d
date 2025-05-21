@@ -5,7 +5,6 @@
 ** buttons_status.c
 */
 
-#include "buttons.h"
 #include "wolfengine.h"
 
 static void button_pressed(buttons_t *button,

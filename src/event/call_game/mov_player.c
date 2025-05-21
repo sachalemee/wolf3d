@@ -10,40 +10,6 @@
 #include "wolfengine.h"
 #include "hmap.h"
 
-static void is_up(player_t *player, map_t map)
-{
-    if (sfKeyboard_isKeyPressed(sfKeyZ)) {
-        if (GET_TIL(map, (int)(player->camera.pos.x + player->camera.dir.x
-            * player->mov->mov_speed * PLAYER_BORDER_MAP),
-            (int)player->camera.pos.y) == 0)
-            player->camera.pos.x += player->camera.dir.x
-                * player->mov->mov_speed;
-        if (GET_TIL(map, (int)player->camera.pos.x,
-            (int)(player->camera.pos.y + player->camera.dir.y
-                * player->mov->mov_speed
-            * PLAYER_BORDER_MAP)) == 0)
-            player->camera.pos.y += player->camera.dir.y
-                * player->mov->mov_speed;
-    }
-}
-
-static void is_down(player_t *player, map_t map)
-{
-    if (sfKeyboard_isKeyPressed(sfKeyS)) {
-        if (GET_TIL(map, (int)(player->camera.pos.x - player->camera.dir.x
-            * player->mov->mov_speed * PLAYER_BORDER_MAP),
-            (int)player->camera.pos.y) == 0)
-            player->camera.pos.x -= player->camera.dir.x
-                * player->mov->mov_speed;
-        if (GET_TIL(map, (int)player->camera.pos.x,
-            (int)(player->camera.pos.y - player->camera.dir.y
-                * player->mov->mov_speed
-            * PLAYER_BORDER_MAP)) == 0)
-            player->camera.pos.y -= player->camera.dir.y
-                * player->mov->mov_speed;
-    }
-}
-
 static void is_left(player_t *player)
 {
     sfVector2f dir_cpy = player->camera.dir;
@@ -86,11 +52,50 @@ static void is_right(player_t *player)
     }
 }
 
+static void is_up(player_t *player, map_t map)
+{
+    if (sfKeyboard_isKeyPressed(sfKeyZ)) {
+        footstep_sound(player->sound, sfKeyZ);
+        if (sfMusic_getStatus(player->sound->sound_footstep) != sfPlaying)
+            sfMusic_play(player->sound->sound_footstep);
+        if (GET_TIL(map, (int)(player->camera.pos.x + player->camera.dir.x
+            * player->mov->mov_speed * PLAYER_BORDER_MAP),
+            (int)player->camera.pos.y) == 0)
+            player->camera.pos.x += player->camera.dir.x
+                * player->mov->mov_speed;
+        if (GET_TIL(map, (int)player->camera.pos.x,
+            (int)(player->camera.pos.y + player->camera.dir.y
+                * player->mov->mov_speed * PLAYER_BORDER_MAP)) == 0)
+            player->camera.pos.y += player->camera.dir.y
+                * player->mov->mov_speed;
+    }
+    footstep_sound(player->sound, sfKeyZ);
+}
+
+static void is_down(player_t *player, map_t map)
+{
+    if (sfKeyboard_isKeyPressed(sfKeyS)) {
+        footstep_sound(player->sound, sfKeyS);
+        if (GET_TIL(map, (int)(player->camera.pos.x - player->camera.dir.x
+            * player->mov->mov_speed * PLAYER_BORDER_MAP),
+            (int)player->camera.pos.y) == 0)
+            player->camera.pos.x -= player->camera.dir.x
+                * player->mov->mov_speed;
+        if (GET_TIL(map, (int)player->camera.pos.x,
+            (int)(player->camera.pos.y - player->camera.dir.y
+                * player->mov->mov_speed * PLAYER_BORDER_MAP)) == 0)
+            player->camera.pos.y -= player->camera.dir.y
+                * player->mov->mov_speed;
+    }
+    footstep_sound(player->sound, sfKeyS);
+}
+
 static void crab_left(player_t *player, map_t map)
 {
     sfVector2f crab_mov = {-1 * player->camera.dir.y, player->camera.dir.x};
 
     if (sfKeyboard_isKeyPressed(sfKeyQ)) {
+        footstep_sound(player->sound, sfKeyQ);
         crab_mov.x = -player->camera.dir.y;
         crab_mov.y = player->camera.dir.x;
         if (GET_TIL(map, (int)(player->camera.pos.x + crab_mov.x
@@ -106,6 +111,7 @@ static void crab_left(player_t *player, map_t map)
             + crab_mov.y * player->mov->mov_speed)) == 0)
             player->camera.pos.y += crab_mov.y * player->mov->mov_speed;
     }
+    footstep_sound(player->sound, sfKeyQ);
 }
 
 static void crab_right(player_t *player, map_t map)
@@ -114,6 +120,7 @@ static void crab_right(player_t *player, map_t map)
         -player->camera.dir.x};
 
     if (sfKeyboard_isKeyPressed(sfKeyD)) {
+        footstep_sound(player->sound, sfKeyD);
         crab_mov.x = player->camera.dir.y;
         crab_mov.y = -player->camera.dir.x;
         if (GET_TIL(map, (int)(player->camera.pos.x + crab_mov.x
@@ -126,6 +133,7 @@ static void crab_right(player_t *player, map_t map)
             + crab_mov.y * player->mov->mov_speed)) == 0)
             player->camera.pos.y += crab_mov.y * player->mov->mov_speed;
     }
+    footstep_sound(player->sound, sfKeyD);
 }
 
 static void up_down(player_t *player, map_t map)

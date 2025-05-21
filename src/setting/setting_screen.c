@@ -50,5 +50,5 @@ int update_setting(game_t *game, sys_data_t *sys)
     update_slider(&(sys->scene.setting_screen), sys);
     draw_setting(&(sys->scene.setting_screen), sys->window);
     sfRenderWindow_display(sys->window);
-    return EXIT_S;
+    return EXIT_SUCCESS;
 }

@@ -32,12 +32,31 @@ void close_window(sys_data_t *sys, sfEvent event)
         sys->is_running = sfFalse;
 }
 
+void footstep_sound(player_sound_t *sound, sfKeyCode key)
+{
+    sfMusic_setVolume(sound->sound_footstep, 25);
+    if (sfMusic_getStatus(sound->sound_footstep) != sfPlaying
+        && sfKeyboard_isKeyPressed(key) == sfTrue)
+        sfMusic_play(sound->sound_footstep);
+    if (sfMusic_getStatus(sound->sound_footstep) == sfPlaying
+        && (sfKeyboard_isKeyPressed(sfKeyZ) == sfFalse
+        && sfKeyboard_isKeyPressed(sfKeyS) == sfFalse
+        && sfKeyboard_isKeyPressed(sfKeyD) == sfFalse
+        && sfKeyboard_isKeyPressed(sfKeyQ) == sfFalse))
+        sfMusic_stop(sound->sound_footstep);
+}
+
 static void mov_sprint(player_t *player, time_info_t info)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)
-        && sfKeyboard_isKeyPressed(sfKeyLShift))
-        player->mov->mov_speed =
-        (info.delta_time * PLAYER_MOV_SPEED) * PLAYER_SPRINT_SPEED;
+        && sfKeyboard_isKeyPressed(sfKeyLShift)) {
+        sfMusic_setPitch(player->sound->sound_footstep, 2.0f);
+        player->mov->mov_speed = (info.delta_time * PLAYER_MOV_SPEED)
+            * PLAYER_SPRINT_SPEED;
+        }
+    if (sfKeyboard_isKeyPressed(sfKeyZ) == sfFalse
+        || sfKeyboard_isKeyPressed(sfKeyLShift) == sfFalse)
+            sfMusic_setPitch(player->sound->sound_footstep, 1.0f);
 }
 
 static bool player_is_out_of_map(player_t *player, map_t map)
@@ -65,9 +84,9 @@ int game_events(sys_data_t *sys)
             map.start.y + 0.5};
     while (sfRenderWindow_pollEvent(sys->window, &event)) {
         close_window(sys, event);
-        if (set_fullscreen(sys, event) == EXIT_F)
-            return EXIT_F;
+        if (set_fullscreen(sys, event) == EXIT_FAIL)
+            return EXIT_FAIL;
         enter_next_level(game, event, &(sys->is_running));
     }
-    return EXIT_S;
+    return EXIT_SUCCESS;
 }

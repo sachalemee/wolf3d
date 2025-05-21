@@ -50,7 +50,9 @@ int events_setting(sys_data_t *sys)
             return EXIT_F;
         handle_slider_events(&(sys->scene.setting_screen),
             &event, sys->window);
+        if (set_fullscreen(sys, event) == EXIT_FAIL)
+            return EXIT_FAIL;
         buttons_event_setting(sys, event);
     }
-    return EXIT_S;
+    return EXIT_SUCCESS;
 }
