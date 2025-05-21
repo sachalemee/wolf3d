@@ -11,12 +11,29 @@
     #include <SFML/Audio.h>
     #include <stdbool.h>
     //      |       |
+    #define WEAPON_RESSOURCES "ressources/sprite-sheet/weapon/"
+    #define ICON_PATH WEAPON_RESSOURCES "icon/"
+    //      |       |
     #define TTR_MAIN_WEAPON "main-weapon-sprite.png"
     #define TTR_SECONDARY_WEAPON "secondary-weapon-sprite.png"
     #define TTR_LEG_WEAPON "legs-sprite.png"
     #define TTR_ICEMAKER_WEAPON "mr-ice-maker-sprite.png"
+    //      |       |
+    #define TTR_MAIN_WEAPON_ICON ICON_PATH"main-weapon-icon-sprite.png"
+    #define TTR_SCND_WEAPON_ICON ICON_PATH"secondary-weapon-icon-sprite.png"
+    #define TTR_LEG_WEAPON_ICON ICON_PATH"legs-sprite-icon.png"
+    #define TTR_ICEMK_WEAPON_ICON ICON_PATH"icemaker-weapon-icon-sprite.png"
     //        |         |
-    #define WEAPON_RESSOURCES "ressources/sprite-sheet/weapon/"
+    #define ICEMAKER_WEAPON_ICON_POS 60, 890
+    #define LEG_WEAPON_ICON_POS 60, 895
+    #define SECONDARY_WEAPON_ICON_POS 60, 890
+    #define MAIN_WEAPON_ICON_POS 60, 880
+    //        |         |
+    #define ICEMAKER_WEAPON_ICON_SCALE 1.7, 1.7
+    #define LEG_WEAPON_ICON_SCALE 0.75, 0.75
+    #define SECONDARY_WEAPON_ICON_SCALE 1.3, 1.3
+    #define MAIN_WEAPON_ICON_SCALE 3, 3
+    //        |         |
     #define WATER_SONG_SHOOT WEAPON_RESSOURCES"water-shot-trimmer.wav"
     #define FART_SONG_SHOOT WEAPON_RESSOURCES"fart-sound.ogg"
     #define ICEMAKER_SONG_SHOOT WEAPON_RESSOURCES"icemaker_shot_sound.ogg"
@@ -50,6 +67,14 @@
 
 typedef struct time_info_s time_info_t;
 
+typedef struct weapon_icon_s {
+    sfTexture *ttr_main_icon;
+    sfTexture *ttr_secondary_icon;
+    sfTexture *ttr_leg_icon;
+    sfTexture *ttr_icemaker_icon;
+    sfSprite *weapon_icon_sprite;
+} weapon_icon_t;
+
 typedef struct weapon_s {
     sfTexture *ttr_main;
     sfTexture *ttr_secondary;
@@ -64,17 +89,19 @@ typedef struct weapon_s {
     sfMusic *leg_weapon_shoot_sound;
     sfMusic *icemaker_weapon_shoot_sound;
     size_t max_frame;
+    weapon_icon_t *weapon_icon;
 } weapon_t;
 
 void destroy_weapon(weapon_t weapon);
 int init_weapon(weapon_t *weapon);
 void draw_weapon(weapon_t *weapon,
     sfRenderWindow *win, time_info_t *time);
+//          |           |
 void set_secondary_weapon(weapon_t *weapon);
 void set_primary_weapon(weapon_t *weapon);
 void set_leg_weapon(weapon_t *weapon);
 void set_icemaker_weapon(weapon_t *weapon);
-
+//          |           |
 void set_weapon_sound(weapon_t *weapon,
     size_t current_weapon);
 void weapon_shooting(time_info_t *time,
@@ -82,8 +109,20 @@ void weapon_shooting(time_info_t *time,
 void change_weapon(weapon_t *weapon, size_t *current_weapon);
 void choose_weapon(weapon_t *weapon,
     size_t current_weapon);
+//          |           |
 void set_main_to_secondary(weapon_t *weapon,
     sfSprite *current_part, size_t current_weapon, size_t current_frame);
 void set_special_leg_icemaker(weapon_t *weapon,
     sfSprite *current_part, size_t current_weapon, size_t current_frame);
+//          |           |
+int init_main_weapon_icon(weapon_icon_t *weapon);
+int init_secondary_weapon_icon(weapon_icon_t *weapon);
+int init_leg_weapon_icon(weapon_icon_t *weapon);
+int init_icemaker_weapon_icon(weapon_icon_t *weapon);
+//          |           |
+void set_icemaker_weapon_icon(weapon_icon_t *weapon_icon);
+void set_leg_weapon_icon(weapon_icon_t *weapon_icon);
+void set_secondary_weapon_icon(weapon_icon_t *weapon_icon);
+void set_primary_weapon_icon(weapon_icon_t *weapon_icon);
+
 #endif /* WEAPON_H */
