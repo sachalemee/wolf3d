@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "stdio.h"
 
+
 void destroy_scene(scene_t scene)
 {
     destroy_musics(scene.musics);
@@ -17,6 +18,7 @@ void destroy_scene(scene_t scene)
     destroy_game(scene.game);
     destroy_weapon(scene.game.weapon);
     destroy_menu(scene.menu);
+    destroy_settings(scene.setting_screen);
 }
 
 int init_scene(scene_t *scene, const char *_Nullable map_path,

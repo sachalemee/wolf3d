@@ -15,7 +15,6 @@
     #define TTR_SECONDARY_WEAPON "secondary-weapon-sprite.png"
     #define TTR_LEG_WEAPON "legs-sprite.png"
     //        |         |
-    #define RESSOURCES_SPRITE "ressources/sprite-sheet/"
     #define WEAPON_RESSOURCES RESSOURCES_SPRITE"weapon/"
     #define WATER_SONG_SHOOT WEAPON_RESSOURCES"water-shot-trimmer.wav"
     #define FART_SONG_SHOOT WEAPON_RESSOURCES"fart-sound.ogg"

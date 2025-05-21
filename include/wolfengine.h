@@ -27,6 +27,7 @@
     #define WIN_TITLE "wolfengine"
     //          |           |
     #define SONGS_PATH "ressources/Wolf3D_OGG/"
+    #define BACKGROUND_PATH "ressources/Wolf3D_OGG/game_background/"
     #define MUSIC_PATH_GAME SONGS_PATH"game_music/Hotline-Miami-Soundtrack.wav"
     #define MUSIC_PATH_FOOTSTEP SONGS_PATH"game_music/footstep-sand-move.wav"
     #define MUSIC_PATH_MENU SONGS_PATH"game_music/Tropical_music_bg.ogg"
@@ -39,8 +40,13 @@
     #define PATH_WOLF_RES "ressources/Wolf3D_IMG/"
     #define BG_MENU SONGS_PATH "game_background/background_menu.png"
     #define BG_SETTING "ressources/Wolf3D_OGG/game_background/bg_setting.png"
+
+   #define CURSOR_SETTING "ressources/Wolf3D_OGG/texture/cursor_text.png"
+    #define PANEL_BUTTON_TEXTURE BACKGROUND_PATH "panel_button.png"
     #define GROUND_TEXTURE PATH_WOLF_RES"ground_texture/ground_texture.png"
     #define BACKGROUND_MENU_DEF 0, 0, 1791, 1000
+    #define PANEL_SCALE 0.3, 0.35
+    #define POS_PANEL 1260, -250
     #define BG_RECT 1791.75
     #define BG_MAX_FRAME 8
     #define BG_SPEED_FRAME 5
@@ -104,9 +110,8 @@ typedef struct sys_data_s {
     time_info_t time;
 } sys_data_t;
 
-/* init */
 int init_setting_screen(setting_screen_t *setting);
-void destroy_settings(settings_t settings);
+void destroy_settings(setting_screen_t settings);
 int init_settings(settings_t *settings, player_settings_t *player_settings);
 int init_sys_data(sys_data_t *sys, const char *_Nullable map_path);
 int init_entity(entity_t **entity);
@@ -133,7 +138,9 @@ void draw_hud(hud_t *hud, sfRenderWindow *win);
 void destroy_sys(sys_data_t sys);
 
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
+void unused_button(sys_data_t *sys);
 int events_setting(sys_data_t *sys);
+void return_to_menu(sys_data_t *sys);
 void into_setting(sys_data_t *sys);
 
 void destroy_error_screen(error_screen_t error_screen);

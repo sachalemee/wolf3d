@@ -33,12 +33,19 @@
     #define FLOOR_RGB 223, 231, 90
     #define END_SIZE 2.5
     //           |           |
-    #define RESSOURCES_SPRITE "ressources/sprite-sheet/"
-    #define PLAY_BUTTON_PATH RESSOURCES_SPRITE"buttons/play_button.png"
-    #define SETTING_BUTTON_PATH RESSOURCES_SPRITE"buttons/setting_button.png"
-    #define EXIT_BUTTON_PATH RESSOURCES_SPRITE"buttons/exit_button.png"
-    #define HUD_PATH "ressources/Wolf3D_OGG/hud/HUD.png"
+    #define RSC_PATH "ressources/"
+    #define BTN_PATH "buttons/"
+    #define SHEESPRI_PATH "sprite-sheet/"
+    #define RESSOURCES_SPRITE RSC_PATH"sprite-sheet/"
+    #define PLAY_BUTTON_PATH RESSOURCES_SPRITE BTN_PATH"play_button.png"
+    #define SETTING_BUTTON_PATH RESSOURCES_SPRITE BTN_PATH"setting_button.png"
+    #define EXIT_BUTTON_PATH RESSOURCES_SPRITE BTN_PATH"exit_button.png"
+    #define HUD_PATH RSC_PATH"Wolf3D_OGG/hud/HUD.png"
     //           |           |
+    #define SOUND_BUTTON RSC_PATH SHEESPRI_PATH BTN_PATH"sound_button.png"
+    #define FOV_BUTTON RSC_PATH SHEESPRI_PATH BTN_PATH"fov_button.png"
+    #define DFTY_BUTTON RSC_PATH SHEESPRI_PATH BTN_PATH"difficulty_button.png"
+    #define TO_MENU_BUTTON RSC_PATH SHEESPRI_PATH BTN_PATH"to_menu_button.png"
     #define MUSIC_PATH_GAME SONGS_PATH"game_music/Hotline-Miami-Soundtrack.wav"
     #define MUSIC_PATH_FOOTSTEP SONGS_PATH"game_music/footstep-sand-move.wav"
     //           |           |
@@ -85,6 +92,8 @@ typedef struct menu_s {
     buttons_t **buttons;
     entity_t *entity;
     custom_settings_t *custom_set;
+    sfSprite *panel_sprite;
+    sfTexture *panel_text;
 } menu_t;
 
 int init_menu(menu_t *menu);
@@ -115,6 +124,9 @@ typedef struct error_screen_s {
 typedef struct setting_screen_s {
     sfTexture *setting_texture;
     sfSprite *setting_sprite;
+    sfTexture* slider_texture;
+    sfCircleShape* slider_cursor;
+    int isDragging;
     buttons_t **buttons;
 } setting_screen_t;
 
