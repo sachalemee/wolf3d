@@ -67,6 +67,8 @@ typedef struct player_s {
     sfVector2i map;
     player_sound_t *sound;
     bar_t *bar;
+    int health;
+    int armor;
 } player_t;
 
 typedef struct map_s map_t;

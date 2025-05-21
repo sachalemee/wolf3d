@@ -7,6 +7,12 @@
 
 #include "wolfengine.h"
 
+void draw_bar(sys_data_t *sys, bar_t *bar)
+{
+    sfRenderWindow_drawRectangleShape(sys->window, bar->hp_bar, sfFalse);
+    sfRenderWindow_drawRectangleShape(sys->window, bar->shield_bar, sfFalse);
+}
+
 void draw_in_game(sys_data_t *sys, game_t *game, map_t map)
 {
     draw_background(sys->window, game->ground_sky->background_dsp_rect);
@@ -14,4 +20,5 @@ void draw_in_game(sys_data_t *sys, game_t *game, map_t map)
     draw_hud(&(game->hud), sys->window);
     draw_weapon(&(game->weapon), sys->window, &sys->time);
     draw_sprint_overlay(game, sys->window, &sys->time);
+    draw_bar(sys, game->player.bar);
 }
