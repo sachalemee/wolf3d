@@ -10,7 +10,8 @@
     #include <SFML/Graphics.h>
     #include <SFML/System.h>
     #define SUCCESS 0
-    #define NB_BUTTONS 3
+    #define NB_BUTTONS_MENU 3
+    #define NB_BUTTONS_SETTINGS 4
     #define NB_COLOR 5
     #define B_TEXTURE "ressources/Wolf3D_OGG/texture/texture_bouton.png"
     #define FONT "ressources/Wolf3D_OGG/font/font.ttf"
@@ -70,7 +71,8 @@ int draw_button(sfRenderWindow *window,
 int buttons_status(sfRenderWindow *window,
     buttons_t *button, sfEvent event, sys_data_t *sys);
 
-void draw_all_buttons(menu_t *menu, sfRenderWindow *window);
+void draw_menu_buttons(menu_t *menu, sfRenderWindow *window);
+void draw_setting_buttons(setting_screen_t *setting, sfRenderWindow *window);
 void free_button(buttons_t *buttons);
 
 #endif /* !BUTTONS_H_ */

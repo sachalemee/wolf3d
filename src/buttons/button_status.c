@@ -12,10 +12,10 @@ static void button_pressed(buttons_t *button,
 {
     if (sfFloatRect_contains(&hitbox, mouse_pos.x, mouse_pos.y)) {
         sfRectangleShape_setFillColor(button->rect,
-            sfTransparent);
+            sfBlue);
         button->function(sys);
         if (button->title)
-            sfText_setColor(button->title, sfColor_fromRGB(218, 165, 32));
+            sfText_setColor(button->title, sfBlue);
     }
 }
 

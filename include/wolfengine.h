@@ -25,6 +25,21 @@
     #define WIN_HEIGHT 1080
     //        |         |
     #define WIN_TITLE "wolfengine"
+/*
+    #define MUSIC_MAX 100.0
+    #define MUSIC_MIN 0.0
+    #define MUSIC_GAP 5.0
+
+    #define RESSOURCES_SPRITE "ressources/sprite-sheet/"
+    #define PLAY_BUTTON_PATH RESSOURCES_SPRITE"buttons/play_button.png"
+    #define SETTING_BUTTON_PATH RESSOURCES_SPRITE"buttons/setting_button.png"
+    #define EXIT_BUTTON_PATH RESSOURCES_SPRITE"buttons/exit_button.png"
+    #define SOUND_BUTTON "ressources/sprite-sheet/buttons/sound_button.png"
+    #define FOV_BUTTON "ressources/sprite-sheet/buttons/fov_button.png"
+    #define DIFFICULTY_BUTTON "ressources/sprite-sheet/buttons/difficulty_button.png"
+    #define TO_MENU_BUTTON "ressources/sprite-sheet/buttons/to_menu_button.png"
+    #define WEAPON_RESSOURCES RESSOURCES_SPRITE"weapon/"
+  */  
     //          |           |
     #define SONGS_PATH "ressources/Wolf3D_OGG/"
     #define BACKGROUND_PATH "ressources/Wolf3D_OGG/game_background/"
@@ -40,6 +55,8 @@
     #define PATH_WOLF_RES "ressources/Wolf3D_IMG/"
     #define BG_MENU SONGS_PATH "game_background/background_menu.png"
     #define BG_SETTING "ressources/Wolf3D_OGG/game_background/bg_setting.png"
+
+//    #define CURSOR_SETTING "ressources/Wolf3D_OGG/texture/cursor_text.png"
     #define PANEL_BUTTON_TEXTURE BACKGROUND_PATH "panel_button.png"
     #define GROUND_TEXTURE PATH_WOLF_RES"ground_texture/ground_texture.png"
     #define BACKGROUND_MENU_DEF 0, 0, 1791, 1000
@@ -84,12 +101,45 @@ typedef struct time_info_s {
     float delta_time;
 } time_info_t;
 
+/*
+typedef struct sprites_s {
+    sfTexture *sprint_overlay_tex;
+    sfSprite *sprint_overlay;
+} sprites_t;
+
+typedef struct musics_s {
+    sfMusic *menu_music;
+    sfMusic *game_music;
+} musics_t;
+
+typedef struct menu_s {
+    buttons_t **buttons;
+    entity_t *entity;
+} menu_t;
+
+typedef struct setting_screen_s {
+    sfTexture *setting_texture;
+    sfSprite *setting_sprite;
+    sfTexture* slider_texture;
+    sfCircleShape* slider_cursor;
+    int isDragging;
+    buttons_t **buttons;
+} setting_screen_t;
+
+typedef struct weapon_s {
+    sfTexture *ttr_main;
+    sfSprite *spr_main;
+    sfIntRect ttr_main_rect;
+    sfMusic *shooting_sound;
+} weapon_t;
+=======
 typedef struct crosshair_s {
     sfTexture *ttr;
     sfSprite *spr;
     sfVector2f pos;
     sfVector2f scale;
 } crosshair_t;
+*/
 
 typedef struct custom_settings_s {
     crosshair_t *crosshair;
@@ -110,6 +160,25 @@ typedef struct sys_data_s {
 
 /* init */
 int init_setting_screen(setting_screen_t *setting);
+/*
+int init_menu(menu_t *menu);
+void destroy_settings(setting_screen_t settings);
+int init_settings(settings_t *settings, player_settings_t *player_settings);
+void destroy_game(game_t game);
+int init_game(game_t *game, const char *_Nullable map_path,
+    sfRenderWindow *win);
+int init_sys_data(sys_data_t *sys, const char *_Nullable map_path);
+void destroy_player(player_t player);
+void destroy_weapon(weapon_t weapon);
+int init_player(sfVector2f coords, player_t *dest);
+int init_scene(scene_t *scene, const char *_Nullable map_path,
+    sfRenderWindow *win);
+void destroy_buttons_setting(buttons_t **buttons);
+void destroy_setting_screen(setting_screen_t *setting);
+void destroy_scene(scene_t scene);
+int init_musics(musics_t *musics);
+void destroy_musics(musics_t musics);
+*/
 void destroy_settings(settings_t settings);
 int init_settings(settings_t *settings, player_settings_t *player_settings);
 int init_sys_data(sys_data_t *sys, const char *_Nullable map_path);
@@ -126,6 +195,17 @@ int main_loop(sys_data_t *sys_data);
 int init_time(time_info_t *time);
 void destroy_time(time_info_t time);
 
+/*
+int game_events(sys_data_t *sys);
+void change_sound(sys_data_t *sys);
+void close_window(sys_data_t *sys, sfEvent event);
+int set_fullscreen(sys_data_t *sys, sfEvent event);
+void close_setting(sys_data_t *sys);
+void close_menu(sys_data_t *sys);
+void mov_player(player_t *player, map_t map);
+
+int game_loop(sys_data_t *sys_data);
+*/
 void close_window(sys_data_t *sys, sfEvent event);
 int set_fullscreen(sys_data_t *sys, sfEvent event);
 
@@ -137,7 +217,19 @@ void draw_hud(hud_t *hud, sfRenderWindow *win);
 void destroy_sys(sys_data_t sys);
 
 sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
+/*
+    #define MENU_SCALE 1.25, 1.2
+int update_menu(game_t *game, sys_data_t *sys);
+int events_menu(sys_data_t *sys);
+void animated_bg(entity_t *entity, time_info_t *time);
+void draw_bg_menu(menu_t *menu, sfRenderWindow *win);
+void play_game(sys_data_t *sys);
+
+void unused_button(sys_data_t *sys);
+int update_setting(game_t *game, sys_data_t *sys);
+*/
 int events_setting(sys_data_t *sys);
+void return_to_menu(sys_data_t *sys);
 void into_setting(sys_data_t *sys);
 
 void destroy_error_screen(error_screen_t error_screen);

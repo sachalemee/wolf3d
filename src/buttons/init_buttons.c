@@ -21,7 +21,7 @@ void destroy_buttons(buttons_t **buttons)
 
 int init_buttons(buttons_t ***buttons)
 {
-    *buttons = calloc(3, sizeof(buttons_t *));
+    *buttons = calloc(NB_BUTTONS_MENU, sizeof(buttons_t *));
     if (buttons == NULL)
         return FAILURE;
     (*buttons)[0] = create_button((sfVector2f){1400, 330},
