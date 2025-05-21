@@ -6,6 +6,7 @@
 */
 
 #include "wolfengine.h"
+#include "player.h"
 #include <stdlib.h>
 
 static int get_param_map(const char *_Nullable map_path,
@@ -31,6 +32,14 @@ static void destroy_sprites(sprites_t sprites)
         sfSprite_destroy(sprites.sprint_overlay);
 }
 
+void destroy_bar(bar_t bar)
+{
+    if (bar.hp_bar)
+        sfRectangleShape_destroy(bar.hp_bar);
+    if (bar.shield_bar)
+        sfRectangleShape_destroy(bar.shield_bar);
+}
+
 void destroy_game(game_t game)
 {
     destroy_wall_sprites(game.wall_sprites);
@@ -38,6 +47,7 @@ void destroy_game(game_t game)
     destroy_player(game.player);
     sfRectangleShape_destroy(game.ground_sky->background_dsp_rect);
     destroy_sprites(game.sprites);
+    destroy_bar(*game.player.bar);
     free(game.raycast_data);
 }
 
@@ -89,6 +99,21 @@ int init_sprites(sprites_t *sprites)
     return SUCCESS;
 }
 
+static int init_bar(bar_t *bar)
+{
+    bar->hp_bar = sfRectangleShape_create();
+    bar->shield_bar = sfRectangleShape_create();
+    if(bar->hp_bar == NULL|| bar->shield_bar == NULL)
+        return FAILURE;
+    sfRectangleShape_setSize(bar->hp_bar, (sfVector2f){100.f, 20.f});
+    sfRectangleShape_setSize(bar->shield_bar, (sfVector2f){200.f, 20.f});
+    sfRectangleShape_setFillColor(bar->hp_bar, sfRed);
+    sfRectangleShape_setFillColor(bar->shield_bar, sfBlue);
+    sfRectangleShape_setPosition(bar->hp_bar, (sfVector2f){20.f, 20.f});
+    sfRectangleShape_setPosition(bar->shield_bar, (sfVector2f){30.f, 30.f});
+    return SUCCESS;
+}
+
 int init_game(game_t *game, const char *_Nullable map_path,
     sfRenderWindow *win)
 {
@@ -104,7 +129,8 @@ int init_game(game_t *game, const char *_Nullable map_path,
         || init_background_disp_rect(&(game->ground_sky)) == FAILURE
         || init_sprites(&(game->sprites)) == FAILURE
         || init_weapon(&(game->weapon)) == FAILURE
-        || init_hud(&(game->hud)) == FAILURE) {
+        || init_hud(&(game->hud)) == FAILURE
+        || init_bar(game->player.bar) == FAILURE) {
         destroy_game(*game);
         return FAILURE;
     }

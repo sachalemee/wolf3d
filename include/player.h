@@ -54,9 +54,10 @@ typedef struct ray_s {
     sfVector2i step;
 } ray_t;
 
-typedef bar_s {
-    size_t size;
-    
+
+typedef struct bar_s {
+    sfRectangleShape *hp_bar;
+    sfRectangleShape *shield_bar;
 } bar_t;
 
 typedef struct player_s {
