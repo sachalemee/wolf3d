@@ -33,6 +33,8 @@ static void main_to_secondary(weapon_t *weapon,
         set_primary_weapon(weapon);
         set_primary_weapon_icon(weapon->weapon_icon);
         set_primary_weapon_ammo(weapon->weapon_ammo);
+        set_primary_weapon_crosshair(weapon->weapon_crosshair,
+            weapon->win_dimension);
     }
     if (sfKeyboard_isKeyPressed(sfKeyL)) {
         *current_weapon = 1;
@@ -40,6 +42,8 @@ static void main_to_secondary(weapon_t *weapon,
         set_secondary_weapon(weapon);
         set_secondary_weapon_icon(weapon->weapon_icon);
         set_secondary_weapon_ammo(weapon->weapon_ammo);
+        set_secondary_weapon_crosshair(weapon->weapon_crosshair,
+            weapon->win_dimension);
     }
 }
 
@@ -52,6 +56,8 @@ static void special_leg_to_icemaker(weapon_t *weapon,
         set_leg_weapon(weapon);
         set_leg_weapon_icon(weapon->weapon_icon);
         set_leg_weapon_ammo(weapon->weapon_ammo);
+        set_leg_weapon_crosshair(weapon->weapon_crosshair,
+            weapon->win_dimension);
     }
     if (sfKeyboard_isKeyPressed(sfKeyO)) {
         *current_weapon = 3;
@@ -59,6 +65,8 @@ static void special_leg_to_icemaker(weapon_t *weapon,
         set_icemaker_weapon(weapon);
         set_icemaker_weapon_icon(weapon->weapon_icon);
         set_icemaker_weapon_ammo(weapon->weapon_ammo);
+        set_icemaker_weapon_crosshair(weapon->weapon_crosshair,
+            weapon->win_dimension);
     }
 }
 
@@ -76,6 +84,8 @@ void choose_weapon(weapon_t *weapon,
             TTR_MAIN_RECT_SIZE};
         set_primary_weapon_icon(weapon->weapon_icon);
         set_primary_weapon_ammo(weapon->weapon_ammo);
+        set_primary_weapon_crosshair(weapon->weapon_crosshair,
+            weapon->win_dimension);
         }
     if (current_weapon == 1)
         weapon->ttr_secondary_rect = (sfIntRect){

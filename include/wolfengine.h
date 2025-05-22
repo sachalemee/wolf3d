@@ -111,6 +111,7 @@ typedef struct settings_s {
 
 typedef struct sys_data_s {
     sfRenderWindow *window;
+    sfVector2u win_dimension;
     bool is_running;
     scene_t scene;
     settings_t settings;
@@ -126,7 +127,7 @@ void destroy_entity(entity_t *entity);
 int init_hud(hud_t *hud);
 
 /* init function relative to a struct */
-int init_window(sfRenderWindow **window);
+int init_window(sfRenderWindow **window, sfVector2u win_dimension);
 
 /* time */
 void update_time(time_info_t *time);
@@ -139,7 +140,7 @@ int set_fullscreen(sys_data_t *sys, sfEvent event);
 
 int start(const char *_Nullable map_path);
 void draw_background(sfRenderWindow *win,
-    sfRectangleShape *background_dsp_rect);
+    sfRectangleShape *background_dsp_rect, sfVector2u win_dimension);
 void draw_hud(hud_t *hud, sfRenderWindow *win);
 
 void destroy_sys(sys_data_t sys);

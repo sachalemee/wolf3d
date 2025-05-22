@@ -61,5 +61,7 @@ void draw_weapon(weapon_t *weapon, sfRenderWindow *win, time_info_t *time)
         weapon->weapon_icon->weapon_icon_sprite, NULL);
     sfRenderWindow_drawSprite(win,
         weapon->weapon_ammo->weapon_ammo_sprite, NULL);
+    sfRenderWindow_drawSprite(win,
+        weapon->weapon_crosshair->weapon_crosshair_sprite, NULL);
     sfRenderWindow_drawSprite(win, current_part, NULL);
 }
