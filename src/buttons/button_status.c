@@ -10,11 +10,8 @@
 static void button_pressed(buttons_t *button,
     sfVector2i mouse_pos, sfFloatRect hitbox, sys_data_t *sys)
 {
-    if (sfFloatRect_contains(&hitbox, mouse_pos.x, mouse_pos.y)) {
-        sfRectangleShape_setFillColor(button->rect,
-            sfColor_fromRGBA(145, 72, 27, 75));
+    if (sfFloatRect_contains(&hitbox, mouse_pos.x, mouse_pos.y))
         button->function(sys);
-    }
 }
 
 static void set_status(buttons_t *button,

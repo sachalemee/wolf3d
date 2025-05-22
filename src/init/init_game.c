@@ -62,7 +62,7 @@ void free_ground_sky(ground_sky_t *ground_sky)
     free(ground_sky);
 }
 
-int init_background_disp_rect(ground_sky_t **ground_sky)
+static int init_background_disp_rect(ground_sky_t **ground_sky)
 {
     (*ground_sky) = malloc(sizeof(ground_sky_t));
     if ((*ground_sky) == NULL)
@@ -101,7 +101,21 @@ static int init_sprites(sprites_t *sprites)
     return SUCCESS;
 }
 
-static int init_bar(bar_t **bar)
+void set_bar(bar_t **bar, player_t *player)
+{
+    player->armor = MAX_SHIELD;
+    player->health = MAX_HP;
+    (*bar)->size_hp = (sfVector2f){SIZE_HP};
+    (*bar)->size_shield = (sfVector2f){SIZE_SHIELD};
+    sfRectangleShape_setSize((*bar)->hp_bar, (sfVector2f){SIZE_HP});
+    sfRectangleShape_setSize((*bar)->shield_bar, (sfVector2f){SIZE_SHIELD});
+    sfRectangleShape_setFillColor((*bar)->hp_bar, sfRed);
+    sfRectangleShape_setFillColor((*bar)->shield_bar, sfCyan);
+    sfRectangleShape_setPosition((*bar)->hp_bar, (sfVector2f){240, 915});
+    sfRectangleShape_setPosition((*bar)->shield_bar, (sfVector2f){240, 1024});
+}
+
+static int init_bar(bar_t **bar, player_t *player)
 {
     (*bar) = malloc(sizeof(bar_t));
     if ((*bar) == NULL)
@@ -112,12 +126,7 @@ static int init_bar(bar_t **bar)
         free((*bar));
         return FAILURE;
     }
-    sfRectangleShape_setSize((*bar)->hp_bar, (sfVector2f){183, 45});
-    sfRectangleShape_setSize((*bar)->shield_bar, (sfVector2f){185, 46});
-    sfRectangleShape_setFillColor((*bar)->hp_bar, sfRed);
-    sfRectangleShape_setFillColor((*bar)->shield_bar, sfCyan);
-    sfRectangleShape_setPosition((*bar)->hp_bar, (sfVector2f){240, 915});
-    sfRectangleShape_setPosition((*bar)->shield_bar, (sfVector2f){240, 1024});
+    set_bar(bar, player);
     return SUCCESS;
 }
 
@@ -137,7 +146,7 @@ int init_game(game_t *game, const char *_Nullable map_path,
         || init_sprites(&(game->sprites)) == FAILURE
         || init_weapon(&(game->weapon)) == FAILURE
         || init_hud(&(game->hud)) == FAILURE
-        || init_bar(&(game->player.bar)) == FAILURE) {
+        || init_bar(&(game->player.bar), &(game->player)) == FAILURE) {
         destroy_game(*game);
         return FAILURE;
     }

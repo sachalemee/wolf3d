@@ -21,6 +21,10 @@
     //           |           |
     #define PLAYER_BORDER_MAP 5
     #define PLAYER_SPRINT_SPEED 2.5
+    #define MAX_HP 183
+    #define MAX_SHIELD 185
+    #define SIZE_HP 183, 45
+    #define SIZE_SHIELD 185, 46
     //           |           |
 typedef struct player_sound_s {
     sfMusic *sound_footstep;
@@ -58,6 +62,8 @@ typedef struct ray_s {
 typedef struct bar_s {
     sfRectangleShape *hp_bar;
     sfRectangleShape *shield_bar;
+    sfVector2f size_hp;
+    sfVector2f size_shield;
 } bar_t;
 
 typedef struct player_s {
@@ -67,8 +73,8 @@ typedef struct player_s {
     sfVector2i map;
     player_sound_t *sound;
     bar_t *bar;
-    int health;
-    int armor;
+    size_t health;
+    size_t armor;
 } player_t;
 
 typedef struct map_s map_t;
@@ -100,5 +106,6 @@ typedef struct time_info_s time_info_t;
 
 void draw_sprint_overlay(game_t *game, sfRenderWindow *win,
     time_info_t *time);
+void set_bar(bar_t **bar, player_t *player);
 
 #endif /* PLAYER_H */

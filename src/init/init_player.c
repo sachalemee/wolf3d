@@ -27,6 +27,8 @@ static player_sound_t *init_player_sound(void)
 
 int init_player(sfVector2f coords, player_t *dest)
 {
+    dest->health = MAX_HP;
+    dest->armor = MAX_SHIELD;
     dest->mov = calloc(1, sizeof(player_settings_t));
     dest->camera.render_dist = calloc(1, sizeof(size_t));
     if (check_mallocs(2, "", dest->camera.render_dist, dest->mov) == false)
