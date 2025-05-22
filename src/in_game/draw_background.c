@@ -15,7 +15,8 @@ void draw_background(sfRenderWindow *win,
 
     sfRectangleShape_setPosition(background_dsp_rect,
         (sfVector2f){0, 0});
-    sfRectangleShape_setFillColor(background_dsp_rect, sfCyan);
+    sfRectangleShape_setFillColor(background_dsp_rect,
+        sfColor_fromRGB(ROOF_RGB));
     sfRenderWindow_drawRectangleShape(win,
         background_dsp_rect, sfFalse);
     sfRectangleShape_setPosition(background_dsp_rect,

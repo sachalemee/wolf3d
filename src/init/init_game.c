@@ -72,8 +72,6 @@ static int init_background_disp_rect(ground_sky_t **ground_sky)
         free_ground_sky((*ground_sky));
         return FAILURE;
     }
-    (*ground_sky)->ground_texture = sfTexture_createFromFile("ressources/"
-        "Wolf3D_IMG/wood-floor.png", NULL);
     (*ground_sky)->ground_sprite = sfSprite_create();
     sfRectangleShape_setSize((*ground_sky)->background_dsp_rect,
         (sfVector2f){WIN_WIDTH, WIN_HEIGHT / 2});
