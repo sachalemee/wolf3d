@@ -29,7 +29,7 @@
     #define MUSIC_MIN 0.0
     #define MUSIC_GAP 5.0
     //           |           |
-    #define ROOF_RGB 90, 231, 223
+    #define ROOF_RGB 59, 168, 205
     #define FLOOR_RGB 223, 231, 90
     #define END_SIZE 2.5
     //           |           |
@@ -62,7 +62,6 @@ typedef struct musics_s musics_t;
 
 typedef struct ground_sky_s {
     sfRectangleShape *background_dsp_rect;
-    sfTexture *ground_texture;
     sfSprite *ground_sprite;
     sfTexture *sky_texure;
     sfSprite *sky_sprite;
