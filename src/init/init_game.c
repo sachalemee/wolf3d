@@ -111,7 +111,7 @@ void set_bar(bar_t **bar, player_t *player)
     sfRectangleShape_setSize((*bar)->shield_bar, (sfVector2f){SIZE_SHIELD});
     sfRectangleShape_setFillColor((*bar)->hp_bar, sfRed);
     sfRectangleShape_setFillColor((*bar)->shield_bar, sfCyan);
-    sfRectangleShape_setPosition((*bar)->hp_bar, (sfVector2f){240, 915});
+    sfRectangleShape_setPosition((*bar)->hp_bar, (sfVector2f){240, 916});
     sfRectangleShape_setPosition((*bar)->shield_bar, (sfVector2f){240, 1024});
 }
 
