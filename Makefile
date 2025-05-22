@@ -79,6 +79,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					set_weapons.c \
 					set_weapons_icons.c \
 					set_weapons_ammo.c \
+					set_weapons_crosshair.c \
 					change_weapon_actions.c \
 				)\
 				$(addprefix $(INIT_PATH), \
@@ -95,8 +96,10 @@ SRC =		$(addprefix $(SRC_PATH), \
 					init_map.c \
 					init_setting_screen.c	\
 					init_weapon.c \
+					init_weapon_sub.c \
 					init_weapon_icon.c \
 					init_weapon_ammo.c \
+					init_weapon_crosshair.c \
 					init_window.c \
 					init_wall_sprites.c	\
 					init_hud.c	\

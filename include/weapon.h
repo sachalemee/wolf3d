@@ -28,6 +28,11 @@
     #define TTR_SCND_WEAPON_AMMO WEAPON_RESSOURCES"water-bullet-sprite.png"
     #define TTR_LEG_WEAPON_AMMO WEAPON_RESSOURCES"cross-icon.png"
     #define TTR_ICEMK_WEAPON_AMMO WEAPON_RESSOURCES"ice-cube.png"
+    //      |       |
+    #define TTR_MAIN_WEAPON_CROSSHAIR ICON_PATH"primary_crosshair.png"
+    #define TTR_SCND_WEAPON_CROSSHAIR ICON_PATH"secondary_crosshair.png"
+    #define TTR_LEG_WEAPON_CROSSHAIR ICON_PATH"feet_crosshair.png"
+    #define TTR_ICEMK_WEAPON_CROSSHAIR ICON_PATH"icemaker_crosshair.png"
     //        |         |
     #define ICEMAKER_WEAPON_ICON_POS 60, 890
     #define LEG_WEAPON_ICON_POS 55, 899
@@ -48,6 +53,16 @@
     #define LEG_WEAPON_AMMO_SCALE 0.35, 0.35
     #define SECONDARY_WEAPON_AMMO_SCALE 1.5, 1.5
     #define MAIN_WEAPON_AMMO_SCALE 0.5, 0.5
+    //        |         |
+    #define ICEMAKER_WEAPON_CROSSHAIR_POS 95, 1030
+    #define LEG_WEAPON_CROSSHAIR_POS 85, 1013
+    #define SECONDARY_WEAPON_CROSSHAIR_POS 98, 1030
+    #define MAIN_WEAPON_CROSSHAIR_POS 55, 983
+    //        |         |
+    #define ICEMAKER_WEAPON_CROSSHAIR_SCALE 1, 1
+    #define LEG_WEAPON_CROSSHAIR_SCALE 0.75, 0.75
+    #define SECONDARY_WEAPON_CROSSHAIR_SCALE 1, 1
+    #define MAIN_WEAPON_CROSSHAIR_SCALE 0.5, 0.5
     //        |         |
     #define WATER_SONG_SHOOT WEAPON_RESSOURCES"water-shot-trimmer.wav"
     #define FART_SONG_SHOOT WEAPON_RESSOURCES"fart-sound.ogg"
@@ -82,6 +97,14 @@
 
 typedef struct time_info_s time_info_t;
 
+typedef struct weapon_crosshair_s {
+    sfTexture *ttr_main_crosshair;
+    sfTexture *ttr_secondary_crosshair;
+    sfTexture *ttr_leg_crosshair;
+    sfTexture *ttr_icemaker_crosshair;
+    sfSprite *weapon_crosshair_sprite;
+} weapon_crosshair_t;
+
 typedef struct weapon_ammo_s {
     sfTexture *ttr_main_ammo;
     sfTexture *ttr_secondary_ammo;
@@ -114,10 +137,18 @@ typedef struct weapon_s {
     size_t max_frame;
     weapon_icon_t *weapon_icon;
     weapon_ammo_t *weapon_ammo;
+    weapon_crosshair_t *weapon_crosshair;
+    sfVector2u win_dimension;
 } weapon_t;
 
 void destroy_weapon(weapon_t weapon);
 int init_weapon(weapon_t *weapon);
+//          |           |
+int init_each_weapon(weapon_t *weapon);
+int init_each_weapon_icon(weapon_icon_t *weapon_icon);
+int init_each_weapon_ammo(weapon_ammo_t *weapon_ammo);
+int init_each_weapon_crosshair(weapon_crosshair_t *weapon_crosshair);
+//          |           |
 void draw_weapon(weapon_t *weapon,
     sfRenderWindow *win, time_info_t *time);
 //          |           |
@@ -158,6 +189,19 @@ void set_icemaker_weapon_ammo(weapon_ammo_t *weapon_ammo);
 void set_leg_weapon_ammo(weapon_ammo_t *weapon_ammo);
 void set_secondary_weapon_ammo(weapon_ammo_t *weapon_ammo);
 void set_primary_weapon_ammo(weapon_ammo_t *weapon_ammo);
-
-
+//          |           |
+int init_main_weapon_crosshair(weapon_crosshair_t *weapon);
+int init_secondary_weapon_crosshair(weapon_crosshair_t *weapon);
+int init_leg_weapon_crosshair(weapon_crosshair_t *weapon);
+int init_icemaker_weapon_crosshair(weapon_crosshair_t *weapon);
+//          |           |
+void set_icemaker_weapon_crosshair(weapon_crosshair_t *weapon_crosshair,
+    sfVector2u position);
+void set_leg_weapon_crosshair(weapon_crosshair_t *weapon_crosshair,
+    sfVector2u position);
+void set_secondary_weapon_crosshair(weapon_crosshair_t *weapon_crosshair,
+    sfVector2u position);
+void set_primary_weapon_crosshair(weapon_crosshair_t *weapon_crosshair,
+    sfVector2u position);
+//      |       |
 #endif /* WEAPON_H */

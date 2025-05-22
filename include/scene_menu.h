@@ -144,8 +144,8 @@ typedef struct scene_s {
     setting_screen_t setting_screen;
 } scene_t;
 
-int init_scene(scene_t *scene,
-    const char *_Nullable map_path, sfRenderWindow *win);
+int init_scene(scene_t *scene, const char *_Nullable map_path,
+    sfRenderWindow *win);
 void destroy_scene(scene_t scene);
 
 int init_musics(musics_t *musics);
