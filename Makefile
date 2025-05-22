@@ -78,6 +78,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					draw_hud.c	\
 					set_weapons.c \
 					set_weapons_icons.c \
+					set_weapons_ammo.c \
 					change_weapon_actions.c \
 				)\
 				$(addprefix $(INIT_PATH), \
@@ -95,6 +96,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					init_setting_screen.c	\
 					init_weapon.c \
 					init_weapon_icon.c \
+					init_weapon_ammo.c \
 					init_window.c \
 					init_wall_sprites.c	\
 					init_hud.c	\

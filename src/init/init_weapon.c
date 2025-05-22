@@ -79,6 +79,11 @@ void destroy_weapon(weapon_t weapon)
     sfTexture_destroy(weapon.weapon_icon->ttr_leg_icon);
     sfTexture_destroy(weapon.weapon_icon->ttr_icemaker_icon);
     sfSprite_destroy(weapon.weapon_icon->weapon_icon_sprite);
+    sfTexture_destroy(weapon.weapon_ammo->ttr_main_ammo);
+    sfTexture_destroy(weapon.weapon_ammo->ttr_secondary_ammo);
+    sfTexture_destroy(weapon.weapon_ammo->ttr_leg_ammo);
+    sfTexture_destroy(weapon.weapon_ammo->ttr_icemaker_ammo);
+    sfSprite_destroy(weapon.weapon_ammo->weapon_ammo_sprite);
     sfMusic_destroy(weapon.main_weapon_shoot_sound);
     sfMusic_destroy(weapon.leg_weapon_shoot_sound);
     sfMusic_destroy(weapon.icemaker_weapon_shoot_sound);
@@ -97,7 +102,7 @@ int init_each_weapon(weapon_t *weapon)
     return EXIT_SUCCESS;
 }
 
-int init_each_weapon_icon(weapon_icon_t *weapon_icon)
+static int init_each_weapon_icon(weapon_icon_t *weapon_icon)
 {
     if (init_main_weapon_icon(weapon_icon) == FAILURE)
         return FAILURE;
@@ -106,6 +111,19 @@ int init_each_weapon_icon(weapon_icon_t *weapon_icon)
     if (init_leg_weapon_icon(weapon_icon) == FAILURE)
         return FAILURE;
     if (init_icemaker_weapon_icon(weapon_icon) == FAILURE)
+        return FAILURE;
+    return EXIT_SUCCESS;
+}
+
+static int init_each_weapon_ammo(weapon_ammo_t *weapon_ammo)
+{
+    if (init_main_weapon_ammo(weapon_ammo) == FAILURE)
+        return FAILURE;
+    if (init_secondary_weapon_ammo(weapon_ammo) == FAILURE)
+        return FAILURE;
+    if (init_leg_weapon_ammo(weapon_ammo) == FAILURE)
+        return FAILURE;
+    if (init_icemaker_weapon_ammo(weapon_ammo) == FAILURE)
         return FAILURE;
     return EXIT_SUCCESS;
 }
@@ -120,6 +138,11 @@ int init_weapon(weapon_t *weapon)
     if (weapon->weapon_icon == NULL)
         return FAILURE;
     if (init_each_weapon_icon(weapon->weapon_icon) == FAILURE)
+        return FAILURE;
+    weapon->weapon_ammo = malloc(sizeof(weapon_ammo_t));
+    if (weapon->weapon_ammo == NULL)
+        return FAILURE;
+    if (init_each_weapon_ammo(weapon->weapon_ammo) == FAILURE)
         return FAILURE;
     return SUCCESS;
 }
