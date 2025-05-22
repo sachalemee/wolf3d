@@ -75,6 +75,8 @@ typedef struct player_s {
     bar_t *bar;
     size_t health;
     size_t armor;
+    sfTexture *face_texure;
+    sfSprite *face_sprite;
 } player_t;
 
 typedef struct map_s map_t;

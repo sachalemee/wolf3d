@@ -25,6 +25,11 @@ static player_sound_t *init_player_sound(void)
     return player_sound;
 }
 
+int init_face(player_t *player)
+{
+    player->face_texure;
+}
+
 int init_player(sfVector2f coords, player_t *dest)
 {
     dest->health = MAX_HP;
