@@ -13,6 +13,8 @@ void destroy_player(player_t player)
     free(player.mov);
     free(player.camera.render_dist);
     free(player.sound);
+    sfTexture_destroy(player.face_texure);
+    sfSprite_destroy(player.face_sprite);
 }
 
 static player_sound_t *init_player_sound(void)
@@ -27,11 +29,19 @@ static player_sound_t *init_player_sound(void)
 
 int init_face(player_t *player)
 {
-    player->face_texure;
+    player->face_sprite = sfSprite_create();
+    player->face_texure = sfTexture_createFromFile(FACE_PATH, sfFalse);
+    if (player->face_sprite == NULL || player->face_texure == NULL)
+        return FAILURE;
+    sfSprite_setTexture(player->face_sprite,
+        player->face_texure, sfTrue);
+    return SUCCESS;
 }
 
 int init_player(sfVector2f coords, player_t *dest)
 {
+    if (init_face(dest) == FAILURE)
+        destroy_player(*dest);
     dest->health = MAX_HP;
     dest->armor = MAX_SHIELD;
     dest->mov = calloc(1, sizeof(player_settings_t));

@@ -40,8 +40,8 @@
     #define PATH_WOLF_RES "ressources/Wolf3D_IMG/"
     #define BG_MENU SONGS_PATH "game_background/background_menu.png"
     #define BG_SETTING "ressources/Wolf3D_OGG/game_background/bg_setting.png"
-
-   #define CURSOR_SETTING "ressources/Wolf3D_OGG/texture/cursor_text.png"
+    #define FACE_PATH "ressources/sprite-sheet/faces/faces.png"
+    #define CURSOR_SETTING "ressources/Wolf3D_OGG/texture/cursor_text.png"
     #define PANEL_BUTTON_TEXTURE BACKGROUND_PATH "panel_button.png"
     #define GROUND_TEXTURE PATH_WOLF_RES"ground_texture/ground_texture.png"
     #define BACKGROUND_MENU_DEF 0, 0, 1791, 1000
