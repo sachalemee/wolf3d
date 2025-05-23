@@ -4,7 +4,7 @@
 ** File description:
 ** splits a string using the separators
 */
-
+#include <stdlib.h>
 #include "./my.h"
 
 void free_fstrsplit(char **to_free)

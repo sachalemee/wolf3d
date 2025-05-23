@@ -7,11 +7,13 @@
 
 #include "wolfengine.h"
 #include <stdlib.h>
+#include <string.h>
 
-void destroy_time(time_info_t time)
+void destroy_time(time_info_t *time)
 {
-    if (time.clock)
-        sfClock_destroy(time.clock);
+    if (time->clock)
+        sfClock_destroy(time->clock);
+    memset((void *)time, 0, sizeof(typeof(*time)));
 }
 
 int init_time(time_info_t *time)

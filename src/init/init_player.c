@@ -4,14 +4,15 @@
 ** File description:
 ** init_player.c
 */
-
 #include <stdlib.h>
 #include "wolfengine.h"
+#include <string.h>
 
-void destroy_player(player_t player)
+void destroy_player(player_t *player)
 {
-    free(player.mov);
-    free(player.camera.render_dist);
+    free(player->mov);
+    free(player->camera.render_dist);
+    memset((void *)player, 0, sizeof(typeof(*player)));
 }
 
 int init_player(sfVector2f coords, player_t *dest)

@@ -70,6 +70,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					draw.c \
 				)\
 				$(addprefix $(INIT_PATH), \
+					destroy_textured_sprite.c	\
 					init_error_screen.c	\
 					init_music.c	\
 					init_scene.c	\
@@ -103,8 +104,15 @@ SRC =		$(addprefix $(SRC_PATH), \
 					hud_overlay.c	\
 				)\
 				$(addprefix $(THINGS_PATH), \
+					banana.c	\
+					big_ben.c	\
+					garcia.c	\
 					init_things.c	\
+					load_thing_textures.c	\
+					monster.c	\
+					signal.c	\
 				)\
+				damage_player.c	\
 				main.c \
 			)
 
@@ -135,6 +143,12 @@ fclean:	clean
 re:	fclean all
 
 mklib:
-	make -C ./lib/my/
+	@case "$(CFLAGS)" in \
+		*-g3*) make debug -C ./lib/my/ ;; \
+		*)     make -C ./lib/my/ ;; \
+	esac
 
-.PHONY: all clean fclean re mklib
+debug: CFLAGS += -g3
+debug: re
+
+.PHONY: all clean fclean re mklib debug

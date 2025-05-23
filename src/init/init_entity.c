@@ -4,8 +4,8 @@
 ** File description:
 ** init_entity
 */
-
 #include "wolfengine.h"
+#include <stdlib.h>
 
 void destroy_entity(entity_t *entity)
 {

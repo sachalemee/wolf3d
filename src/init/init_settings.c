@@ -7,9 +7,11 @@
 
 #include "wolfengine.h"
 #include <stdlib.h>
+#include <string.h>
 
-void destroy_settings(settings_t)
+void destroy_settings(settings_t *settings)
 {
+    memset((void *)settings, 0, sizeof(typeof(*settings)));
     return;
 }
 

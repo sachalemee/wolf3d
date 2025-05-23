@@ -5,7 +5,6 @@
 ** checks the imput mallocs and frees the if one of them is null
 ** (putting the imput error message in stderr)
 */
-
 #include <stddef.h>
 #include <stdarg.h>
 #include <stdbool.h>

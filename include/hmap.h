@@ -14,55 +14,15 @@
     #include "my.h"
     #include "linked_lists.h"
     #include <SFML/Graphics.h>
-    #define MCTAINS(m, x, y) (x >= 0 && y >= 0 && x < (int)m.w && y < (int)m.h)
-    #define GET_TIL(m, x, y) (MCTAINS(m, x, y) ? m.map[x][y] : 0)
+    #define X_IN(s, e, x) ((float)s <= (float)x && (float)x <= (float)(e))
+    #define MCTAINS(m, X, Y) (X_IN(0, m->size.x, X) && X_IN(0, m->size.y, Y))
+    #define GET_TIL(m, x, y) (MCTAINS(m, x, y) ? m->map[x][y].type : 0)
 
 // a map being :
 //     11111...
 //     1S00e...
 //     ...
 // top left is (x, y) = (0, 0)
-
-/*~~~~~~~~~~~~~~~~~~~~THINGS~~~~~~~~~~~~~~~~~~~~*/
-typedef struct thing_s {
-    void (*destroyer)(struct thing_s *self);
-    int (*updater)(struct thing_s *self, sys_data_t *sys_data);
-    sfSprite *sprite;
-    sfVector3f coords;
-    void *data;
-} thing_t;
-
-enum monster_types {
-    GARCIA = 0,
-    BIG_BEN = 1,
-    SIGNAL = 2
-};
-
-enum monster_states {
-    IDLE = 0,
-    WALKING = 1,
-    SHOOTING = 2
-};
-
-typedef struct monster_data_s {
-    int type;
-    size_t health;
-    size_t damage;
-    float speed;
-    int state;
-} monster_data_t;
-
-enum damage_team {
-    NO_TEAM = 0,
-    PLAYER_TEAM = 1,
-    MONSTER_TEAM = 2
-};
-
-typedef struct projectile_s {
-    sfVector3f trajectory;
-    int team;
-} projectile_t;
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 enum tile_types {
     VOID = 0,

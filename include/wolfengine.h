@@ -18,6 +18,7 @@
 
     /* wolf include */
     #include "hmap.h"
+    #include "things.h"
 
     /* value specific of the window */
     #define WIN_FRAME 60
@@ -94,7 +95,6 @@ typedef struct ray_hit_data_s {
     double wall_tex_abscissa;
     int side;
 } ray_hit_data_t;
-
 
 typedef struct player_settings_s {
     double mov_speed;
@@ -196,12 +196,15 @@ typedef struct scene_s {
 } scene_t;
 
 // int scene; corresponds to the above enum (user location)
+
+extern char const *const thing_textures[];
 typedef struct sys_data_s {
     sfRenderWindow *window;
     bool is_running;
     scene_t scene;
     settings_t settings;
     time_info_t time;
+    sfTexture *textures[LEN_OF_THING_TEXTURES];
 } sys_data_t;
 
 /* wall textures */
@@ -235,22 +238,27 @@ static char const *const wall_textures[] = {
 };
 
 /* init */
-void destroy_menu(menu_t menu);
+// to adjust : 
+/*
+draw_in_game
+*/
+
+void destroy_menu(menu_t *menu);
 int init_menu(menu_t *menu);
-void destroy_settings(settings_t settings);
+void destroy_settings(settings_t *settings);
 int init_settings(settings_t *settings, player_settings_t *player_settings);
 void close_menu(sys_data_t *sys);
-void destroy_game(game_t game);
+void destroy_game(game_t *game);
 int init_game(game_t *game, const char *_Nullable map_path,
     sfRenderWindow *win);
 int init_sys_data(sys_data_t *sys, const char *_Nullable map_path);
-void destroy_player(player_t player);
+void destroy_player(player_t *player);
 int init_player(sfVector2f coords, player_t *dest);
 int init_scene(scene_t *scene, const char *_Nullable map_path,
     sfRenderWindow *win);
-void destroy_scene(scene_t scene);
+void destroy_scene(scene_t *scene);
 int init_musics(musics_t *musics);
-void destroy_musics(musics_t musics);
+void destroy_musics(musics_t *musics);
 int init_entity(entity_t **entity);
 void destroy_entity(entity_t *entity);
 // void init_map(player_t *player);
@@ -264,30 +272,30 @@ void destroy_wall_sprites(sfSprite **wall_sprites);
 void update_time(time_info_t *time);
 int main_loop(sys_data_t *sys_data);
 int init_time(time_info_t *time);
-void destroy_time(time_info_t time);
+void destroy_time(time_info_t *time);
 
 /* events */
 int game_events(sys_data_t *sys);
-void close_window(sys_data_t *sys, sfEvent event);
-int set_fullscreen(sys_data_t *sys, sfEvent event);
+void close_window(sys_data_t *sys, sfEvent *event);
+int set_fullscreen(sys_data_t *sys, sfEvent *event);
 
-void mov_player(player_t *player, map_t map);
+void mov_player(player_t *player, map_t *map);
 
 /* game */
 int game_loop(sys_data_t *sys_data);
 int start(const char *_Nullable map_path);
 
 /* in game */
-int draw_in_game(game_t *game, map_t map, sfRenderWindow *win);
+int draw_in_game(game_t *game, map_t *map, sfRenderWindow *win);
 void draw_background(sfRenderWindow *win,
     sfRectangleShape *background_dsp_rect);
 
 /* raycast */
-void raycasting(camera_t camera, map_t map,
+void raycasting(camera_t *camera, map_t *map,
     sfSprite **wall_sprites, sfRenderWindow *win);
 
 /* destroy */
-void destroy_sys(sys_data_t sys);
+void destroy_sys(sys_data_t *sys);
 // void destroy_all(game_t *game);
 
 /* error handling */
@@ -297,7 +305,7 @@ int error_handling(game_t *game, player_t *player);
 int draw_hud_overlay(game_t *game, player_t *player);
 
 /* EVENTS */
-sfBool is_keyboard_input(sfEvent event, sfKeyCode key);
+sfBool is_keyboard_input(sfEvent *event, sfKeyCode key);
 
 /* call menu */
     #define MENU_SCALE 1.25, 1.2
@@ -311,9 +319,13 @@ void play_game(sys_data_t *sys);
 int game_scene(game_t *game, sys_data_t *sys);
 
 /* error_win */
-void destroy_error_screen(error_screen_t error_screen);
+void destroy_error_screen(error_screen_t *error_screen);
 int init_error_screen(error_screen_t *error_screen, sfRenderWindow *win);
 int update_error_screen(error_screen_t *error_screen, sfRenderWindow *win,
     time_info_t *time);
+
+void damage_player(player_t *player, int damage);
+
+void destroy_textured_sprite(sfSprite *sprite);
 
 #endif /* WOLFENGINE_H */

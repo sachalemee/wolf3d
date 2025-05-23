@@ -10,39 +10,39 @@
 #include "wolfengine.h"
 #include "hmap.h"
 
-static sfVector2f get_ray_orientation(camera_t camera, int x)
+static sfVector2f get_ray_orientation(camera_t *camera, int x)
 {
     double camera_x = 2 * x / (double)WIN_WIDTH - 1;
     sfVector2f ray_direction = {
-        camera.dir.x + camera.plane.x * camera_x,
-        camera.dir.y + camera.plane.y * camera_x
+        camera->dir.x + camera->plane.x * camera_x,
+        camera->dir.y + camera->plane.y * camera_x
     };
 
     return ray_direction;
 }
 
-static void get_sidedist(sfVector2f camera_pos, ray_t *ray)
+static void get_sidedist(sfVector2f *camera_pos, ray_t *ray)
 {
-    int nearest_left_wall = (int)(camera_pos.x);
-    int nearest_right_wall = (int)(camera_pos.x) + 1;
-    int nearest_top_wall = (int)(camera_pos.y);
-    int nearest_bottom_wall = (int)(camera_pos.y) + 1;
+    int nearest_left_wall = (int)(camera_pos->x);
+    int nearest_right_wall = (int)(camera_pos->x) + 1;
+    int nearest_top_wall = (int)(camera_pos->y);
+    int nearest_bottom_wall = (int)(camera_pos->y) + 1;
 
     if (ray->step.x == NEGATIVE_STEP) {
-        ray->sidedist.x = (camera_pos.x - nearest_left_wall);
+        ray->sidedist.x = (camera_pos->x - nearest_left_wall);
     } else
-        ray->sidedist.x = (nearest_right_wall - camera_pos.x);
+        ray->sidedist.x = (nearest_right_wall - camera_pos->x);
     if (ray->step.y == NEGATIVE_STEP) {
-        ray->sidedist.y = (camera_pos.y - nearest_top_wall);
+        ray->sidedist.y = (camera_pos->y - nearest_top_wall);
     } else
-        ray->sidedist.y = (nearest_bottom_wall - camera_pos.y);
+        ray->sidedist.y = (nearest_bottom_wall - camera_pos->y);
     ray->sidedist = (sfVector2f){
         ray->sidedist.x * ray->delta_dist.x,
         ray->sidedist.y * ray->delta_dist.y
     };
 }
 
-static void get_dda_values(sfVector2f camera_pos, ray_t *ray)
+static void get_dda_values(sfVector2f *camera_pos, ray_t *ray)
 {
     ray->step = (sfVector2i){
         (ray->dir.x < 0) ?
@@ -60,7 +60,7 @@ static void get_dda_values(sfVector2f camera_pos, ray_t *ray)
 }
 
 // returns the type of wall that was hit
-static int get_first_intersecting_wall(ray_t *ray, map_t map,
+static int get_first_intersecting_wall(ray_t *ray, map_t *map,
     size_t max_ray_len, int *wall_side)
 {
     int hit_wall = 0;
@@ -138,14 +138,14 @@ double get_wall_tex_abscissa(sfVector2f dir, int side,
     return wall_tex_abscissa;
 }
 
-ray_hit_data_t cast_ray(map_t map, sfVector2f origin,
-    sfVector2f direction, size_t maxlen)
+ray_hit_data_t cast_ray(map_t *map, sfVector2f *origin,
+    sfVector2f *direction, size_t maxlen)
 {
     ray_hit_data_t hit_data = {0};
     ray_t ray = {0};
 
-    ray.dir = direction;
-    ray.origin = origin;
+    ray.dir = *direction;
+    ray.origin = *origin;
     get_dda_values(origin, &ray);
     hit_data.wall_type = get_first_intersecting_wall(&ray, map,
         maxlen, &(hit_data.side));
@@ -155,7 +155,7 @@ ray_hit_data_t cast_ray(map_t map, sfVector2f origin,
     return hit_data;
 }
 
-void raycasting(camera_t camera, map_t map,
+void raycasting(camera_t *camera, map_t *map,
     sfSprite **wall_sprites, sfRenderWindow *win)
 {
     sfVector2f ray_direction = {0};
@@ -163,8 +163,8 @@ void raycasting(camera_t camera, map_t map,
 
     for (size_t x = 0; x < WIN_WIDTH; x++) {
         ray_direction = get_ray_orientation(camera, x);
-        ray_data = cast_ray(map, camera.pos,
-            ray_direction, *(camera.render_dist));
+        ray_data = cast_ray(map, &(camera->pos),
+            &(ray_direction), *(camera->render_dist));
         dsp_raycast_band(ray_data, wall_sprites, x, win);
     }
 }

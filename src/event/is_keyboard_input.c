@@ -7,9 +7,9 @@
 
 #include "wolfengine.h"
 
-sfBool is_keyboard_input(sfEvent event, sfKeyCode key)
+sfBool is_keyboard_input(sfEvent *event, sfKeyCode key)
 {
-    if (event.type == sfEvtKeyPressed && event.key.code == key)
+    if (event->type == sfEvtKeyPressed && event->key.code == key)
         return sfTrue;
     return sfFalse;
 }

@@ -17,6 +17,6 @@ int start(const char *_Nullable map_path)
         return EXIT_F;
     if (main_loop(sys_data) == FAILURE)
         return EXIT_F;
-    destroy_sys(*sys_data);
+    destroy_sys(sys_data);
     return EXIT_S;
 }

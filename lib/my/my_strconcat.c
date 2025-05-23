@@ -7,7 +7,8 @@
 
 #include "my.h"
 #include "linked_lists.h"
-#include <stdarg.h>
+#include <stdlib.h>
+#include <string.h>
 
 char **va_list_to_word_array(va_list to_concat)
 {

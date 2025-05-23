@@ -4,8 +4,8 @@
 ** File description:
 ** destroys any null terminated array of pointers of depth 'depth'
 */
-
 #include "my.h"
+#include <stdlib.h>
 
 void my_destroy_array(void *start, size_t depth)
 {

@@ -6,11 +6,10 @@
 */
 
 #include <math.h>
-#include <math.h>
 #include "wolfengine.h"
 #include "hmap.h"
 
-static void is_up(player_t *player, map_t map)
+static void is_up(player_t *player, map_t *map)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)) {
         if (GET_TIL(map, (int)(player->camera.pos.x + player->camera.dir.x
@@ -27,7 +26,7 @@ static void is_up(player_t *player, map_t map)
     }
 }
 
-static void is_down(player_t *player, map_t map)
+static void is_down(player_t *player, map_t *map)
 {
     if (sfKeyboard_isKeyPressed(sfKeyS)) {
         if (GET_TIL(map, (int)(player->camera.pos.x - player->camera.dir.x
@@ -37,7 +36,7 @@ static void is_down(player_t *player, map_t map)
                 * player->mov->mov_speed;
         if (GET_TIL(map, (int)player->camera.pos.x,
             (int)(player->camera.pos.y - player->camera.dir.y
-                * player->mov->mov_speed
+            * player->mov->mov_speed
             * PLAYER_BORDER_MAP)) == 0)
             player->camera.pos.y -= player->camera.dir.y
                 * player->mov->mov_speed;
@@ -86,7 +85,7 @@ static void is_right(player_t *player)
     }
 }
 
-static void crab_left(player_t *player, map_t map)
+static void crab_left(player_t *player, map_t *map)
 {
     sfVector2f crab_mov = {-1 * player->camera.dir.y, player->camera.dir.x};
 
@@ -108,7 +107,7 @@ static void crab_left(player_t *player, map_t map)
     }
 }
 
-static void crab_right(player_t *player, map_t map)
+static void crab_right(player_t *player, map_t *map)
 {
     sfVector2f crab_mov = (sfVector2f){player->camera.dir.y,
         -player->camera.dir.x};
@@ -128,7 +127,7 @@ static void crab_right(player_t *player, map_t map)
     }
 }
 
-static void up_down(player_t *player, map_t map)
+static void up_down(player_t *player, map_t *map)
 {
     is_up(player, map);
     is_down(player, map);
@@ -140,13 +139,13 @@ static void left_right(player_t *player)
     is_right(player);
 }
 
-static void mov_as_crabs(player_t *player, map_t map)
+static void mov_as_crabs(player_t *player, map_t *map)
 {
     crab_left(player, map);
     crab_right(player, map);
 }
 
-void mov_player(player_t *player, map_t map)
+void mov_player(player_t *player, map_t *map)
 {
     up_down(player, map);
     left_right(player);

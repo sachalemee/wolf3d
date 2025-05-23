@@ -9,18 +9,20 @@
 #include "buttons.h"
 #include <stdlib.h>
 #include <stddef.h>
+#include <string.h>
 
-void destroy_menu(menu_t menu)
+void destroy_menu(menu_t *menu)
 {
-    destroy_entity(menu.entity);
-    destroy_buttons(menu.buttons);
+    destroy_entity(menu->entity);
+    destroy_buttons(menu->buttons);
+    memset((void *)menu, 0, sizeof(typeof(*menu)));
 }
 
 int init_menu(menu_t *menu)
 {
     if (init_buttons(&(menu->buttons)) == FAILURE
         || init_entity(&(menu->entity)) == FAILURE) {
-        destroy_menu(*menu);
+        destroy_menu(menu);
         return FAILURE;
     }
     return SUCCESS;

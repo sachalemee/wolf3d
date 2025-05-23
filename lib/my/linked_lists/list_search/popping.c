@@ -5,8 +5,9 @@
 ** fifo and lifo lists manager
 */
 
-#include "../my.h"
-#include "../linked_lists.h"
+#include "my.h"
+#include "linked_lists.h"
+#include <stdlib.h>
 
 void *pop_item(bool (*attribute)(void *), linked_list_t *list)
 {

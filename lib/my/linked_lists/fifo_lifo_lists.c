@@ -7,6 +7,7 @@
 
 #include "../my.h"
 #include "../linked_lists.h"
+#include <stdlib.h>
 
 void burn_list(linked_list_t *list)
 {

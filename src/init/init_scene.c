@@ -8,13 +8,15 @@
 #include "wolfengine.h"
 #include "buttons.h"
 #include <stdlib.h>
+#include <string.h>
 
-void destroy_scene(scene_t scene)
+void destroy_scene(scene_t *scene)
 {
-    destroy_musics(scene.musics);
-    destroy_error_screen(scene.error_scene);
-    destroy_game(scene.game);
-    destroy_menu(scene.menu);
+    destroy_musics(&(scene->musics));
+    destroy_error_screen(&(scene->error_scene));
+    destroy_game(&(scene->game));
+    destroy_menu(&(scene->menu));
+    memset((void *)scene, 0, sizeof(typeof(*scene)));
 }
 
 int init_scene(scene_t *scene, const char *_Nullable map_path,
@@ -25,7 +27,7 @@ int init_scene(scene_t *scene, const char *_Nullable map_path,
         || init_menu(&(scene->menu)) == FAILURE
         || init_musics(&(scene->musics)) == FAILURE
         || init_game(&(scene->game), map_path, win) == FAILURE) {
-        destroy_scene(*scene);
+        destroy_scene(scene);
         return FAILURE;
     }
     return SUCCESS;

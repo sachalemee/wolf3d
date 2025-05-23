@@ -7,13 +7,15 @@
 
 #include "wolfengine.h"
 #include <stdio.h>
+#include <string.h>
 
-void destroy_error_screen(error_screen_t error_screen)
+void destroy_error_screen(error_screen_t *error_screen)
 {
-    if (error_screen.error_screen_background != NULL)
-        sfSprite_destroy(error_screen.error_screen_background);
-    if (error_screen.no_tex != NULL)
-        sfTexture_destroy(error_screen.no_tex);
+    if (error_screen->error_screen_background != NULL)
+        sfSprite_destroy(error_screen->error_screen_background);
+    if (error_screen->no_tex != NULL)
+        sfTexture_destroy(error_screen->no_tex);
+    memset((void *)error_screen, 0, sizeof(typeof(*error_screen)));
 }
 
 int init_error_screen(error_screen_t *error_screen, sfRenderWindow *win)
@@ -25,7 +27,7 @@ int init_error_screen(error_screen_t *error_screen, sfRenderWindow *win)
     error_screen->error_screen_background = sfSprite_create();
     if (error_screen->no_tex == NULL
         || error_screen->error_screen_background == NULL) {
-        destroy_error_screen(*error_screen);
+        destroy_error_screen(error_screen);
         return FAILURE;
     }
     sfSprite_setTexture(error_screen->error_screen_background,

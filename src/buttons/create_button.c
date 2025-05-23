@@ -4,10 +4,9 @@
 ** File description:
 ** create_button.c
 */
-
-#include <stdlib.h>
 #include "buttons.h"
 #include "wolfengine.h"
+#include <stdlib.h>
 
 buttons_t *create_button(sfVector2f pos, sfVector2f size,
     char *title, char *path)

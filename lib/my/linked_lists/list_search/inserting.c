@@ -5,10 +5,11 @@
 ** fifo and lifo lists manager
 */
 
-#include "../my.h"
-#include "../linked_lists.h"
+#include "my.h"
+#include "linked_lists.h"
+#include <stdlib.h>
 
-void *insert_item(size_t rank, linked_list_t *list,
+int insert_item(size_t rank, linked_list_t *list,
     void *value, free_func_t free_function)
 {
     size_t i = 0;

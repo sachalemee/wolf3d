@@ -5,15 +5,15 @@
 ** fifo and lifo lists manager
 */
 
-#include "../my.h"
-#include "../linked_lists.h"
+#include "my.h"
+#include "linked_lists.h"
 
-void del_item(bool (*attribute)(void *), linked_list_t *list)
+int del_item(bool (*attribute)(void *), linked_list_t *list)
 {
     void *node_freeing_pointer = NULL;
 
     if (list->is_burnt)
-        return NULL;
+        return FAILURE;
     for (linked_node_t **node = &(list->top);
         *node != NULL; node = &((*node)->next)) {
         if (attribute((*node)->val)) {
@@ -32,7 +32,7 @@ int del_item_ext(bool (*attribute)(void *val, void *data),
     void *node_freeing_pointer = NULL;
 
     if (list->is_burnt)
-        return NULL;
+        return FAILURE;
     for (linked_node_t **node = &(list->top);
         *node != NULL; node = &((*node)->next)) {
         if (attribute((*node)->val, data)) {
@@ -45,13 +45,13 @@ int del_item_ext(bool (*attribute)(void *val, void *data),
     return FAILURE;
 }
 
-void *del_item_from_rank(size_t rank, linked_list_t *list)
+int del_item_from_rank(size_t rank, linked_list_t *list)
 {
     void *node_freeing_pointer = NULL;
     size_t i = 0;
 
     if (list->is_burnt || list->len == 0)
-        return NULL;
+        return FAILURE;
     rank = rank % list->len;
     for (linked_node_t **node = &(list->top);
         *node != NULL; node = &((*node)->next)) {

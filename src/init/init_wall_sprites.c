@@ -7,24 +7,14 @@
 
 #include "wolfengine.h"
 #include <stdlib.h>
-
-static void destroy_single_wall_sprite(sfSprite *wall_sprite)
-{
-    const sfTexture *wall_texture = (wall_sprite == NULL) ? NULL
-        : sfSprite_getTexture(wall_sprite);
-
-    if (wall_sprite == NULL)
-        return;
-    sfTexture_destroy((void *)wall_texture);
-    sfSprite_destroy((void *)wall_sprite);
-}
+#include <string.h>
 
 void destroy_wall_sprites(sfSprite **wall_sprites)
 {
     if (wall_sprites == NULL)
         return;
     for (size_t i = 0; wall_sprites[i] != NULL; i++)
-        destroy_single_wall_sprite(wall_sprites[i]);
+        destroy_textured_sprite(wall_sprites[i]);
     free(wall_sprites);
 }
 
