@@ -47,7 +47,7 @@ static char const *const wall_textures[] = {
     "wall_bamboo_bouy.png",
     "marin_stand_icecream.png",
     "sacha_stand_water.png",
-    "wall_bamboo.png",
+    "paradise_palm3d.png",
     "wall_bamboo.png",
     NULL
 };
