@@ -35,6 +35,7 @@
     #define FACE_SCALE 1, 1
     #define FACE_POS 1528, 910
     #define RECT_FACE_LEFT 110
+    #define CRITIC_HEALTH 4
     #define INTRECT_FACE 0, 0, RECT_FACE_LEFT, 110
     //           |           |
 typedef struct player_sound_s {

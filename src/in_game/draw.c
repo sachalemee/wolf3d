@@ -23,7 +23,8 @@ void set_face(player_t *player)
         player->rect_face.left = THIRD_FRAME * RECT_FACE_LEFT;
         sfSprite_setTextureRect(player->face_sprite, player->rect_face);
     }
-    if (player->health == MAX_HP - SET_LIFE_MEASURE * FOURTH_FRAME) {
+    if (player->health == MAX_HP - SET_LIFE_MEASURE * FOURTH_FRAME
+        + CRITIC_HEALTH) {
         player->rect_face.left = FOURTH_FRAME * RECT_FACE_LEFT;
         sfSprite_setTextureRect(player->face_sprite, player->rect_face);
     }
