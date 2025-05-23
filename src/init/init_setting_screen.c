@@ -61,8 +61,8 @@ static int init_buttons_settings(buttons_t ***buttons)
     if (!(*buttons)[0] || !(*buttons)[1] || !(*buttons)[2] || !(*buttons[3]))
         destroy_buttons_setting(*buttons);
     (*buttons)[0]->function = unused_button;
-    (*buttons)[1]->function = close_menu;
-    (*buttons)[2]->function = close_menu;
+    (*buttons)[1]->function = unused_button;
+    (*buttons)[2]->function = unused_button;
     (*buttons)[3]->function = return_to_menu;
     return SUCCESS;
 }
