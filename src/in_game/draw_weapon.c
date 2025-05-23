@@ -10,7 +10,7 @@
 static void activate_flashlight(sfRenderWindow *win,
     sfRectangleShape *flash)
 {
-    if (sfKeyboard_isKeyPressed(sfKeyLControl)) {
+    if (sfKeyboard_isKeyPressed(KEY_FLASHLIGHT_W)) {
         flash = sfRectangleShape_create();
         sfRectangleShape_setSize(flash, (sfVector2f){WIN_WIDTH, WIN_HEIGHT});
         sfRectangleShape_setPosition(flash, (sfVector2f){0, 0});
@@ -42,7 +42,7 @@ void weapon_shooting(time_info_t *time,
 {
     static sfBool is_shooting = sfFalse;
 
-    if (sfKeyboard_isKeyPressed(sfKeyE) && is_shooting == sfFalse) {
+    if (sfKeyboard_isKeyPressed(KEY_SHOOT) && is_shooting == sfFalse) {
         is_shooting = sfTrue;
         *current_frame = weapon->max_frame - 1;
         set_weapon_sound(weapon, current_weapon);

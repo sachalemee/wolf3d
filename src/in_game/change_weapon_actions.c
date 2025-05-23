@@ -27,7 +27,7 @@ void set_weapon_sound(weapon_t *weapon,
 static void main_to_secondary(weapon_t *weapon,
     size_t *current_weapon)
 {
-    if (sfKeyboard_isKeyPressed(sfKeyK)) {
+    if (sfKeyboard_isKeyPressed(KEY_PRIMARY_W)) {
         *current_weapon = 0;
         weapon->max_frame = MAIN_WEAPON_MAX_FRAME - 1;
         set_primary_weapon(weapon);
@@ -36,7 +36,7 @@ static void main_to_secondary(weapon_t *weapon,
         set_primary_weapon_crosshair(weapon->weapon_crosshair,
             weapon->win_dimension);
     }
-    if (sfKeyboard_isKeyPressed(sfKeyL)) {
+    if (sfKeyboard_isKeyPressed(KEY_SECONDARY_W)) {
         *current_weapon = 1;
         weapon->max_frame = SECONDARY_WEAPON_MAX_FRAME - 1;
         set_secondary_weapon(weapon);
@@ -50,7 +50,7 @@ static void main_to_secondary(weapon_t *weapon,
 static void special_leg_to_icemaker(weapon_t *weapon,
     size_t *current_weapon)
 {
-    if (sfKeyboard_isKeyPressed(sfKeyM)) {
+    if (sfKeyboard_isKeyPressed(KEY_LEG_W)) {
         *current_weapon = 2;
         weapon->max_frame = LEG_WEAPON_MAX_FRAME - 1;
         set_leg_weapon(weapon);
@@ -59,7 +59,7 @@ static void special_leg_to_icemaker(weapon_t *weapon,
         set_leg_weapon_crosshair(weapon->weapon_crosshair,
             weapon->win_dimension);
     }
-    if (sfKeyboard_isKeyPressed(sfKeyO)) {
+    if (sfKeyboard_isKeyPressed(KEY_ICEMAKER_W)) {
         *current_weapon = 3;
         weapon->max_frame = ICEMAKER_WEAPON_MAX_FRAME - 1;
         set_icemaker_weapon(weapon);

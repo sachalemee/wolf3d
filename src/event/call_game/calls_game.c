@@ -14,7 +14,8 @@ static void enter_next_level(game_t *game, sfEvent event, bool *is_running)
     float approx_dist_end = ABS(player_pos.x - end_pos.x)
         + ABS(player_pos.y - end_pos.y);
 
-    if (is_keyboard_input(event, sfKeyReturn) && approx_dist_end <= END_SIZE) {
+    if (is_keyboard_input(event, KEY_ENTER_NEXT_LEVEL)
+        && approx_dist_end <= END_SIZE) {
         if (levels[game->level + 1] == NULL)
             return;
         (game->level)++;
@@ -39,23 +40,23 @@ void footstep_sound(player_sound_t *sound, sfKeyCode key)
         && sfKeyboard_isKeyPressed(key) == sfTrue)
         sfMusic_play(sound->sound_footstep);
     if (sfMusic_getStatus(sound->sound_footstep) == sfPlaying
-        && (sfKeyboard_isKeyPressed(sfKeyZ) == sfFalse
-        && sfKeyboard_isKeyPressed(sfKeyS) == sfFalse
-        && sfKeyboard_isKeyPressed(sfKeyD) == sfFalse
-        && sfKeyboard_isKeyPressed(sfKeyQ) == sfFalse))
+        && (sfKeyboard_isKeyPressed(KEY_FORWARD) == sfFalse
+        && sfKeyboard_isKeyPressed(KEY_BACKWARDS) == sfFalse
+        && sfKeyboard_isKeyPressed(KEY_STRACE_L) == sfFalse
+        && sfKeyboard_isKeyPressed(KEY_STRACE_R) == sfFalse))
         sfMusic_stop(sound->sound_footstep);
 }
 
 static void mov_sprint(player_t *player, time_info_t info)
 {
-    if (sfKeyboard_isKeyPressed(sfKeyZ)
-        && sfKeyboard_isKeyPressed(sfKeyLShift)) {
+    if (sfKeyboard_isKeyPressed(KEY_FORWARD)
+        && sfKeyboard_isKeyPressed(KEY_SPRINT)) {
         sfMusic_setPitch(player->sound->sound_footstep, 2.0f);
         player->mov->mov_speed = (info.delta_time * PLAYER_MOV_SPEED)
             * PLAYER_SPRINT_SPEED;
         }
-    if (sfKeyboard_isKeyPressed(sfKeyZ) == sfFalse
-        || sfKeyboard_isKeyPressed(sfKeyLShift) == sfFalse)
+    if (sfKeyboard_isKeyPressed(KEY_FORWARD) == sfFalse
+        || sfKeyboard_isKeyPressed(KEY_SPRINT) == sfFalse)
             sfMusic_setPitch(player->sound->sound_footstep, 1.0f);
 }
 
@@ -74,7 +75,7 @@ void shield_damage(player_t *player)
     if (player->armor <= 0){
         return;
     }
-    if (sfKeyboard_isKeyPressed(sfKeyA) && player->armor > 0){
+    if (sfKeyboard_isKeyPressed(KEY_LOSE_HP) && player->armor > 0){
         player->armor = player->armor - 1;
         player->bar->size_shield.x -= 1;
         sfRectangleShape_setSize(player->bar->shield_bar,
@@ -92,7 +93,7 @@ void hp_damage(sys_data_t *sys, player_t *player)
         sfMusic_play(sys->scene.musics.menu_music);
         return_to_menu(sys);
     }
-    if (sfKeyboard_isKeyPressed(sfKeyA) && player->health > 0){
+    if (sfKeyboard_isKeyPressed(KEY_LOSE_HP) && player->health > 0){
         player->health = player->health - 1;
         player->bar->size_hp.x -= 1;
         sfRectangleShape_setSize(player->bar->hp_bar,

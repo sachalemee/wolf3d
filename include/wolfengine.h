@@ -67,6 +67,25 @@
     #define LEG_VOL 50
     #define ICEMAKER_VOL 50
     //          |           |
+    #define KEY_FORWARD sfKeyZ
+    #define KEY_SPRINT sfKeyLShift
+    #define KEY_BACKWARDS sfKeyS
+    #define KEY_STRACE_L sfKeyQ
+    #define KEY_STRACE_R sfKeyD
+    #define KEY_ANGLE_L sfKeyLeft
+    #define KEY_ANGLE_R sfKeyRight
+    //          |           |
+    #define KEY_PRIMARY_W sfKeyK
+    #define KEY_SECONDARY_W sfKeyL
+    #define KEY_LEG_W sfKeyM
+    #define KEY_ICEMAKER_W sfKeyO
+    #define KEY_FLASHLIGHT_W sfKeyF
+    //          |           |
+    #define KEY_SHOOT sfKeyE
+    #define KEY_LOSE_HP sfKeyA
+    #define KEY_ENTER_NEXT_LEVEL sfKeyReturn
+    #define KEY_FULLSCREEN sfKeyF11
+    //          |           |
     #define EXIT_SUCCESS 0
     #define EXIT_FAIL 84
     #define FAILURE -1

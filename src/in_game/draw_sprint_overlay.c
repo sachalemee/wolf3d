@@ -36,8 +36,8 @@ void draw_sprint_overlay(game_t *game, sfRenderWindow *win, time_info_t *time)
     static sfBool is_sprinting = sfFalse;
 
     game->sprites.sprint_overlay_rect = (sfIntRect){TEXTURE_SPRINT_RECT_SIZE};
-    if (sfKeyboard_isKeyPressed(sfKeyZ)
-        && sfKeyboard_isKeyPressed(sfKeyLShift)) {
+    if (sfKeyboard_isKeyPressed(KEY_FORWARD)
+        && sfKeyboard_isKeyPressed(KEY_SPRINT)) {
         is_sprinting = sfTrue;
         if (is_sprinting == sfTrue) {
             set_frame_speed(time, &current_frame);
