@@ -49,6 +49,21 @@ void set_secondary_weapon(weapon_t *weapon)
         WIN_HEIGHT + WEAPON_POS_PADDING});
 }
 
+void set_flashlight_weapon(weapon_t *weapon)
+{
+    sfVector2u ttr_flashlight_size = {0};
+
+    sfSprite_setTexture(weapon->flashlight_sprite,
+        weapon->ttr_flashlight, sfTrue);
+    ttr_flashlight_size = sfTexture_getSize(weapon->ttr_flashlight);
+    sfSprite_setOrigin(weapon->flashlight_sprite,
+        (sfVector2f){ttr_flashlight_size.x / 6, ttr_flashlight_size.y});
+    sfSprite_setScale(weapon->flashlight_sprite, (sfVector2f){0.5, 0.5});
+    sfSprite_setPosition(weapon->flashlight_sprite,
+        (sfVector2f){WIN_WIDTH + 9, WIN_HEIGHT - 50});
+    sfSprite_setRotation(weapon->flashlight_sprite, -90);
+}
+
 void set_primary_weapon(weapon_t *weapon)
 {
     sfVector2u ttr_main_size = {0};

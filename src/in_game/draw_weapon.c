@@ -7,6 +7,20 @@
 
 #include "wolfengine.h"
 
+static void activate_flashlight(sfRenderWindow *win,
+    sfRectangleShape *flash)
+{
+    if (sfKeyboard_isKeyPressed(sfKeyLControl)) {
+        flash = sfRectangleShape_create();
+        sfRectangleShape_setSize(flash, (sfVector2f){WIN_WIDTH, WIN_HEIGHT});
+        sfRectangleShape_setPosition(flash, (sfVector2f){0, 0});
+        sfRectangleShape_setFillColor(flash,
+            sfColor_fromRGBA(255, 255, 255, 75));
+    }
+    if (flash != NULL)
+        sfRenderWindow_drawRectangleShape(win, flash, NULL);
+}
+
 void procceed_shooting_anim(time_info_t *time,
     weapon_t *weapon, size_t *current_frame, sfBool *is_shooting)
 {
@@ -51,6 +65,7 @@ void draw_weapon(weapon_t *weapon, sfRenderWindow *win, time_info_t *time)
     static size_t current_frame = 0;
     sfSprite *current_part = weapon->weapon_sprite;
     static size_t current_weapon = 0;
+    sfRectangleShape *flash = NULL;
 
     change_weapon(weapon, &current_weapon);
     choose_weapon(weapon, current_weapon);
@@ -63,5 +78,7 @@ void draw_weapon(weapon_t *weapon, sfRenderWindow *win, time_info_t *time)
         weapon->weapon_ammo->weapon_ammo_sprite, NULL);
     sfRenderWindow_drawSprite(win,
         weapon->weapon_crosshair->weapon_crosshair_sprite, NULL);
+    sfRenderWindow_drawSprite(win, weapon->flashlight_sprite, NULL);
     sfRenderWindow_drawSprite(win, current_part, NULL);
+    activate_flashlight(win, flash);
 }

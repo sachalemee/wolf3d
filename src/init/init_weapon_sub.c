@@ -7,6 +7,16 @@
 
 #include "wolfengine.h"
 
+static int init_flashlight(weapon_t *weapon)
+{
+    weapon->ttr_flashlight = sfTexture_createFromFile(RES_FLASHLIGHT, NULL);
+    if (weapon->ttr_flashlight == NULL)
+        return FAILURE;
+    weapon->flashlight_sprite = sfSprite_create();
+    set_flashlight_weapon(weapon);
+    return SUCCESS;
+}
+
 static int init_main_weapon(weapon_t *weapon)
 {
     weapon->ttr_main_rect = (sfIntRect){TTR_MAIN_RECT_SIZE};
@@ -58,6 +68,8 @@ int init_each_weapon(weapon_t *weapon)
     if (init_leg_weapon(weapon) == FAILURE)
         return FAILURE;
     if (init_icemaker_weapon(weapon) == FAILURE)
+        return FAILURE;
+    if (init_flashlight(weapon) == FAILURE)
         return FAILURE;
     return EXIT_SUCCESS;
 }

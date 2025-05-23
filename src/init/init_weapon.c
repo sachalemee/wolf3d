@@ -52,6 +52,8 @@ void destroy_weapon(weapon_t weapon)
     sfTexture_destroy(weapon.weapon_crosshair->ttr_leg_crosshair);
     sfTexture_destroy(weapon.weapon_crosshair->ttr_icemaker_crosshair);
     sfSprite_destroy(weapon.weapon_crosshair->weapon_crosshair_sprite);
+    sfTexture_destroy(weapon.ttr_flashlight);
+    sfSprite_destroy(weapon.flashlight_sprite);
     sfMusic_destroy(weapon.main_weapon_shoot_sound);
     sfMusic_destroy(weapon.leg_weapon_shoot_sound);
     sfMusic_destroy(weapon.icemaker_weapon_shoot_sound);

@@ -18,6 +18,7 @@
     #define TTR_SECONDARY_WEAPON "secondary-weapon-sprite.png"
     #define TTR_LEG_WEAPON "legs-sprite.png"
     #define TTR_ICEMAKER_WEAPON "mr-ice-maker-sprite.png"
+    #define TTR_FLASHLIGHT "flashlight.png"
     //      |       |
     #define TTR_MAIN_WEAPON_ICON ICON_PATH"main-weapon-icon-sprite.png"
     #define TTR_SCND_WEAPON_ICON ICON_PATH"secondary-weapon-icon-sprite.png"
@@ -72,6 +73,7 @@
     #define RES_SECONDARY_WEAPON WEAPON_RESSOURCES TTR_SECONDARY_WEAPON
     #define RES_LEG_WEAPON WEAPON_RESSOURCES TTR_LEG_WEAPON
     #define RES_ICEMAKER_WEAPON WEAPON_RESSOURCES TTR_ICEMAKER_WEAPON
+    #define RES_FLASHLIGHT WEAPON_RESSOURCES TTR_FLASHLIGHT
     //          |           |
     #define MAIN_WEAPON_MAX_FRAME 3
     #define SECONDARY_WEAPON_MAX_FRAME 2
@@ -126,11 +128,13 @@ typedef struct weapon_s {
     sfTexture *ttr_secondary;
     sfTexture *ttr_leg;
     sfTexture *ttr_icemaker;
+    sfTexture *ttr_flashlight;
     sfIntRect ttr_main_rect;
     sfIntRect ttr_secondary_rect;
     sfIntRect ttr_leg_rect;
     sfIntRect ttr_icemaker_rect;
     sfSprite *weapon_sprite;
+    sfSprite *flashlight_sprite;
     sfMusic *main_weapon_shoot_sound;
     sfMusic *leg_weapon_shoot_sound;
     sfMusic *icemaker_weapon_shoot_sound;
@@ -156,6 +160,8 @@ void set_secondary_weapon(weapon_t *weapon);
 void set_primary_weapon(weapon_t *weapon);
 void set_leg_weapon(weapon_t *weapon);
 void set_icemaker_weapon(weapon_t *weapon);
+//          |           |
+void set_flashlight_weapon(weapon_t *weapon);
 //          |           |
 void set_weapon_sound(weapon_t *weapon,
     size_t current_weapon);
