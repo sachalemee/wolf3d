@@ -23,8 +23,19 @@
     #define PLAYER_SPRINT_SPEED 2.5
     #define MAX_HP 183
     #define MAX_SHIELD 185
+    #define SET_LIFE_MEASURE 45
     #define SIZE_HP 183, 45
     #define SIZE_SHIELD 185, 46
+    //           |           |
+    #define FIRST_FRAME 1
+    #define SECOND_FRAME 2
+    #define THIRD_FRAME 3
+    #define FOURTH_FRAME 4
+    //           |           |
+    #define FACE_SCALE 1, 1
+    #define FACE_POS 1528, 910
+    #define RECT_FACE_LEFT 110
+    #define INTRECT_FACE 0, 0, RECT_FACE_LEFT, 110
     //           |           |
 typedef struct player_sound_s {
     sfMusic *sound_footstep;

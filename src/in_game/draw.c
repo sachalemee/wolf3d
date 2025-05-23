@@ -9,22 +9,22 @@
 
 void set_face(player_t *player)
 {
-    if (player->health == 183)
+    if (player->health == MAX_HP)
         sfSprite_setTextureRect(player->face_sprite, player->rect_face);
-    if (player->health == 170) {
-        player->rect_face.left = 1 * 110;
-        sfSprite_setTextureRect(player->face_sprite, player->rect_face);
-    }
-    if (player->health == 90) {
-        player->rect_face.left = 2 * 110;
+    if (player->health == MAX_HP - SET_LIFE_MEASURE) {
+        player->rect_face.left = FIRST_FRAME * RECT_FACE_LEFT;
         sfSprite_setTextureRect(player->face_sprite, player->rect_face);
     }
-    if (player->health == 45) {
-        player->rect_face.left = 3 * 110;
+    if (player->health == MAX_HP - SET_LIFE_MEASURE * SECOND_FRAME) {
+        player->rect_face.left = SECOND_FRAME * RECT_FACE_LEFT;
         sfSprite_setTextureRect(player->face_sprite, player->rect_face);
     }
-    if (player->health == 5) {
-        player->rect_face.left = 4 * 110;
+    if (player->health == MAX_HP - SET_LIFE_MEASURE * THIRD_FRAME) {
+        player->rect_face.left = THIRD_FRAME * RECT_FACE_LEFT;
+        sfSprite_setTextureRect(player->face_sprite, player->rect_face);
+    }
+    if (player->health == MAX_HP - SET_LIFE_MEASURE * FOURTH_FRAME) {
+        player->rect_face.left = FOURTH_FRAME * RECT_FACE_LEFT;
         sfSprite_setTextureRect(player->face_sprite, player->rect_face);
     }
 }
