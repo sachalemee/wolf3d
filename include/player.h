@@ -77,6 +77,7 @@ typedef struct player_s {
     size_t armor;
     sfTexture *face_texure;
     sfSprite *face_sprite;
+    sfIntRect rect_face;
 } player_t;
 
 typedef struct map_s map_t;

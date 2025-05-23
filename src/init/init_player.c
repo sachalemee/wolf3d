@@ -35,6 +35,9 @@ int init_face(player_t *player)
         return FAILURE;
     sfSprite_setTexture(player->face_sprite,
         player->face_texure, sfTrue);
+    sfSprite_setScale(player->face_sprite, (sfVector2f){1, 1});
+    sfSprite_setPosition(player->face_sprite, (sfVector2f){1528, 910});
+    player->rect_face = (sfIntRect){0, 0, 110, 110};
     return SUCCESS;
 }
 

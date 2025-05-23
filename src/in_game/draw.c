@@ -7,18 +7,26 @@
 
 #include "wolfengine.h"
 
-void draw_face(sys_data_t *sys, player_t *player)
+void set_face(player_t *player)
 {
-    if (player->health >= 90){
-        sfRenderWindow_drawSprite(sys->window, player->face_sprite, NULL);
-        sfSprite_setPosition(player->face_sprite, (sfVector2f){1700, 930});
-        sfSprite_setScale(player->face_sprite, (sfVector2f){30, 30});
-        sfSprite_setTextureRect(player->face_sprite, (sfIntRect){0, 0, 0, 0});
+    if (player->health == 183)
+        sfSprite_setTextureRect(player->face_sprite, player->rect_face);
+    if (player->health == 170) {
+        player->rect_face.left = 1 * 110;
+        sfSprite_setTextureRect(player->face_sprite, player->rect_face);
     }
-    /* if (player->health >= 80) */
-    /* if (player->health >= 60) */
-    /* if (player->health >= 50) */
-    /* if (player->health >= 1) */
+    if (player->health == 90) {
+        player->rect_face.left = 2 * 110;
+        sfSprite_setTextureRect(player->face_sprite, player->rect_face);
+    }
+    if (player->health == 45) {
+        player->rect_face.left = 3 * 110;
+        sfSprite_setTextureRect(player->face_sprite, player->rect_face);
+    }
+    if (player->health == 5) {
+        player->rect_face.left = 4 * 110;
+        sfSprite_setTextureRect(player->face_sprite, player->rect_face);
+    }
 }
 
 void draw_bar(sys_data_t *sys, bar_t *bar)
@@ -37,5 +45,7 @@ void draw_in_game(sys_data_t *sys, game_t *game, map_t map)
     draw_weapon(&(game->weapon), sys->window, &sys->time);
     draw_sprint_overlay(game, sys->window, &sys->time);
     draw_bar(sys, game->player.bar);
-    //draw_face(sys, sys->scene.game.player);
+    set_face(&(sys->scene.game.player));
+    sfRenderWindow_drawSprite(sys->window,
+        sys->scene.game.player.face_sprite, NULL);
 }
