@@ -9,16 +9,15 @@
 #include "things.h"
 #include <stdlib.h>
 
-int signal_shoot(thing_t *signal, sfVector3f *player_pos, map_t *map)
+int signal_shoot(thing_t *signal, sfVector3f *player_pos,
+    linked_list_t *things)
 {
     thing_t *new_projectile = throw_banana(player_pos, &(signal->coords));
 
     if (new_projectile == NULL)
         return FAILURE;
-    stack_item(new_projectile, destroy_monster, &(map->map
-            [(size_t)signal->coords.x][(size_t)signal->coords.y].things));
-    if (map->map[(size_t)signal->coords.x]
-        [(size_t)signal->coords.y].things.is_burnt == true)
+    stack_item(new_projectile, destroy_monster, things);
+    if (things->is_burnt == true)
         return FAILURE;
     return SUCCESS;
 }
@@ -35,18 +34,16 @@ void signal_update(thing_t *signal, sys_data_t *sys_data)
         sys_data->time.delta_time);
     if (signal_data->state == ATTACKING && signal->movement.w <= 0)
         signal_shoot(signal, &player_pos3d,
-            sys_data->scene.game.current_map);
-    if (signal_data->state == IDLE && signal->movement.w <= 0)
-        monster_try_walking(signal);
+            &(sys_data->scene.game.current_map->things));
     if (signal_data->state != ATTACKING && monster_dist_less_than(signal,
         &player_pos3d, signal_data->range)) {
         signal->movement = (sfGlslVec4){0, 0, 0, signal_data->speed};
         signal_data->state = ATTACKING;
     }
-    if (signal->movement.w <= 0)
-        signal_data->state = IDLE;
-    if (signal->onscreen && signal_data->state == IDLE)
-        monster_go_to_point(signal, &player_pos3d);
+    signal_data->state = (signal->movement.w <= 0) ? IDLE : signal_data->state;
+    if (signal_data->state == IDLE && signal->movement.w <= 0)
+        if ((signal->onscreen) && monster_go_to_point(signal, &player_pos3d))
+            monster_try_walking(signal);
 }
 
 thing_t *init_signal(sfVector3f *coords)

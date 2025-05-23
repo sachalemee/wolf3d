@@ -28,8 +28,7 @@ void big_ben_update(thing_t *big_ben, sys_data_t *sys_data)
         big_ben->movement = (sfGlslVec4){0, 0, 0, big_ben_data->speed};
         big_ben_data->state = ATTACKING;
     }
-    if (big_ben->movement.w <= 0)
-        big_ben_data->state = IDLE;
+    big_ben_data->state = TRYIDLE(big_ben->movement.w, big_ben_data->state);
     if (big_ben->onscreen && big_ben_data->state == IDLE)
         monster_go_to_point(big_ben, &player_pos3d);
 }

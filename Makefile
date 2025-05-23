@@ -85,6 +85,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					init_wall_sprites.c	\
 				)\
 				$(addprefix  $(RAYCAST_PATH), \
+					enemies.c	\
 					raycasting.c \
 				)\
 				$(addprefix $(PARSING_PATH), \
@@ -110,6 +111,7 @@ SRC =		$(addprefix $(SRC_PATH), \
 					init_things.c	\
 					load_thing_textures.c	\
 					monster.c	\
+					monster_movement.c	\
 					signal.c	\
 				)\
 				damage_player.c	\

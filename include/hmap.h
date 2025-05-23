@@ -16,7 +16,7 @@
     #include <SFML/Graphics.h>
     #define X_IN(s, e, x) ((float)s <= (float)x && (float)x <= (float)(e))
     #define MCTAINS(m, X, Y) (X_IN(0, m->size.x, X) && X_IN(0, m->size.y, Y))
-    #define GET_TIL(m, x, y) (MCTAINS(m, x, y) ? m->map[x][y].type : 0)
+    #define GET_TIL(m, x, y) (MCTAINS(m, x, y) ? m->map[x][y] : 0)
 
 // a map being :
 //     11111...
@@ -77,16 +77,12 @@ static const char *const levels[] = {
     NULL
 };
 
-typedef struct map_tile_s {
-    linked_list_t things;
-    char type;
-} map_tile_t;
-
 typedef struct map_s {
-    map_tile_t **map;
+    char **map;
     sfVector2u size;
     sfVector2f start;
     sfVector2f end;
+    linked_list_t things;
 } map_t;
 
 void destroy_map(map_t *map);

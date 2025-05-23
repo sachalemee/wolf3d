@@ -9,10 +9,12 @@
     #define THINGS_H
     #include <SFML/Graphics.h>
     #include <sys/types.h>
-    // #include "wolfengine.h"
+    #define NORM(vec3) sqrt(SQUARE(vec3.x) + SQUARE(vec3.y) + SQUARE(vec3.z))
 
     #define THING_TEXTURES_PATH "ressources/Wolf3D_IMG/thing_textures/"
-    #define LEN_OF_THING_TEXTURES (sizeof(thing_textures) / sizeof(thing_textures[0]))
+    #define TH_TXT thing_textures
+    #define LEN_OF_THING_TEXTURES (sizeof(TH_TXT) / sizeof(TH_TXT[0]))
+    #define TRYIDLE(mov_w, state) (mov_w <= 0) ? IDLE : state
 static char const *const thing_textures[] = {
     THING_TEXTURES_PATH"garcia.png",
     THING_TEXTURES_PATH"big_ben.png",
@@ -22,6 +24,7 @@ static char const *const thing_textures[] = {
 };
 
 typedef struct sys_data_s sys_data_t;
+typedef struct camera_s camera_t;
 
 typedef struct thing_s {
     void (*destroyer)(void *self); // self should be a thing_t * but needed
@@ -35,6 +38,7 @@ typedef struct thing_s {
     void *data;
     bool onscreen;
     bool is_burned;
+    double player_dist;
 } thing_t;
 
 enum thing_type_ids {
@@ -80,34 +84,34 @@ enum {
 
 /* DEFAULT STATS ENEMIES */
     /* GARCIA */
-#define GARCIA_DFLT_HP 100
-#define GARCIA_DFLT_DMG 10
-#define GARCIA_DFLT_SPEED 1.0
-#define GARCIA_RADIUS 0.5
-#define GARCIA_RANGE 0.5
+    #define GARCIA_DFLT_HP 100
+    #define GARCIA_DFLT_DMG 10
+    #define GARCIA_DFLT_SPEED 1.0
+    #define GARCIA_RADIUS 0.5
+    #define GARCIA_RANGE 0.5
     /* SIGNAL */
-#define SIGNAL_DFLT_HP 80
-#define SIGNAL_DFLT_DMG 15
-#define SIGNAL_DFLT_SPEED 1.2
-#define SIGNAL_RADIUS 0.4
-#define SIGNAL_RANGE 5
+    #define SIGNAL_DFLT_HP 80
+    #define SIGNAL_DFLT_DMG 15
+    #define SIGNAL_DFLT_SPEED 1.2
+    #define SIGNAL_RADIUS 0.4
+    #define SIGNAL_RANGE 5
     /* BIG_BEN */
-#define BIG_BEN_DFLT_HP 200
-#define BIG_BEN_DFLT_DMG 17
-#define BIG_BEN_DFLT_SPEED 0.85
-#define BIG_BEN_RADIUS 0.7
-#define BIG_BEN_RANGE 0.5
+    #define BIG_BEN_DFLT_HP 200
+    #define BIG_BEN_DFLT_DMG 17
+    #define BIG_BEN_DFLT_SPEED 0.85
+    #define BIG_BEN_RADIUS 0.7
+    #define BIG_BEN_RANGE 0.5
     /* BANANA */
-#define BANANA_DFLT_HP 1
-#define BANANA_DFLT_DMG 7
-#define BANANA_DFLT_SPEED 2
-#define BANANA_RADIUS 0.2
-#define BANANA_RANGE 0.2
+    #define BANANA_DFLT_HP 1
+    #define BANANA_DFLT_DMG 7
+    #define BANANA_DFLT_SPEED 2
+    #define BANANA_RADIUS 0.2
+    #define BANANA_RANGE 0.2
 /* ~~~~~~~~~~~~~~~~~~~~~ */
 
-#define STATE_CHANGE_EQUATION_HALF_LIFE 0.6931472
-#define AVERAGE_STATE_CHANGE_COOLDOWN 4 // in seconds
-#define AVERAGE_WALK_DIST 4
+    #define STATE_CHANGE_EQUATION_HALF_LIFE 0.6931472
+    #define AVERAGE_STATE_CHANGE_COOLDOWN 4 // in seconds
+    #define AVERAGE_WALK_DIST 4
 
 void update_banana(thing_t *banana, sys_data_t *sys_data);
 thing_t *throw_banana(sfVector3f *player_pos, sfVector3f *origin_coords);
@@ -125,10 +129,21 @@ void move_monster(sfVector3f *monster_coords,
     sfGlslVec4 *monster_movement, float delta_time);
 void destroy_monster(void *monster);
 bool monster_try_walking(thing_t *monster);
-void monster_go_to_point(thing_t *monster, sfVector3f *point);
+bool monster_go_to_point(thing_t *monster, sfVector3f *point);
 thing_t *init_monster(sfVector3f *coords);
-int signal_shoot(thing_t *signal, sfVector3f *player_pos, map_t *map);
+int signal_shoot(thing_t *signal, sfVector3f *player_pos,
+    linked_list_t *things);
 void signal_update(thing_t *signal, sys_data_t *sys_data);
 thing_t *init_signal(sfVector3f *coords);
 bool monster_dist_less_than(thing_t *monster, sfVector3f *pos, float dist);
+
+// display
+typedef struct monster_comparison_data_s {
+    int axis;
+    int direction;
+} monster_comparison_data_t;
+
+void show_things(double *raymap, camera_t *camera,
+    linked_list_t *things, sfRenderWindow *win);
+
 #endif /* THINGS_H */

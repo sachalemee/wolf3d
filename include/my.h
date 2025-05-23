@@ -53,4 +53,5 @@ void destroy_word_array(char **to_destroy);
 char **my_str_to_word_array(char const *str, char const *sep);
 void rand128(__int128_t *dest);
 void my_uuid_generator(__int128_t *dest);
+int read_file_ctts(char const *const path, char **buffer);
 #endif /* MY_H_ */

@@ -30,6 +30,6 @@ void show_map_debug(map_t *map)
             my_dputstr(2, ((isend) ? "E" : "S"));
         } else
             write(2, &(game_tiles[(size_t)(
-                map->map[cds.x][cds.y].type)].config_value), 1);
+                map->map[cds.x][cds.y])].config_value), 1);
     }
 }

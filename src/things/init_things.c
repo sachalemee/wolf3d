@@ -7,5 +7,3 @@
 
 #include "hmap.h"
 #include "wolfengine.h"
-
-

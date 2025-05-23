@@ -20,6 +20,7 @@ SRC =				malloc_checker.c	\
 					my_str_to_word_array.c	\
 					my_uuid_generator.c	\
 					str_checks.c	\
+					read_file_ctts.c	\
 					linked_lists/fifo_lifo_lists.c	\
 					linked_lists/linked_lists.c	\
 					linked_lists/list_search/deleting.c	\

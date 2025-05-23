@@ -15,7 +15,7 @@ void update_banana(thing_t *banana, sys_data_t *sys_data)
     sfGlslVec4 movement_save = banana->movement;
     sfVector3f player_pos3d = {sys_data->scene.game.player.camera.pos.x,
         sys_data->scene.game.player.camera.pos.y, 0};
-    
+
     if (banana->is_burned)
         return;
     move_monster(&(banana->coords), &(banana->movement),

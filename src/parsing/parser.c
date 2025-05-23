@@ -25,27 +25,32 @@ static char get_tile_code(const char tile)
     return FAILURE;
 }
 
+static bool map_line_is_valid(char *map_line, sfVector2u *size_dest,
+    ssize_t *reference_y_size)
+{
+    size_dest->y = 0;
+    for (size_t y = 0; map_line[y] != '\0'; y++) {
+        if (get_tile_code(map_line[y]) == FAILURE)
+            return false;
+        (size_dest->y)++;
+    }
+    if (*reference_y_size != -1 && *reference_y_size != size_dest->y)
+        return false;
+    (size_dest->x)++;
+    if (*reference_y_size == -1)
+        *reference_y_size = size_dest->y;
+    return true;
+}
+
 static bool map_arr_is_valid(char **map_arr, sfVector2u *size_dest)
 {
     ssize_t reference_y_size = -1;
-    bool line_contains_an_invalid_value = false;
 
     if (map_arr[0] == NULL)
         return false;
     for (size_t x = 0; map_arr[x + 1] != NULL; x++) {
-        size_dest->y = 0;
-        for (size_t y = 0; map_arr[x][y] != '\0'; y++) {
-            line_contains_an_invalid_value = line_contains_an_invalid_value ||
-                (get_tile_code(map_arr[x][y]) == FAILURE);
-            (size_dest->y)++;
-        }
-        if (line_contains_an_invalid_value)
+        if (!map_line_is_valid(map_arr[x], size_dest, &reference_y_size))
             return false;
-        if (reference_y_size != -1 && reference_y_size != size_dest->y)
-            return false;
-        (size_dest->x)++;
-        if (reference_y_size == -1)
-            reference_y_size = size_dest->y;
     }
     ++(size_dest->x);
     return (size_dest->x != 0 && size_dest->y != 0);
@@ -61,6 +66,7 @@ static bool tile_is_thing(int tile_code)
     return false;
 }
 
+/*
 static int get_thing(int tile_code, thing_t **dest, sfVector2u *coords)
 {
     sfVector3f float_coords = {(float)coords->x, (float)coords->y, 0};
@@ -87,9 +93,29 @@ static int add_thing(int tile_code, sfVector2u *coords, map_t *dest)
         return FAILURE;
     if (new_thing == NULL)
         return SUCCESS;
-    stack_item(new_thing, new_thing->destroyer,
-        &(dest->map[coords->x][coords->y].things));
-    if (dest->map[coords->x][coords->y].things.is_burnt)
+    stack_item(new_thing, new_thing->destroyer, &(dest->things));
+    if (dest->things.is_burnt)
+        return FAILURE;
+    return SUCCESS;
+}
+*/
+static int add_thing(int tile_code, sfVector2u *coords, map_t *dest)
+{
+    thing_t *new_thing = NULL;
+    sfVector3f float_coords = {(float)coords->x, (float)coords->y, 0};
+
+    if (tile_is_thing(tile_code) == false)
+        return SUCCESS;
+    if (tile_code == GARCIA_TILE)
+        new_thing = init_garcia(&float_coords);
+    if (tile_code == SIGNAL_TILE)
+        new_thing = init_signal(&float_coords);
+    if (tile_code == BIG_BEN_TILE)
+        new_thing = init_big_ben(&float_coords);
+    if (new_thing == NULL)
+        return SUCCESS;
+    stack_item(new_thing, new_thing->destroyer, &(dest->things));
+    if (dest->things.is_burnt)
         return FAILURE;
     return SUCCESS;
 }
@@ -111,7 +137,7 @@ static int parse_map(char *const *mapstr, map_t *dest)
             dest->end = (sfVector2f){map_coords.x, map_coords.y};
         if (add_thing(current_tile_code, &map_coords, dest) == FAILURE)
             return FAILURE;
-        dest->map[map_coords.x][map_coords.y].type =
+        dest->map[map_coords.x][map_coords.y] =
             (game_tiles[current_tile_code].istangible) ?
                 current_tile_code : AIR;
     }
@@ -125,13 +151,13 @@ static map_t *alloc_map(sfVector2u *size)
     if (new_map == NULL)
         return NULL;
     new_map->size = (sfVector2u){size->x, size->y};
-    new_map->map = calloc(new_map->size.x, sizeof(map_tile_t *));
+    new_map->map = calloc(new_map->size.x, sizeof(char *));
     if (new_map->map == NULL) {
         destroy_map(new_map);
         return NULL;
     }
     for (size_t i = 0; i < new_map->size.x; i++) {
-        new_map->map[i] = calloc(new_map->size.y, sizeof(map_tile_t));
+        new_map->map[i] = calloc(new_map->size.y, sizeof(char *));
         if (new_map->map[i] == NULL) {
             destroy_map(new_map);
             return NULL;
@@ -140,28 +166,6 @@ static map_t *alloc_map(sfVector2u *size)
     new_map->start = (sfVector2f){-1, -1};
     new_map->end = (sfVector2f){-1, -1};
     return new_map;
-}
-
-static int read_file_ctts(char const *const path, char **buffer)
-{
-    struct stat file_data = {0};
-    FILE *file_ptr = NULL;
-
-    if (stat(path, &file_data) == FAILURE)
-        return FAILURE;
-    file_ptr = fopen(path, "r");
-    *buffer = malloc((file_data.st_size + 1) * sizeof(char));
-    if (*buffer == NULL || file_ptr == NULL
-        || fread(*buffer, sizeof(char), file_data.st_size, file_ptr) == 0
-        || fclose(file_ptr) == EOF) {
-        free(*buffer);
-        if (file_ptr != NULL)
-            fclose(file_ptr);
-        *buffer = NULL;
-        return FAILURE;
-    }
-    (*buffer)[file_data.st_size] = '\0';
-    return SUCCESS;
 }
 
 static int get_map_arr(char const *const path, char ***map_arr)

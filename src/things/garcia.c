@@ -28,8 +28,7 @@ void garcia_update(thing_t *garcia, sys_data_t *sys_data)
         garcia->movement = (sfGlslVec4){0, 0, 0, garcia_data->speed};
         garcia_data->state = ATTACKING;
     }
-    if (garcia->movement.w <= 0)
-        garcia_data->state = IDLE;
+    garcia_data->state = TRYIDLE(garcia->movement.w, garcia_data->state);
     if (garcia->onscreen && garcia_data->state == IDLE)
         monster_go_to_point(garcia, &player_pos3d);
 }

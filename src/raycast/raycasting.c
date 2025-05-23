@@ -92,7 +92,7 @@ static double len_ray(ray_t ray, int side)
         return ray.sidedist.y - ray.delta_dist.y;
 }
 
-static void draw_raycast_band(ray_hit_data_t ray_data,
+void draw_raycast_band(ray_hit_data_t ray_data,
     sfSprite *wall_sprite, size_t band_x, sfRenderWindow *win)
 {
     sfVector2u win_size = sfRenderWindow_getSize(win);
@@ -160,11 +160,17 @@ void raycasting(camera_t *camera, map_t *map,
 {
     sfVector2f ray_direction = {0};
     ray_hit_data_t ray_data = {0};
+    sfVector2u win_size = sfRenderWindow_getSize(win);
+    double *raymap = calloc(win_size.x, sizeof(double));
 
-    for (size_t x = 0; x < WIN_WIDTH; x++) {
+    if (raymap == NULL)
+        return;
+    for (size_t x = 0; x < win_size.x; x++) {
         ray_direction = get_ray_orientation(camera, x);
         ray_data = cast_ray(map, &(camera->pos),
             &(ray_direction), *(camera->render_dist));
+        raymap[x] = ray_data.walldist;
         dsp_raycast_band(ray_data, wall_sprites, x, win);
     }
+    show_things(raymap, camera, &(map->things), win);
 }

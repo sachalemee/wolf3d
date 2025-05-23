@@ -238,7 +238,7 @@ static char const *const wall_textures[] = {
 };
 
 /* init */
-// to adjust : 
+// to adjust :
 /*
 draw_in_game
 */
@@ -293,6 +293,8 @@ void draw_background(sfRenderWindow *win,
 /* raycast */
 void raycasting(camera_t *camera, map_t *map,
     sfSprite **wall_sprites, sfRenderWindow *win);
+void draw_raycast_band(ray_hit_data_t ray_data,
+    sfSprite *wall_sprite, size_t band_x, sfRenderWindow *win);
 
 /* destroy */
 void destroy_sys(sys_data_t *sys);
