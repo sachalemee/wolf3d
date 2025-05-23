@@ -61,7 +61,7 @@
     #define DEFAULT_DIFFICULTY 0.5
     //          |           |
     #define MENU_VOL 50
-    #define GAME_VOL 0
+    #define GAME_VOL 50
     #define FOOTSTEP_VOL 50
     #define MAIN_SEC_VOL 50
     #define LEG_VOL 50

@@ -88,6 +88,8 @@ void hp_damage(sys_data_t *sys, player_t *player)
     if (player->health <= 0){
         player->health = MAX_HP;
         set_bar(&player->bar, player);
+        sfMusic_pause(sys->scene.musics.game_music);
+        sfMusic_play(sys->scene.musics.menu_music);
         return_to_menu(sys);
     }
     if (sfKeyboard_isKeyPressed(sfKeyA) && player->health > 0){
