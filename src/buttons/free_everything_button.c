@@ -11,11 +11,9 @@
 
 void free_button(buttons_t *button)
 {
-    const sfTexture *button_texture =
-        sfRectangleShape_getTexture(button->rect);
-
-    sfTexture_destroy((void *)button_texture);
     sfRectangleShape_destroy(button->rect);
+    sfTexture_destroy(button->texture);
+    sfSprite_destroy(button->sprite);
     sfText_destroy(button->title);
     sfFont_destroy(button->font);
     free(button);

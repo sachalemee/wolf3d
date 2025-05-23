@@ -23,6 +23,7 @@ void set_sprite(buttons_t *button, sfFloatRect bounds,
     scale = (sfVector2f){(button->size.x - 6) /
         (float)(size_texture.x - 6), (button->size.y - 6)
         / (float)(size_texture.y - 6)};
+    button->scale = scale;
     sfSprite_setScale(button->sprite, scale);
     bounds = sfSprite_getGlobalBounds(button->sprite);
     origin = (sfVector2f){button->pos.x + ((button->size.x / 2.0f)

@@ -5,33 +5,23 @@
 ** buttons_status.c
 */
 
-#include "buttons.h"
 #include "wolfengine.h"
 
 static void button_pressed(buttons_t *button,
     sfVector2i mouse_pos, sfFloatRect hitbox, sys_data_t *sys)
 {
-    if (sfFloatRect_contains(&hitbox, mouse_pos.x, mouse_pos.y)) {
-        sfRectangleShape_setFillColor(button->rect,
-            button->color[B_PRESSED]);
+    if (sfFloatRect_contains(&hitbox, mouse_pos.x, mouse_pos.y))
         button->function(sys);
-        if (button->title)
-            sfText_setColor(button->title, button->color[B_BLACK]);
-    }
 }
 
 static void set_status(buttons_t *button,
     sfVector2i mouse_pos, sfFloatRect hitbox)
 {
     if (sfFloatRect_contains(&hitbox, mouse_pos.x, mouse_pos.y)) {
-        sfRectangleShape_setFillColor(button->rect, button->color[B_HOVER]);
-        if (button->title != NULL)
-            sfText_setColor(button->title, button->color[B_DEFAULT]);
+        sfSprite_setScale(button->sprite, (sfVector2f){button->scale.x + 0.025,
+            button->scale.y + 0.025});
     } else {
-        sfRectangleShape_setFillColor(button->rect, button->color[B_DEFAULT]);
-        if (button->title != NULL)
-            sfText_setColor(button->title,
-                sfColor_fromRGBA(248, 226, 126, 175));
+        sfSprite_setScale(button->sprite, button->scale);
     }
 }
 

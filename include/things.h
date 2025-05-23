@@ -13,7 +13,7 @@
 
     #define THING_TEXTURES_PATH "ressources/Wolf3D_IMG/thing_textures/"
     #define TH_TXT thing_textures
-    #define LEN_OF_THING_TEXTURES (sizeof(TH_TXT) / sizeof(TH_TXT[0]))
+    #define LEN_OF_THING_TEXTURES (5)
     #define TRYIDLE(mov_w, state) (mov_w <= 0) ? IDLE : state
 static char const *const thing_textures[] = {
     THING_TEXTURES_PATH"garcia.png",
@@ -120,7 +120,7 @@ void big_ben_update(thing_t *big_ben, sys_data_t *sys_data);
 thing_t *init_big_ben(sfVector3f *coords);
 void garcia_update(thing_t *garcia, sys_data_t *sys_data);
 thing_t *init_garcia(sfVector3f *coords);
-int load_thing_textures(sfTexture *textures[LEN_OF_THING_TEXTURES]);
+int load_thing_textures(sfTexture *textures[5]);
 double get_rand_coef(void);
 bool monster_idle_state_change(float time_since_last_action);
 void monster_vector_set_speed(sfGlslVec4 *to_set, float speed);

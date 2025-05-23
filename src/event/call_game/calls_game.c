@@ -32,12 +32,31 @@ void close_window(sys_data_t *sys, sfEvent *event)
         sys->is_running = sfFalse;
 }
 
-static void mov_sprint(player_t *player, time_info_t *info)
+void footstep_sound(player_sound_t *sound, sfKeyCode key)
+{
+    sfMusic_setVolume(sound->sound_footstep, FOOTSTEP_VOL);
+    if (sfMusic_getStatus(sound->sound_footstep) != sfPlaying
+        && sfKeyboard_isKeyPressed(key) == sfTrue)
+        sfMusic_play(sound->sound_footstep);
+    if (sfMusic_getStatus(sound->sound_footstep) == sfPlaying
+        && (sfKeyboard_isKeyPressed(sfKeyZ) == sfFalse
+        && sfKeyboard_isKeyPressed(sfKeyS) == sfFalse
+        && sfKeyboard_isKeyPressed(sfKeyD) == sfFalse
+        && sfKeyboard_isKeyPressed(sfKeyQ) == sfFalse))
+        sfMusic_stop(sound->sound_footstep);
+}
+
+static void mov_sprint(player_t *player, time_info_t info)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)
-        && sfKeyboard_isKeyPressed(sfKeyLShift))
-        player->mov->mov_speed =
-        (info->delta_time * PLAYER_MOV_SPEED) * PLAYER_SPRINT_SPEED;
+        && sfKeyboard_isKeyPressed(sfKeyLShift)) {
+        sfMusic_setPitch(player->sound->sound_footstep, 2.0f);
+        player->mov->mov_speed = (info.delta_time * PLAYER_MOV_SPEED)
+            * PLAYER_SPRINT_SPEED;
+        }
+    if (sfKeyboard_isKeyPressed(sfKeyZ) == sfFalse
+        || sfKeyboard_isKeyPressed(sfKeyLShift) == sfFalse)
+            sfMusic_setPitch(player->sound->sound_footstep, 1.0f);
 }
 
 static bool player_is_out_of_map(player_t *player, map_t *map)
@@ -50,6 +69,45 @@ static bool player_is_out_of_map(player_t *player, map_t *map)
     );
 }
 
+void shield_damage(player_t *player)
+{
+    if (player->armor <= 0){
+        return;
+    }
+    if (sfKeyboard_isKeyPressed(sfKeyA) && player->armor > 0){
+        player->armor = player->armor - 1;
+        player->bar->size_shield.x -= 1;
+        sfRectangleShape_setSize(player->bar->shield_bar,
+            (sfVector2f){(size_t)player->bar->size_shield.x % MAX_SHIELD,
+            player->bar->size_shield.y});
+    }
+}
+
+void hp_damage(sys_data_t *sys, player_t *player)
+{
+    if (player->health <= 0){
+        player->health = MAX_HP;
+        set_bar(&player->bar, player);
+        sfMusic_pause(sys->scene.musics.game_music);
+        sfMusic_play(sys->scene.musics.menu_music);
+        return_to_menu(sys);
+    }
+    if (sfKeyboard_isKeyPressed(sfKeyA) && player->health > 0){
+        player->health = player->health - 1;
+        player->bar->size_hp.x -= 1;
+        sfRectangleShape_setSize(player->bar->hp_bar,
+            (sfVector2f){(size_t)player->bar->size_hp.x % MAX_HP,
+            player->bar->size_hp.y});
+    }
+}
+
+static void check_bar(sys_data_t *sys, player_t *player)
+{
+    shield_damage(player);
+    if (player->armor <= 0)
+        hp_damage(sys, player);
+}
+
 int game_events(sys_data_t *sys)
 {
     sfEvent event;
@@ -60,14 +118,15 @@ int game_events(sys_data_t *sys)
 
     mov_sprint(player, info);
     mov_player(player, map);
+    check_bar(sys, player);
     if (player_is_out_of_map(player, map))
         player->camera.pos = (sfVector2f){map->start.x + 0.5,
             map->start.y + 0.5};
     while (sfRenderWindow_pollEvent(sys->window, &event)) {
         close_window(sys, &event);
-        if (set_fullscreen(sys, &event) == EXIT_F)
-            return EXIT_F;
+        if (set_fullscreen(sys, &event) == EXIT_FAIL)
+            return EXIT_FAIL;
         enter_next_level(game, &event, &(sys->is_running));
     }
-    return EXIT_S;
+    return EXIT_SUCCESS;
 }

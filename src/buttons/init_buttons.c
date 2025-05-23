@@ -21,21 +21,21 @@ void destroy_buttons(buttons_t **buttons)
 
 int init_buttons(buttons_t ***buttons)
 {
-    *buttons = calloc(3, sizeof(buttons_t *));
+    *buttons = calloc(NB_BUTTONS_MENU, sizeof(buttons_t *));
     if (buttons == NULL)
         return FAILURE;
-    (*buttons)[0] = create_button((sfVector2f){1400, 200},
-        (sfVector2f){250, 50}, "PLAY", NULL);
-    (*buttons)[1] = create_button((sfVector2f){1400, 400},
-        (sfVector2f){250, 50}, "SETTINGS", NULL);
-    (*buttons)[2] = create_button((sfVector2f){1400, 600},
-        (sfVector2f){250, 50}, "QUIT", NULL);
+    (*buttons)[0] = create_button((sfVector2f){1400, 330},
+        (sfVector2f){350, 100}, " ", PLAY_BUTTON_PATH);
+    (*buttons)[1] = create_button((sfVector2f){1400, 530},
+        (sfVector2f){350, 100}, " ", SETTING_BUTTON_PATH);
+    (*buttons)[2] = create_button((sfVector2f){1400, 730},
+        (sfVector2f){350, 100}, " ", EXIT_BUTTON_PATH);
     if (!(*buttons)[0] || !(*buttons)[1] || !(*buttons)[2]) {
         destroy_buttons(*buttons);
         return FAILURE;
     }
     (*buttons)[0]->function = play_game;
-    (*buttons)[1]->function = play_game;
+    (*buttons)[1]->function = into_setting;
     (*buttons)[2]->function = close_menu;
     return SUCCESS;
 }

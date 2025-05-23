@@ -74,6 +74,8 @@ static const char *const levels[] = {
     "stage2",
     "stage3",
     "stage4",
+    "stage5",
+    "stage6",
     NULL
 };
 

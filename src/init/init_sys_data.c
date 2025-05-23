@@ -25,7 +25,7 @@ int init_sys_data(sys_data_t *sys, const char *_Nullable map_path)
 {
     srand(time(NULL));
     sys->is_running = sfTrue;
-    if (init_window(&(sys->window)) == FAILURE
+    if (init_window(&(sys->window), sys->win_dimension) == FAILURE
         || init_time(&(sys->time)) == FAILURE
         || load_thing_textures(sys->textures) == FAILURE
         || init_scene(&(sys->scene), map_path, sys->window) == FAILURE

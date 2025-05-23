@@ -7,7 +7,7 @@
 
 #include "wolfengine.h"
 
-int init_window(sfRenderWindow **window)
+int init_window(sfRenderWindow **window, sfVector2u win_dimension)
 {
     sfVideoMode videomode = {0};
     static int mode = 0;
@@ -17,12 +17,13 @@ int init_window(sfRenderWindow **window)
     videomode.bitsPerPixel = WIN_BITS;
     if (mode % 2 == 0)
         *window = sfRenderWindow_create(videomode, WIN_TITLE,
-        sfFullscreen, NULL);
+            sfFullscreen, NULL);
     else
-        *window = sfRenderWindow_create(videomode, WIN_TITLE,
-            sfResize, NULL);
+        *window = sfRenderWindow_create((sfVideoMode){
+            win_dimension.x, win_dimension.y,
+            WIN_BITS}, WIN_TITLE, sfResize, NULL);
     if (*window == NULL)
-        return EXIT_F;
+        return EXIT_FAIL;
     sfRenderWindow_setFramerateLimit(*window, WIN_FRAME);
     ++mode;
     return SUCCESS;

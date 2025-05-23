@@ -21,9 +21,11 @@ BUTTON_PATH = buttons/
 MENU_PATH = menu/
 CALL_MENU_PATH = call_menu/
 CALL_GAME_PATH = call_game/
+CALL_SETTING_PATH = call_setting/
 MUSIC_PATH = music/
 HUD_PATH = hud_overlay/
 THINGS_PATH = things/
+SETTING_PATH = setting/
 
 SRC =		$(addprefix $(SRC_PATH), \
 				$(addprefix $(BUTTON_PATH), \
@@ -38,6 +40,9 @@ SRC =		$(addprefix $(SRC_PATH), \
 					draw_all_buttons.c	\
 					free_everything_button.c	\
 				)\
+				$(addprefix $(SETTING_PATH), \
+						setting_screen.c	\
+					)\
 				$(addprefix $(MENU_PATH), \
 					bg_menu_anim.c	\
 					menu.c	\
@@ -51,11 +56,13 @@ SRC =		$(addprefix $(SRC_PATH), \
 						game_scene.c \
 						mov_player.c \
 					)\
-					$(addprefix $(MUSIC_PATH), \
-						music.c	\
-					)\
 					$(addprefix $(CALL_MENU_PATH), \
 						calls_menu.c \
+					)\
+					$(addprefix $(CALL_SETTING_PATH), \
+						calls_setting.c \
+						unused_button.c	\
+						update_slider.c	\
 					)\
 					set_fullscreen.c \
 					is_keyboard_input.c \
@@ -67,7 +74,15 @@ SRC =		$(addprefix $(SRC_PATH), \
 				)\
 				$(addprefix $(IN_GAME_PATH), \
 					draw_background.c \
+					draw_weapon.c \
 					draw.c \
+					draw_sprint_overlay.c \
+					draw_hud.c	\
+					set_weapons.c \
+					set_weapons_icons.c \
+					set_weapons_ammo.c \
+					set_weapons_crosshair.c \
+					change_weapon_actions.c \
 				)\
 				$(addprefix $(INIT_PATH), \
 					destroy_textured_sprite.c	\
@@ -75,14 +90,25 @@ SRC =		$(addprefix $(SRC_PATH), \
 					init_music.c	\
 					init_scene.c	\
 					init_entity.c	\
-					init_settings.c	\
-					init_menu.c	\
+					init_error_screen.c	\
 					init_game.c \
+					init_map.c \
+					init_menu.c	\
+					init_music.c	\
+					init_player.c \
+					init_scene.c	\
+					init_settings.c	\
 					init_sys_data.c \
 					init_map.c \
-					init_player.c \
+					init_setting_screen.c	\
+					init_weapon.c \
+					init_weapon_sub.c \
+					init_weapon_icon.c \
+					init_weapon_ammo.c \
+					init_weapon_crosshair.c \
 					init_window.c \
 					init_wall_sprites.c	\
+					init_hud.c	\
 				)\
 				$(addprefix  $(RAYCAST_PATH), \
 					enemies.c	\
