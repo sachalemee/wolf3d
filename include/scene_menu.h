@@ -56,7 +56,6 @@
 
 typedef struct buttons_s buttons_t;
 typedef struct entity_s entity_t;
-typedef struct custom_settings_s custom_settings_t;
 typedef struct sys_data_s sys_data_t;
 typedef struct musics_s musics_t;
 
@@ -90,7 +89,6 @@ typedef struct time_info_s time_info_t;
 typedef struct menu_s {
     buttons_t **buttons;
     entity_t *entity;
-    custom_settings_t *custom_set;
     sfSprite *panel_sprite;
     sfTexture *panel_text;
 } menu_t;

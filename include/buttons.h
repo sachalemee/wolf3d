@@ -13,13 +13,11 @@
     #define NB_BUTTONS_MENU 3
     #define NB_BUTTONS_SETTINGS 4
     #define NB_COLOR 5
-    #define B_TEXTURE "ressources/Wolf3D_OGG/texture/texture_bouton.png"
     #define FONT "ressources/Wolf3D_OGG/font/font.ttf"
     #define UNUSED(var) (void)(var)
 
 typedef struct buttons_s buttons_t;
 typedef struct entity_s entity_t;
-typedef struct custom_settings_s custom_settings_t;
 typedef struct sys_data_s sys_data_t;
 typedef struct musics_s musics_t;
 typedef struct game_s game_t;

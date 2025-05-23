@@ -92,17 +92,6 @@ typedef struct time_info_s {
     float delta_time;
 } time_info_t;
 
-typedef struct crosshair_s {
-    sfTexture *ttr;
-    sfSprite *spr;
-    sfVector2f pos;
-    sfVector2f scale;
-} crosshair_t;
-
-typedef struct custom_settings_s {
-    crosshair_t *crosshair;
-} custom_settings_t;
-
 typedef struct settings_s {
     float difficulty;
     player_settings_t *player_settings;

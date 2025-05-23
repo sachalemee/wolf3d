@@ -17,30 +17,6 @@ void destroy_menu(menu_t menu)
     sfTexture_destroy(menu.panel_text);
 }
 
-crosshair_t *init_crosshair(void)
-{
-    crosshair_t *crosshair = malloc(sizeof(crosshair_t));
-
-    if (crosshair == NULL)
-        return NULL;
-    crosshair->ttr = sfTexture_createFromFile("ressources/Wolf3D_OGG/texture/"
-        "shell_crosshair.png", NULL);
-    crosshair->spr = sfSprite_create();
-    crosshair->pos = (sfVector2f){0};
-    crosshair->scale = (sfVector2f){0};
-    return crosshair;
-}
-
-custom_settings_t *init_custom_settings(void)
-{
-    custom_settings_t *custom_setting = malloc(sizeof(custom_settings_t));
-
-    if (custom_setting == NULL)
-        return NULL;
-    custom_setting->crosshair = init_crosshair();
-    return custom_setting;
-}
-
 int init_panel(menu_t *menu)
 {
     (menu)->panel_text =
