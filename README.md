@@ -10,7 +10,7 @@ Paradise Palm 3D est un jeu de tir à la première personne (FPS) situé dans un
 | Strace à droite  | `D`                |
 | Tourner à gauche | `<`                |
 | Tourner à droite | `>`                |
-| Allumer lampe    | `ctrl`             |
+| Allumer lampe    | `F`                |
 | Tirer            | `E`                |
 | Changer d'arme   | `K` `L` `M` `O`    |
 | Sprint           | `shift`            |
