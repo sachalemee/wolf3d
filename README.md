@@ -13,4 +13,4 @@ Paradise Palm 3D est un jeu de tir à la première personne (FPS) situé dans un
 | Changer d'arme | `K` `L` `M` `O`    |
 | Sprint         | `shift`            |
 
-Projet réalisé par l'équipe Paradise Devs : LEMEE SACHA, JEUNOT MARIN ET ARMAN CAMBOT
+Projet réalisé par l'équipe Paradise Devs : LEMEE SACHA, JEUNOT MARIN ET ARMAND CAMBOT
