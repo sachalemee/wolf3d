@@ -14,7 +14,7 @@ void return_to_menu(sys_data_t *sys)
     sys->scene.state = STATE_MENU;
 }
 
-static void buttons_event_setting(sys_data_t *sys, sfEvent event)
+static void buttons_event_setting(sys_data_t *sys, sfEvent *event)
 {
     for (int i = 2; i < NB_BUTTONS_SETTINGS; i++)
         buttons_status(sys->window,
@@ -45,12 +45,12 @@ int events_setting(sys_data_t *sys)
     sfEvent event;
 
     while (sfRenderWindow_pollEvent(sys->window, &event)) {
-        close_window(sys, event);
+        close_window(sys, &event);
         handle_slider_events(&(sys->scene.setting_screen),
             &event, sys->window);
-        if (set_fullscreen(sys, event) == EXIT_FAIL)
+        if (set_fullscreen(sys, &event) == EXIT_FAIL)
             return EXIT_FAIL;
-        buttons_event_setting(sys, event);
+        buttons_event_setting(sys, &event);
     }
     return EXIT_SUCCESS;
 }

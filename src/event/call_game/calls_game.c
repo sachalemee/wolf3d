@@ -46,12 +46,12 @@ void footstep_sound(player_sound_t *sound, sfKeyCode key)
         sfMusic_stop(sound->sound_footstep);
 }
 
-static void mov_sprint(player_t *player, time_info_t info)
+static void mov_sprint(player_t *player, time_info_t *info)
 {
     if (sfKeyboard_isKeyPressed(sfKeyZ)
         && sfKeyboard_isKeyPressed(sfKeyLShift)) {
         sfMusic_setPitch(player->sound->sound_footstep, 2.0f);
-        player->mov->mov_speed = (info.delta_time * PLAYER_MOV_SPEED)
+        player->mov->mov_speed = (info->delta_time * PLAYER_MOV_SPEED)
             * PLAYER_SPRINT_SPEED;
         }
     if (sfKeyboard_isKeyPressed(sfKeyZ) == sfFalse

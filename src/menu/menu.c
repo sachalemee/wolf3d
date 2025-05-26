@@ -20,7 +20,7 @@ void play_game(sys_data_t *sys)
     sys->scene.state = STATE_GAME;
 }
 
-int update_menu(sys_data_t *sys)
+int update_menu(game_t *, sys_data_t *sys)
 {
     if (events_menu(sys) == EXIT_FAIL)
         return EXIT_FAIL;

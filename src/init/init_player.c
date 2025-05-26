@@ -45,7 +45,7 @@ int init_face(player_t *player)
 int init_player(sfVector2f coords, player_t *dest)
 {
     if (init_face(dest) == FAILURE)
-        destroy_player(*dest);
+        destroy_player(dest);
     dest->health = MAX_HP;
     dest->armor = MAX_SHIELD;
     dest->mov = calloc(1, sizeof(player_settings_t));

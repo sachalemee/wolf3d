@@ -17,7 +17,6 @@ void destroy_sys(sys_data_t *sys)
         sfRenderWindow_destroy(sys->window);
     destroy_time(&(sys->time));
     destroy_scene(&(sys->scene));
-    destroy_settings(&(sys->settings));
     memset((void *)sys, 0, sizeof(typeof(*sys)));
 }
 

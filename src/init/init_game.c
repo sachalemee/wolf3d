@@ -46,13 +46,13 @@ static void destroy_bar(bar_t *bar)
 
 void destroy_game(game_t *game)
 {
-    destroy_wall_sprites(&(game->wall_sprites));
+    destroy_wall_sprites(game->wall_sprites);
     destroy_map(game->current_map);
     destroy_player(&(game->player));
-    sfRectangleShape_destroy(&(game->ground_sky->background_dsp_rect));
+    sfRectangleShape_destroy(game->ground_sky->background_dsp_rect);
     destroy_sprites(&(game->sprites));
-    destroy_bar(&(game->player.bar));
-    free(&(game->raycast_data));
+    destroy_bar(game->player.bar);
+    free(game->raycast_data);
     memset((void *)game, 0, sizeof(typeof(*game)));
 }
 

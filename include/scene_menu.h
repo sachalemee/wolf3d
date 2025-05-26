@@ -98,7 +98,7 @@ typedef struct menu_s {
 int init_menu(menu_t *menu);
 void destroy_menu(menu_t *menu);
 void close_menu(sys_data_t *sys);
-int update_menu(sys_data_t *sys);
+int update_menu(game_t *game, sys_data_t *sys);
 int events_menu(sys_data_t *sys);
 void draw_bg_menu(menu_t *menu, sfRenderWindow *win);
 

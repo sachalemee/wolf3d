@@ -6,6 +6,7 @@
 */
 
 #include "wolfengine.h"
+#include <stdlib.h>
 
 static int init_musics_weapon(weapon_t *weapon)
 {

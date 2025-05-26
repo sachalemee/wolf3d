@@ -121,7 +121,7 @@ typedef struct sys_data_s {
 
 int init_sys_data(sys_data_t *sys, const char *_Nullable map_path);
 int init_settings(settings_t *settings, player_settings_t *player_settings);
-void destroy_settings(settings_t *settings);
+void destroy_settings(setting_screen_t *settings);
 int init_setting_screen(setting_screen_t *setting);
 int init_entity(entity_t **entity);
 void destroy_entity(entity_t *entity);

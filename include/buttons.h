@@ -72,7 +72,7 @@ int draw_button(sfRenderWindow *window,
     buttons_t *button);
 
 int buttons_status(sfRenderWindow *window,
-    buttons_t *button, sfEvent event, sys_data_t *sys);
+    buttons_t *button, sfEvent *event, sys_data_t *sys);
 
 void draw_menu_buttons(menu_t *menu, sfRenderWindow *window);
 void draw_setting_buttons(setting_screen_t *setting, sfRenderWindow *window);

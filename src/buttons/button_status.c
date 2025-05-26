@@ -26,13 +26,13 @@ static void set_status(buttons_t *button,
 }
 
 int buttons_status(sfRenderWindow *window,
-    buttons_t *button, sfEvent event, sys_data_t *sys)
+    buttons_t *button, sfEvent *event, sys_data_t *sys)
 {
     sfVector2i mouse_pos = sfMouse_getPositionRenderWindow(window);
     sfFloatRect hitbox = sfRectangleShape_getGlobalBounds(button->rect);
 
     set_status(button, mouse_pos, hitbox);
-    if (event.type == sfEvtMouseButtonPressed)
+    if (event->type == sfEvtMouseButtonPressed)
         button_pressed(button, mouse_pos, hitbox, sys);
     return SUCCESS;
 }

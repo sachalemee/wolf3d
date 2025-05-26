@@ -14,7 +14,7 @@ void close_menu(sys_data_t *sys)
     sys->is_running = false;
 }
 
-static void buttons_event(sys_data_t *sys, sfEvent event)
+static void buttons_event(sys_data_t *sys, sfEvent *event)
 {
     for (int i = 0; i < NB_BUTTONS_MENU; i++)
         buttons_status(sys->window,
@@ -29,7 +29,7 @@ int events_menu(sys_data_t *sys)
         close_window(sys, &event);
         if (set_fullscreen(sys, &event) == EXIT_FAIL)
             return EXIT_FAIL;
-        buttons_event(sys, event);
+        buttons_event(sys, &event);
     }
     return EXIT_SUCCESS;
 }

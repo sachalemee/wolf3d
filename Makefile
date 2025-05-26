@@ -23,7 +23,6 @@ CALL_MENU_PATH = call_menu/
 CALL_GAME_PATH = call_game/
 CALL_SETTING_PATH = call_setting/
 MUSIC_PATH = music/
-HUD_PATH = hud_overlay/
 THINGS_PATH = things/
 SETTING_PATH = setting/
 
@@ -86,9 +85,6 @@ SRC =		$(addprefix $(SRC_PATH), \
 				)\
 				$(addprefix $(INIT_PATH), \
 					destroy_textured_sprite.c	\
-					init_error_screen.c	\
-					init_music.c	\
-					init_scene.c	\
 					init_entity.c	\
 					init_error_screen.c	\
 					init_game.c \
@@ -126,9 +122,6 @@ SRC =		$(addprefix $(SRC_PATH), \
 					$(addprefix $(MAP_PATH), \
 						map.c \
 					)\
-				)\
-				$(addprefix $(HUD_PATH), \
-					hud_overlay.c	\
 				)\
 				$(addprefix $(THINGS_PATH), \
 					banana.c	\

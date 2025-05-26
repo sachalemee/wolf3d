@@ -19,7 +19,7 @@ int game_scene(game_t *game, sys_data_t *sys)
     update_player(&(game->player), sys->time);
     if (game_events(sys) == EXIT_FAIL)
         return EXIT_FAIL;
-    draw_in_game(sys, game, *(game->current_map));
+    draw_in_game(sys, game, game->current_map);
     sfRenderWindow_display(sys->window);
     return EXIT_SUCCESS;
 }

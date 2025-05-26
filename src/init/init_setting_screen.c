@@ -79,10 +79,10 @@ static int init_texture_setting(setting_screen_t *setting)
     return SUCCESS;
 }
 
-void destroy_settings(setting_screen_t setting)
+void destroy_settings(setting_screen_t *setting)
 {
-    destroy_buttons_setting(setting.buttons);
-    destroy_setting_screen(&(setting));
+    destroy_buttons_setting(setting->buttons);
+    destroy_setting_screen(setting);
 }
 
 int init_setting_screen(setting_screen_t *setting)
@@ -90,7 +90,7 @@ int init_setting_screen(setting_screen_t *setting)
     if (init_texture_setting(setting) == FAILURE
     || init_buttons_settings(&(setting->buttons)) == FAILURE
     || init_slider(setting) == FAILURE) {
-        destroy_settings(*setting);
+        destroy_settings(setting);
         return FAILURE;
     }
     return SUCCESS;
